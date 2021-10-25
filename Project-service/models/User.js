@@ -26,6 +26,10 @@ const UserSchema = new Schema({
         type: String,
         default: null,
     },
+    role: {
+        type: Number,
+        default: 0
+    },
     resetLink:{
         type:String,
         default: ''

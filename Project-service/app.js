@@ -17,6 +17,7 @@ const app = express()
 
 const userRoute = require('./routes/user')
 const authenticateRoute = require('./routes/authenticate')
+// const albumRoute = require('./routes/album')
 
 // Middlewares
 app.use(logger('dev'))
@@ -33,6 +34,8 @@ app.use(
 // Routes
 app.use('/users',userRoute)
 app.use('/authenticate',authenticateRoute)
+// app.use('/album',albumRoute)
+
 
 // Routes
 app.get('/',(req,res,next) =>{

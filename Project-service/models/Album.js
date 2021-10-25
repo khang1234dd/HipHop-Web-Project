@@ -6,9 +6,20 @@ const AlbumSchema = new Schema({
         type:String,
         required: true,
     },
-    imgage:{
+    image:{
         type:String,
         default: null,
+    },
+    description: {
+        type:String,
+    },
+    public: {
+        type: Boolean,
+        default: false
+    },
+    date:{
+        type:Date,
+        default: Date.now
     },
     music: [{
         type: Schema.Types.ObjectId,

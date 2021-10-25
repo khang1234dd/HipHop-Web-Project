@@ -5,11 +5,17 @@ const UserController = require('../controllers/user')
 
 const { validateBody, validateParam, schemas } = require('../helpers/routerHelpers')
 
-router.route('/')
-    .get(UserController.getAllUser)
-    .post(validateBody(schemas.userSchema),UserController.newUser)
-    .patch()
-    .put()
-    .delete()
+const {authenToken} = require('../middlewares/verifyToken')
+
+router.route('/').get(UserController.getAllUser)
+
+router.route('/getUser/:id').get(validateParam(schemas.idSchema,'id'),UserController.getUser)
+router.route('/getAlbum').get(authenToken,UserController.getAlbum)
+router.route('/createAlbum').post(validateBody(schemas.userCreateAlbumSchemas),authenToken,UserController.createAlbum)
+router.route('/updateAlbum/:id')
+    .put(validateParam(schemas.idSchema,'id'),validateBody(schemas.userUpdateAlbumSchemas),authenToken,UserController.updateAlbum)
+    .patch(validateParam(schemas.idSchema,'id'),validateBody(schemas.userUpdateAlbumSchemas),authenToken,UserController.updateAlbum)
+router.route('/deleteAlbum/:id').delete(validateParam(schemas.idSchema,'id'),authenToken,UserController.deleteAlbum)
+
 
 module.exports = router

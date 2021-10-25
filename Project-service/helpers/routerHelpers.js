@@ -78,6 +78,21 @@ const schemas = {
         email: Joi.string().email().required()
     }),
 
+    userCreateAlbumSchemas: Joi.object().keys({
+        nameAlbum: Joi.string().min(6).required(),
+        description: Joi.string().min(10).required(),
+        image: Joi.string()
+        
+    }),
+
+    userUpdateAlbumSchemas: Joi.object().keys({
+        nameAlbum: Joi.string().min(6),
+        description: Joi.string().min(10),
+        image: Joi.string()
+        
+    }),
+
+
     authForgotPasswordSchema: Joi.object().keys({
         email: Joi.string().email().required()
     }),

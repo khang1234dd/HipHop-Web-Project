@@ -194,6 +194,16 @@ const checkOtp = async (req, res, next) => {
   return res.status(200).json({ success: true });
 };
 
+const userInfo = async (req, res, next) => {
+  const userId = req.body.token.sub
+
+  const user = await User.findById(userId)
+
+  if(!user) return res.status(404).json({ message: "User does not exist" });
+
+  return res.status(200).json({ user });
+};
+
 module.exports = {
   secret,
   signIn,
@@ -205,4 +215,5 @@ module.exports = {
   sendMailUpdateEmail,
   updateEmail,
   checkOtp,
+  userInfo,
 };
