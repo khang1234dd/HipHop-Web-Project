@@ -41,6 +41,10 @@ const UserSchema = new Schema({
     album:[{
         type: Schema.Types.ObjectId,
         ref: 'Album'
+    }],
+    post:[{
+        type: Schema.Types.ObjectId,
+        ref: 'Post'
     }]
     
 })

@@ -17,6 +17,7 @@ const app = express()
 
 const userRoute = require('./routes/user')
 const authenticateRoute = require('./routes/authenticate')
+const categoryRoute = require('./routes/category')
 // const albumRoute = require('./routes/album')
 
 // Middlewares
@@ -34,7 +35,7 @@ app.use(
 // Routes
 app.use('/users',userRoute)
 app.use('/authenticate',authenticateRoute)
-// app.use('/album',albumRoute)
+app.use('/category',categoryRoute)
 
 
 // Routes

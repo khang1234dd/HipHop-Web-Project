@@ -120,6 +120,14 @@ const schemas = {
         otp: Joi.string().min(6).max(6).required(),
     }),
 
+    categoryGetByIdSchema: Joi.object().keys({
+        categoryname: Joi.string().min(2).required(),
+        categorytinydes: Joi.string().min(10).required(),
+    }),
+    categoryUpdateSchema: Joi.object().keys({
+        categoryname: Joi.string().min(2),
+        categorytinydes: Joi.string().min(10),
+    }),
 }
 
 module.exports = {
