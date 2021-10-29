@@ -18,7 +18,10 @@ const app = express()
 const userRoute = require('./routes/user')
 const authenticateRoute = require('./routes/authenticate')
 const categoryRoute = require('./routes/category')
-// const albumRoute = require('./routes/album')
+const albumRoute = require('./routes/album')
+const songRoute = require('./routes/song')
+const postRoute = require('./routes/post')
+
 
 // Middlewares
 app.use(logger('dev'))
@@ -36,6 +39,10 @@ app.use(
 app.use('/users',userRoute)
 app.use('/authenticate',authenticateRoute)
 app.use('/category',categoryRoute)
+app.use('/album',albumRoute)
+app.use('/song',songRoute)
+app.use('/post',postRoute)
+
 
 
 // Routes

@@ -45,6 +45,26 @@ const UserSchema = new Schema({
     post:[{
         type: Schema.Types.ObjectId,
         ref: 'Post'
+    }],
+    song:[{
+        type: Schema.Types.ObjectId,
+        ref: 'Song'
+    }],
+    favoritesong:[{
+        type: Schema.Types.ObjectId,
+        ref: 'Song'
+    }],
+    favoritealbum:[{
+        type: Schema.Types.ObjectId,
+        ref: 'Album'
+    }],
+    favoritepost:[{
+        type: Schema.Types.ObjectId,
+        ref: 'Post'
+    }],
+    feedback:[{
+        type: Schema.Types.ObjectId,
+        ref: 'Post'
     }]
     
 })

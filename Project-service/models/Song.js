@@ -1,7 +1,7 @@
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 
-const AlbumSchema = new Schema({
+const SongSchema = new Schema({
     name:{
         type:String,
         required: true,
@@ -10,29 +10,28 @@ const AlbumSchema = new Schema({
         type:String,
         default: null,
     },
-    description: {
+    link:{
         type:String,
-        required: true,
     },
-    public: {
+    public:{
         type: Boolean,
         default: false
     },
     owner:{
-        type:String,
-        required:true
+        type: String,
+        required: true
     },
     datecreate:{
-        type:Date,
-        default: Date.now
+        type: Date,
+        default: Date.now()
     },
     dateupdate:{
-        type:Date,
-        default: Date.now
+        type: Date,
+        default: Date.now()
     },
-    song: [{
+    album: [{
         type: Schema.Types.ObjectId,
-        ref: 'Song'
+        ref: 'Album'
     }],
     category: [{
         type: Schema.Types.ObjectId,
@@ -45,5 +44,5 @@ const AlbumSchema = new Schema({
     
 })
 
-const Album = mongoose.model('Album',AlbumSchema)
-module.exports = Album
+const Song = mongoose.model('Song',SongSchema)
+module.exports = Song

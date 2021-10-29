@@ -6,7 +6,7 @@ const getAllUser = async (req, res, next) => {
   return res.status(200).json({ users });
 };
 
-const getUser = async (req, res, next) => {
+const getUserById = async (req, res, next) => {
   const userId = req.value.params.id;
 
   const user = await User.findById(userId);
@@ -45,11 +45,11 @@ const createAlbum = async (req, res, next) => {
     description: description,
   });
 
+  newAlbum.owner = user._id
+  
   await newAlbum.save();
 
-  console.log("user.js --> line:46 --> newAlbum", newAlbum);
-
-  user.album.push(newAlbum);
+  user.album.push(newAlbum._id);
 
   await user.save();
 
@@ -113,7 +113,7 @@ const deleteAlbum = async (req, res, next) => {
 
 module.exports = {
   getAllUser,
-  getUser,
+  getUserById,
   getAlbum,
   createAlbum,
   updateAlbum,

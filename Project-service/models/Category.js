@@ -13,9 +13,9 @@ const CategorySchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'Album'
     }],
-    music: [{
+    song: [{
         type: Schema.Types.ObjectId,
-        ref: 'Music'
+        ref: 'Song'
     }],
     post: [{
         type: Schema.Types.ObjectId,

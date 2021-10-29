@@ -10,9 +10,7 @@ const {authenToken} = require('../middlewares/verifyToken')
 router.route('/getAllCategory').get(categoryController.getAllCategory)
 router.route('/getCategoryById/:id').get(validateParam(schemas.idSchema,'id'),categoryController.getCategoryById)
 router.route('/createCategory').post(validateBody(schemas.categoryGetByIdSchema),categoryController.createCategory)
-router.route('/updateCategory/:id')
-    .put(validateParam(schemas.idSchema,'id'),validateBody(schemas.categoryUpdateSchema),categoryController.updateCategory)
-    .patch(validateParam(schemas.idSchema,'id'),validateBody(schemas.categoryUpdateSchema),categoryController.updateCategory)
+router.route('/updateCategory/:id').post(validateParam(schemas.idSchema,'id'),validateBody(schemas.categoryUpdateSchema),categoryController.updateCategory)
 router.route('/deleteCategory/:id').delete(validateParam(schemas.idSchema,'id'),categoryController.deleteCategory)
 
 

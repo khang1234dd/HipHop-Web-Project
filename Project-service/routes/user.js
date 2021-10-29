@@ -8,8 +8,7 @@ const { validateBody, validateParam, schemas } = require('../helpers/routerHelpe
 const {authenToken} = require('../middlewares/verifyToken')
 
 router.route('/getAllUser').get(UserController.getAllUser)
-
-router.route('/getUser/:id').get(validateParam(schemas.idSchema,'id'),UserController.getUser)
+router.route('/getUserById/:id').get(validateParam(schemas.idSchema,'id'),UserController.getUserById)
 router.route('/getAlbum').get(authenToken,UserController.getAlbum)
 router.route('/createAlbum').post(validateBody(schemas.userCreateAlbumSchemas),authenToken,UserController.createAlbum)
 router.route('/updateAlbum/:id')

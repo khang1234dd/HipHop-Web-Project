@@ -13,9 +13,17 @@ const PostSchema = new Schema({
     description: {
         type:String,
     },
-    public: {
+    pass:{
         type: Boolean,
         default: false
+    },
+    public:{
+        type: Boolean,
+        default: false
+    },
+    image:{
+        type:String,
+        default:null
     },
     datecreate:{
         type:Date,
@@ -25,9 +33,21 @@ const PostSchema = new Schema({
         type:Date,
         default: Date.now()
     },
+    owner:{
+        type:String,
+        required:true
+    },
     category: [{
         type: Schema.Types.ObjectId,
         ref: 'Category'
+    }],
+    favoriteuser:[{
+        type: Schema.Types.ObjectId,
+        ref: 'User'
+    }],
+    feedback:[{
+        type: Schema.Types.ObjectId,
+        ref: 'User'
     }]
     
 })
