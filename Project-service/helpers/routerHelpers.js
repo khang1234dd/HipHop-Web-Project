@@ -100,10 +100,18 @@ const schemas = {
     }),
 
     userUpdateAlbumSchemas: Joi.object().keys({
-        nameAlbum: Joi.string().min(6),
+        name: Joi.string().min(6),
         description: Joi.string().min(10),
-        image: Joi.string()
+        image: Joi.string(),
         
+    }),
+
+    userAddSongforAlbumSchemas: Joi.object().keys({
+        songId: Joi.string().regex(/^[0-9a-fA-F]{24}$/).required(),
+    }),
+
+    userRemoveSonginAlbumSchemas: Joi.object().keys({
+        songId: Joi.string().regex(/^[0-9a-fA-F]{24}$/).required(),
     }),
 
     //category validate

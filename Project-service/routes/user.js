@@ -15,6 +15,7 @@ router.route('/updateAlbum/:id')
     .put(validateParam(schemas.idSchema,'id'),validateBody(schemas.userUpdateAlbumSchemas),authenToken,UserController.updateAlbum)
     .patch(validateParam(schemas.idSchema,'id'),validateBody(schemas.userUpdateAlbumSchemas),authenToken,UserController.updateAlbum)
 router.route('/deleteAlbum/:id').delete(validateParam(schemas.idSchema,'id'),authenToken,UserController.deleteAlbum)
-
+router.route('/addSongforAlbum/:idAlbum').post(validateParam(schemas.idSchema,'idAlbum'),validateBody(schemas.userAddSongforAlbumSchemas),authenToken,UserController.addSongforAlbum)
+router.route('/removeSonginAlbum/:idAlbum').delete(validateParam(schemas.idSchema,'idAlbum'),validateBody(schemas.userRemoveSonginAlbumSchemas),authenToken,UserController.removeSonginAlbum)
 
 module.exports = router
