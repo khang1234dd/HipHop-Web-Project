@@ -48,13 +48,14 @@ const schemas = {
     }),
 
     authForgotPasswordSchema: Joi.object().keys({
+        username: Joi.string().min(2).required(),
         email: Joi.string().email().required()
     }),
 
     authResetPasswordSchema: Joi.object().keys({
         newpassword: Joi.string().min(6).required(),
         newpasswordconfirm: Joi.ref('newpassword'),
-        token: Joi.string().regex(/^[A-Za-z0-9-_]*\.[A-Za-z0-9-_]*\.[A-Za-z0-9-_]*$/).required(),
+        otp: Joi.string().min(6).max(6).required(),
     }),
 
     authUpdateNameSchema: Joi.object().keys({
@@ -141,6 +142,7 @@ const schemas = {
         categoryId: Joi.string().regex(/^[0-9a-fA-F]{24}$/).required(),
         image: Joi.string().min(2),
     }),
+
 
 
 }

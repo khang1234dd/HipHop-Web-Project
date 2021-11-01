@@ -23,11 +23,11 @@ const SongSchema = new Schema({
     },
     datecreate:{
         type: Date,
-        default: Date.now()
+        default: Date.now
     },
     dateupdate:{
         type: Date,
-        default: Date.now()
+        default: Date.now
     },
     album: [{
         type: Schema.Types.ObjectId,

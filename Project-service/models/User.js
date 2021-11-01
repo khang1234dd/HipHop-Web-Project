@@ -38,6 +38,10 @@ const UserSchema = new Schema({
         type:String,
         default: ''
     },
+    otpFG:{
+        type:String,
+        default: ''
+    },
     album:[{
         type: Schema.Types.ObjectId,
         ref: 'Album'

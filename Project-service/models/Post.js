@@ -31,11 +31,15 @@ const PostSchema = new Schema({
     },
     dateupdate:{
         type:Date,
-        default: Date.now()
+        default: Date.now
     },
     owner:{
         type:String,
         required:true
+    },
+    view:{
+        type:Number,
+        default: 0,
     },
     category: [{
         type: Schema.Types.ObjectId,
