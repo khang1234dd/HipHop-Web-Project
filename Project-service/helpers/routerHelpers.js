@@ -33,6 +33,8 @@ const validateParam = (schema, name) => {
 }
 
 const schemas = {
+
+    //auth validate
     authSignInSchema: Joi.object().keys({
         username: Joi.string().min(2).required(),
         password: Joi.string().min(6).required(),
@@ -45,47 +47,15 @@ const schemas = {
         email: Joi.string().email().required()
     }),
 
-    deckSchema: Joi.object().keys({
-        name: Joi.string().min(6).required(),
-        description: Joi.string().min(10).required()
-    }),
-
-    deckOptionalSchema: Joi.object().keys({
-        name: Joi.string().min(6),
-        description: Joi.string().min(10),
-        owner: Joi.string().regex(/^[0-9a-fA-F]{24}$/)
-    }),
-
-    idSchema: Joi.object().keys({
-        param: Joi.string().regex(/^[0-9a-fA-F]{24}$/).required()
-    }),
-
-    newDeckSchema: Joi.object().keys({
-        name: Joi.string().min(6).required(),
-        description: Joi.string().min(10).required(),
-        owner: Joi.string().regex(/^[0-9a-fA-F]{24}$/).required()
-    }),
-
-    userSchema: Joi.object().keys({
-        username: Joi.string().min(2).required(),
-        password: Joi.string().min(6).required(),
-        email: Joi.string().email().required()
-    }),
-
-    userOptionalSchema: Joi.object().keys({
-        username: Joi.string().min(2).required(),
-        password: Joi.string().min(6).required(),
-        email: Joi.string().email().required()
-    }),
-
     authForgotPasswordSchema: Joi.object().keys({
+        username: Joi.string().min(2).required(),
         email: Joi.string().email().required()
     }),
 
     authResetPasswordSchema: Joi.object().keys({
         newpassword: Joi.string().min(6).required(),
         newpasswordconfirm: Joi.ref('newpassword'),
-        token: Joi.string().regex(/^[A-Za-z0-9-_]*\.[A-Za-z0-9-_]*\.[A-Za-z0-9-_]*$/).required(),
+        otp: Joi.string().min(6).max(6).required(),
     }),
 
     authUpdateNameSchema: Joi.object().keys({
@@ -104,6 +74,76 @@ const schemas = {
     authCheckOtpSchema: Joi.object().keys({
         otp: Joi.string().min(6).max(6).required(),
     }),
+
+    // Params _id validate 
+    idSchema: Joi.object().keys({
+        param: Joi.string().regex(/^[0-9a-fA-F]{24}$/).required()
+    }),
+
+    //user validate
+    userSchema: Joi.object().keys({
+        username: Joi.string().min(2).required(),
+        password: Joi.string().min(6).required(),
+        email: Joi.string().email().required()
+    }),
+
+    userOptionalSchema: Joi.object().keys({
+        username: Joi.string().min(2).required(),
+        password: Joi.string().min(6).required(),
+        email: Joi.string().email().required()
+    }),
+
+    userCreateAlbumSchemas: Joi.object().keys({
+        nameAlbum: Joi.string().min(6).required(),
+        description: Joi.string().min(10).required(),
+        image: Joi.string()
+        
+    }),
+
+    userUpdateAlbumSchemas: Joi.object().keys({
+        name: Joi.string().min(6),
+        description: Joi.string().min(10),
+        image: Joi.string(),
+        
+    }),
+
+    userAddSongforAlbumSchemas: Joi.object().keys({
+        songId: Joi.string().regex(/^[0-9a-fA-F]{24}$/).required(),
+    }),
+
+    userRemoveSonginAlbumSchemas: Joi.object().keys({
+        songId: Joi.string().regex(/^[0-9a-fA-F]{24}$/).required(),
+    }),
+
+    //category validate
+    categoryGetByIdSchema: Joi.object().keys({
+        categoryname: Joi.string().min(2).required(),
+        categorytinydes: Joi.string().min(10).required(),
+    }),
+    categoryUpdateSchema: Joi.object().keys({
+        categoryname: Joi.string().min(2).required(),
+        categorytinydes: Joi.string().min(10).required(),
+    }),
+
+    //song validate
+    songCreateSchema: Joi.object().keys({
+        nameSong: Joi.string().min(2).required(),
+        link: Joi.string().min(2).required(),
+        image: Joi.string().min(2),
+        categoryId: Joi.string().regex(/^[0-9a-fA-F]{24}$/).required(),
+
+    }),
+
+    // post validate
+    postCreateSchema: Joi.object().keys({
+        namePost: Joi.string().min(2).required(),
+        tinydes: Joi.string().min(6).required(),
+        description:Joi.string().min(10).required(),
+        categoryId: Joi.string().regex(/^[0-9a-fA-F]{24}$/).required(),
+        image: Joi.string().min(2),
+    }),
+
+
 
 }
 

@@ -16,14 +16,10 @@ router.route('/forgetpassword').post(validateBody(schemas.authForgotPasswordSche
 router.route('/resetpassword').post(validateBody(schemas.authResetPasswordSchema),authenticateController.resetPassword)
 router.route('/updatename').post(validateBody(schemas.authUpdateNameSchema),authenToken,authenticateController.updateName)
 router.route('/updatepassword').post(validateBody(schemas.authUpdatePasswordSchema),authenToken,authenticateController.updatePassword)
-
 router.route('/sendmailupdateemail').post(authenToken,authenticateController.sendMailUpdateEmail)
-
 router.route('/updateemail').post(validateBody(schemas.authUpdateEmailSchema),authenToken,authenticateController.updateEmail)
-
 router.route('/checkotp').post(validateBody(schemas.authCheckOtpSchema),authenToken,authenticateController.checkOtp)
-
-
+router.route('/user').get(authenToken,authenticateController.userInfo)
 
 
 module.exports = router

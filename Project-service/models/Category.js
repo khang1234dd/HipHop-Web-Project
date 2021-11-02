@@ -1,25 +1,28 @@
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 
-const MusicSchema = new Schema({
+const CategorySchema = new Schema({
     name:{
         type:String,
         required: true,
     },
-    imgage:{
+    tinydes:{
         type:String,
-        default: null,
     },
     album: [{
         type: Schema.Types.ObjectId,
         ref: 'Album'
     }],
-    category: [{
+    song: [{
         type: Schema.Types.ObjectId,
-        ref: 'Category'
+        ref: 'Song'
+    }],
+    post: [{
+        type: Schema.Types.ObjectId,
+        ref: 'Post'
     }]
     
 })
 
-const Music = mongoose.model('Music',MusicSchema)
-module.exports = Music
+const Category = mongoose.model('Category',CategorySchema)
+module.exports = Category

@@ -31,7 +31,7 @@ const signIn = async (req, res, next) => {
 };
 
 const signUp = async (req, res, next) => {
-  const { username, password, passwordconfirm, email } = req.value.body;
+  const { username, password, email } = req.value.body;
 
   const foundEmail = await User.findOne({ email });
   if (foundEmail)
@@ -56,39 +56,55 @@ const signUp = async (req, res, next) => {
 };
 
 const forgetPassword = async (req, res, next) => {
-  const { email } = req.body;
+  const { username, email } = req.value.body;
   const user = await User.findOne({ email });
 
   if (!user)
     return res
       .status(404)
       .json({ message: "User with this email does not exist" });
+  
+  if(user.username !== username){
+    return res
+      .status(404)
+      .json({ message: "The email is not from this user" });
+    
+  }
 
-  const resetLink = encodedToken(user._id);
-  user.resetLink = resetLink;
+  // const resetLink = encodedToken(user._id);
+  const otp = otpGenerator.generate(6, { upperCase: false, specialChars: false });
+  user.otpFG = otp;
+
+  // user.resetLink = resetLink;
   await user.save();
 
-  const body = `<h2>Please click on given link to reset your password:</h2>
-                <p><a href="${CLIENT_URL}/forgotpassword/${resetLink}"> ${CLIENT_URL}/authentication/forgotpassword/${resetLink} </a></p>
+  const body = `<h2>this is your otp code </h2>
+                <p>${otp}</p>
                 <p>Trân trọng</p>
                 `;
   await sendMail(email, "Forgot Password", body);
 
-  return res.status(200).json({ message: "Reset password link has been sent" });
+  return res.status(200).json({ message: "Reset password otp has been sent" });
 };
 
 const resetPassword = async (req, res, next) => {
-  const { newpassword, newpasswordconfirm, token } = req.value.body;
-  const user = await User.findOne({ resetLink: token });
-  if (!user) return res.status(400).json({ message: "Invalid token" });
-
-  if (user.isValidPassword(user.password) === newpassword)
+  const { newpassword, newpasswordconfirm, otp } = req.value.body;
+  const user = await User.findOne({ otpFG: otp });
+  console.log(user)
+  if (!user) return res.status(400).json({ message: "Invalid Otp" });
+  const checkPass = await user.isValidPassword(newpassword)
+  if (checkPass)
     return res.status(400).json({
       message: "The new password cannot be the same as the old password",
     });
 
+  if (user.otpFG === "")
+    return res.status(400).json({ message: "please verify otp" });
+
+  if(user.otpFG !== otp) return res.status(404).json({ message: "wrong otp" });
+
   user.password = newpassword;
-  user.resetLink = "";
+  user.otpFG = "";
 
   await user.save();
   return res.status(200).json({ success: true });
@@ -142,7 +158,6 @@ const sendMailUpdateEmail = async (req, res, next) => {
   if(!user) return res.status(404).json({ message: "User does not exist" });
 
   const otp = otpGenerator.generate(6, { upperCase: false, specialChars: false });
-  console.log("authenticate.js --> line:145 --> otp", otp);
   user.otp = otp;
   await user.save();
 
@@ -194,6 +209,16 @@ const checkOtp = async (req, res, next) => {
   return res.status(200).json({ success: true });
 };
 
+const userInfo = async (req, res, next) => {
+  const userId = req.body.token.sub
+
+  const user = await User.findById(userId)
+
+  if(!user) return res.status(404).json({ message: "User does not exist" });
+
+  return res.status(200).json({ user });
+};
+
 module.exports = {
   secret,
   signIn,
@@ -205,4 +230,5 @@ module.exports = {
   sendMailUpdateEmail,
   updateEmail,
   checkOtp,
+  userInfo,
 };

@@ -26,6 +26,10 @@ const UserSchema = new Schema({
         type: String,
         default: null,
     },
+    role: {
+        type: Number,
+        default: 0
+    },
     resetLink:{
         type:String,
         default: ''
@@ -34,9 +38,37 @@ const UserSchema = new Schema({
         type:String,
         default: ''
     },
+    otpFG:{
+        type:String,
+        default: ''
+    },
     album:[{
         type: Schema.Types.ObjectId,
         ref: 'Album'
+    }],
+    post:[{
+        type: Schema.Types.ObjectId,
+        ref: 'Post'
+    }],
+    song:[{
+        type: Schema.Types.ObjectId,
+        ref: 'Song'
+    }],
+    favoritesong:[{
+        type: Schema.Types.ObjectId,
+        ref: 'Song'
+    }],
+    favoritealbum:[{
+        type: Schema.Types.ObjectId,
+        ref: 'Album'
+    }],
+    favoritepost:[{
+        type: Schema.Types.ObjectId,
+        ref: 'Post'
+    }],
+    feedback:[{
+        type: Schema.Types.ObjectId,
+        ref: 'Post'
     }]
     
 })

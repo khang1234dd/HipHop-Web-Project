@@ -1,26 +1,29 @@
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 
-const AlbumSchema = new Schema({
+const PostSchema = new Schema({
     name:{
         type:String,
         required: true,
     },
-    image:{
+    tinydes:{
         type:String,
         default: null,
     },
     description: {
         type:String,
-        required: true,
     },
-    public: {
+    pass:{
         type: Boolean,
         default: false
     },
-    owner:{
+    public:{
+        type: Boolean,
+        default: false
+    },
+    image:{
         type:String,
-        required:true
+        default:null
     },
     datecreate:{
         type:Date,
@@ -30,10 +33,14 @@ const AlbumSchema = new Schema({
         type:Date,
         default: Date.now
     },
-    song: [{
-        type: Schema.Types.ObjectId,
-        ref: 'Song'
-    }],
+    owner:{
+        type:String,
+        required:true
+    },
+    view:{
+        type:Number,
+        default: 0,
+    },
     category: [{
         type: Schema.Types.ObjectId,
         ref: 'Category'
@@ -41,9 +48,13 @@ const AlbumSchema = new Schema({
     favoriteuser:[{
         type: Schema.Types.ObjectId,
         ref: 'User'
+    }],
+    feedback:[{
+        type: Schema.Types.ObjectId,
+        ref: 'User'
     }]
     
 })
 
-const Album = mongoose.model('Album',AlbumSchema)
-module.exports = Album
+const Post = mongoose.model('Post',PostSchema)
+module.exports = Post
