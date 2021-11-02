@@ -1,0 +1,24 @@
+@import '/src/Styles/Variables.scss';
+.navigation {
+	background-color: $primary-color;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding: $pm-40;
+}
+.logo-block {
+	margin-left: 8rem;
+}
+.logo {
+	width: 5rem;
+	height: auto;
+	border: none;
+
+	display: block;
+}
+.hamburger-block {
+	margin-right: auto;
+}
+.authentication-block {
+	margin-left: auto;
+}

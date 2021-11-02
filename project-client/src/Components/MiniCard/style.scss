@@ -1,0 +1,23 @@
+@import '/src/Styles/Variables.scss';
+
+.minicard-block {
+	display: flex;
+	margin-bottom: 10px;
+
+	&-image {
+		max-width: 640px;
+		margin-right: 7px;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		line-height: 1.2;
+	}
+	&-text {
+	}
+}
+
+.minicard-image {
+	border-radius: 3px;
+	width: 196px;
+	height: auto;
+}

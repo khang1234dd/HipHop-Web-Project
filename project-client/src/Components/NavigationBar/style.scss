@@ -1,0 +1,8 @@
+@import '/src/Styles/Variables.scss';
+
+.navigationbar-container {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	font-family: $f-1;
+}
