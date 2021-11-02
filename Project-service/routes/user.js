@@ -7,8 +7,7 @@ const { validateBody, validateParam, schemas } = require('../helpers/routerHelpe
 
 const {authenToken} = require('../middlewares/verifyToken')
 
-router.route('/getAllUser').get(UserController.getAllUser)
-router.route('/getUserById/:id').get(validateParam(schemas.idSchema,'id'),UserController.getUserById)
+
 router.route('/getAlbum').get(authenToken,UserController.getAlbum)
 router.route('/createAlbum').post(validateBody(schemas.userCreateAlbumSchemas),authenToken,UserController.createAlbum)
 router.route('/updateAlbum/:id')
@@ -27,6 +26,10 @@ router.route('/unlikeSong/:idSong').post(validateParam(schemas.idSchema,'idSong'
 router.route('/checklikeSong/:idSong').get(validateParam(schemas.idSchema,'idSong'),authenToken,UserController.checklikeSong)
 // user -> post
 router.route('/createPost').post(validateBody(schemas.postCreateSchema),authenToken,UserController.createPost)
+router.route('/updatePost/:id')
+    .put(validateParam(schemas.idSchema,'id'),validateBody(schemas.userUpdatePostSchemas),authenToken,UserController.updatePost)
+    .patch(validateParam(schemas.idSchema,'id'),validateBody(schemas.userUpdatePostSchemas),authenToken,UserController.updatePost)
+router.route('/deletePost/:id').delete(validateParam(schemas.idSchema,'id'),authenToken,UserController.deletePost)
 
 
 module.exports = router

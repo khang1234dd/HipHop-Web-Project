@@ -96,15 +96,16 @@ const schemas = {
     userCreateAlbumSchemas: Joi.object().keys({
         nameAlbum: Joi.string().min(6).required(),
         description: Joi.string().min(10).required(),
-        image: Joi.string()
-        
+        image: Joi.string(),
+        categoryId: Joi.string().regex(/^[0-9a-fA-F]{24}$/).required(),
     }),
 
     userUpdateAlbumSchemas: Joi.object().keys({
         name: Joi.string().min(6),
         description: Joi.string().min(10),
         image: Joi.string(),
-        
+        categoryId: Joi.string().regex(/^[0-9a-fA-F]{24}$/),
+        public: Joi.forbidden(),
     }),
 
     userAddSongforAlbumSchemas: Joi.object().keys({
@@ -115,6 +116,14 @@ const schemas = {
         songId: Joi.string().regex(/^[0-9a-fA-F]{24}$/).required(),
     }),
 
+    userUpdatePostSchemas:Joi.object().keys({
+        name: Joi.string().min(6),
+        tinydes: Joi.string().min(6),
+        description: Joi.string().min(10),
+        image: Joi.string(),
+        categoryId: Joi.string().regex(/^[0-9a-fA-F]{24}$/),
+        public: Joi.forbidden(),
+    }),
     //category validate
     categoryGetByIdSchema: Joi.object().keys({
         categoryname: Joi.string().min(2).required(),
