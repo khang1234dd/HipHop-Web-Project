@@ -8,6 +8,7 @@ const { validateBody, validateParam, schemas } = require('../helpers/routerHelpe
 const passport = require('passport')
 require('../middlewares/passport')
 const {authenToken} = require('../middlewares/verifyToken')
+const upload = require('../middlewares/upload')
 
 router.route('/secret').get(authenToken,authenticateController.secret)
 router.route('/signin').post(validateBody(schemas.authSignInSchema),passport.authenticate('local', {session: false}),authenticateController.signIn)
@@ -15,6 +16,7 @@ router.route('/signup').post(validateBody(schemas.authSignUpSchema), authenticat
 router.route('/forgetpassword').post(validateBody(schemas.authForgotPasswordSchema),authenticateController.forgetPassword)
 router.route('/resetpassword').post(validateBody(schemas.authResetPasswordSchema),authenticateController.resetPassword)
 router.route('/updatename').post(validateBody(schemas.authUpdateNameSchema),authenToken,authenticateController.updateName)
+router.route('/updateimage').post(upload.single('image'),authenToken,authenticateController.updateImage)
 router.route('/updatepassword').post(validateBody(schemas.authUpdatePasswordSchema),authenToken,authenticateController.updatePassword)
 router.route('/sendmailupdateemail').post(authenToken,authenticateController.sendMailUpdateEmail)
 router.route('/updateemail').post(validateBody(schemas.authUpdateEmailSchema),authenToken,authenticateController.updateEmail)

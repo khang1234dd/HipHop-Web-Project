@@ -49,6 +49,7 @@ app.use('/album',albumRoute)
 app.use('/song',songRoute)
 app.use('/post',postRoute)
 app.use('/admin',adminRoute)
+app.use('/upload',express.static('upload'))
 
 
 

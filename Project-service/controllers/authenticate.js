@@ -1,8 +1,8 @@
 const User = require("../models/User");
 const nodeMailer = require("nodemailer");
 const { sendMail } = require("../common/mailer");
-const otpGenerator = require('otp-generator')
-
+const otpGenerator = require('otp-generator');
+const { unlink } = require('fs/promises');
 
 const JWT = require("jsonwebtoken");
 const { JWT_SECRET, CLIENT_URL } = require("../config/index");
@@ -128,6 +128,26 @@ const updateName = async (req, res, next) => {
   return res.status(200).json({ success: true });
 };
 
+const updateImage = async (req, res, next) => {
+  const userId = req.body.token.sub;
+
+  const user = await User.findById(userId);
+
+  if (!user) return res.status(400).json({ message: "Invalid user" });
+
+  console.log('authenticate.js --> line 138 --> req.file',req.file)
+
+  if(!req.file){
+    return res.status(400).json({message: 'Input is file image'})
+  }
+
+  if(user.image !== 'upload/image/1.png' ) await unlink(user.image)
+  user.image = req.file.path
+  await user.save();
+
+  return res.status(200).json({ success: true });
+};
+
 const updatePassword = async (req, res, next) => {
   const userId = req.body.token.sub;
 
@@ -226,6 +246,7 @@ module.exports = {
   forgetPassword,
   resetPassword,
   updateName,
+  updateImage,
   updatePassword,
   sendMailUpdateEmail,
   updateEmail,

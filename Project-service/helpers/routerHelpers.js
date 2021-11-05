@@ -96,7 +96,6 @@ const schemas = {
     userCreateAlbumSchemas: Joi.object().keys({
         nameAlbum: Joi.string().min(6).required(),
         description: Joi.string().min(10).required(),
-        image: Joi.string(),
         categoryId: Joi.string().regex(/^[0-9a-fA-F]{24}$/).required(),
     }),
 

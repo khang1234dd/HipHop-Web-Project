@@ -8,7 +8,7 @@ const SongSchema = new Schema({
     },
     image:{
         type:String,
-        default: null,
+        default: 'upload/image/2.jpg',
     },
     link:{
         type:String,

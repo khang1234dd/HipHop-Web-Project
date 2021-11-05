@@ -23,7 +23,7 @@ const PostSchema = new Schema({
     },
     image:{
         type:String,
-        default:null
+        default:'upload/image/3.png'
     },
     datecreate:{
         type:Date,

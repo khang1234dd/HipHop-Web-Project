@@ -24,7 +24,7 @@ const UserSchema = new Schema({
     },
     image:{
         type: String,
-        default: null,
+        default: 'upload/image/1.png',
     },
     role: {
         type: Number,
