@@ -15,7 +15,7 @@ const isUser = async (req, res, next) => {
 
 const isAdmin =  async (req, res, next) => {
   const userId = req.body.token.sub;
-
+  
   const user = await User.findById(userId);
 
   if (user.role === 2) next();

@@ -37,6 +37,22 @@ const PostSchema = new Schema({
         type:String,
         required:true
     },
+    comment:[{
+        userId:{
+            type: String
+        },
+        content:{
+            type: String
+        },
+        date:{
+            type:Date,
+            default: Date.now
+        },
+        haveChange:{
+            type: Boolean,
+            default: false
+        },
+    }],
     view:{
         type:Number,
         default: 0,

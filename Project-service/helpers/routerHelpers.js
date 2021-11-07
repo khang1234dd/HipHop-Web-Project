@@ -124,7 +124,7 @@ const schemas = {
         public: Joi.forbidden(),
     }),
     //category validate
-    categoryGetByIdSchema: Joi.object().keys({
+    categoryCreateSchema: Joi.object().keys({
         categoryname: Joi.string().min(2).required(),
         categorytinydes: Joi.string().min(10).required(),
     }),

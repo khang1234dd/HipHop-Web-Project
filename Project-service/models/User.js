@@ -30,6 +30,10 @@ const UserSchema = new Schema({
         type: Number,
         default: 0
     },
+    lock: {
+        type: Boolean,
+        default: false
+    },
     resetLink:{
         type:String,
         default: ''
@@ -66,7 +70,7 @@ const UserSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'Post'
     }],
-    feedback:[{
+    comment:[{
         type: Schema.Types.ObjectId,
         ref: 'Post'
     }]

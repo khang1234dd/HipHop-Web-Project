@@ -21,6 +21,9 @@ const SongSchema = new Schema({
         type: String,
         required: true
     },
+    ownersong:{
+        type: String,
+    },
     datecreate:{
         type: Date,
         default: Date.now
