@@ -38,6 +38,7 @@ const PostSchema = new Schema({
         required:true
     },
     comment:[{
+        
         userId:{
             type: String
         },
@@ -70,7 +71,7 @@ const PostSchema = new Schema({
         ref: 'User'
     }]
     
-})
+},{ timestamps: true })
 
 const Post = mongoose.model('Post',PostSchema)
 module.exports = Post

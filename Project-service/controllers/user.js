@@ -553,6 +553,73 @@ const deletePost = async (req, res, next) => {
   return res.status(200).json({ success: true });
 };
 
+const commentPost = async (req, res, next) => {
+  const userId = req.body.token.sub;
+
+  const user = await User.findById(userId);
+  if (!user) res.status(404).json({ message: "User does not exist" });
+
+  const { content } = req.value.body;
+  const postId = req.value.params.idPost;
+
+
+  const comment = {"userId": userId, "content": content};
+  await Post.findByIdAndUpdate(postId,{$push: {comment: comment}});
+
+  // user.comment.push(post._id)
+
+  // await user.save()
+
+  return res.status(201).json({ success: true });
+}; 
+
+const updateCommentPost = async (req, res, next) => {
+  const userId = req.body.token.sub;
+
+  const user = await User.findById(userId);
+  if (!user) res.status(404).json({ message: "User does not exist" });
+
+  const { content } = req.value.body;
+  const {idPost , idComment}= req.value.params;
+  
+  const post = await Post.findById(idPost)
+
+  const comment = post.comment.find(item=>item.id = idComment)
+
+  if(userId !== comment.userId) return res.status(403).json({message: "User cannot delete this comment"})
+
+  await Post.updateOne({_id: idPost, "comment._id": idComment}, 
+  {$set: {"comment.$.content": content , "comment.$.haveChange": true, "comment.$.date": Date.now() }});
+
+  // user.comment.push(post._id)
+
+  // await user.save()
+
+  return res.status(201).json({ success: true });
+}; 
+
+const deleteCommentPost = async (req, res, next) => {
+  const userId = req.body.token.sub;
+
+  const user = await User.findById(userId);
+  if (!user) res.status(404).json({ message: "User does not exist" });
+
+  const {idPost, idComment} = req.value.params;
+
+  const post = await Post.findById(idPost)
+
+  const comment = post.comment.find(item=>item.id = idComment)
+
+  if(userId !== comment.userId) return res.status(403).json({message: "User cannot delete this comment"})
+
+  await Post.findByIdAndUpdate(idPost,{$pull: {comment: {_id: idComment}}});
+  // user.comment.push(post._id)
+
+  // await user.save()
+
+  return res.status(201).json({ success: true });
+}; 
+
 module.exports = {
   getAlbum,
   createAlbum,
@@ -572,4 +639,7 @@ module.exports = {
   createPost,
   updatePost,
   deletePost,
+  commentPost,
+  updateCommentPost,
+  deleteCommentPost,
 };

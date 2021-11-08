@@ -231,24 +231,10 @@ const changePublic = async (req, res, next) => {
 const deleteComment = async (req, res, next) => {
   const {idPost, idComment} = req.value.params;
 
-  const post = await Post.findById(idPost);
+  const post = await Post.findByIdAndUpdate(idPost,{$pull: {comment: {_id: idComment}}});
 
-  if (!post) return res.status(404).json({ message: "Post does not exist" });
-
-  const comment = await Post.comment.findById(idComment);
-
-  if (!comment) return res.status(404).json({ message: "Comment does not exist" });
-
-  if(post.public === true){
-    post.public = false
-  }
-  else{
-    post.public= true
-  }
-  await post.save()
-
-  return res.status(200).json({ post });
-}; // chua xong
+  return res.status(200).json({ success: true });
+};
 module.exports = {
   getAllUser,
   getUserById,

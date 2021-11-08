@@ -22,7 +22,7 @@ const CategorySchema = new Schema({
         ref: 'Post'
     }]
     
-})
+}, { timestamps: true })
 
 const Category = mongoose.model('Category',CategorySchema)
 module.exports = Category

@@ -5,13 +5,12 @@ const authenticateController = require('../controllers/authenticate')
 
 const { validateBody, validateParam, schemas } = require('../helpers/routerHelpers')
 
-const passport = require('passport')
 require('../middlewares/passport')
 const {authenToken} = require('../middlewares/verifyToken')
 const upload = require('../middlewares/upload')
 
 router.route('/secret').get(authenToken,authenticateController.secret)
-router.route('/signin').post(validateBody(schemas.authSignInSchema),passport.authenticate('local', {session: false}),authenticateController.signIn)
+router.route('/signin').post(validateBody(schemas.authSignInSchema),authenticateController.signIn)
 router.route('/signup').post(validateBody(schemas.authSignUpSchema), authenticateController.signUp)
 router.route('/forgetpassword').post(validateBody(schemas.authForgotPasswordSchema),authenticateController.forgetPassword)
 router.route('/resetpassword').post(validateBody(schemas.authResetPasswordSchema),authenticateController.resetPassword)

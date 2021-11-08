@@ -35,6 +35,8 @@ router.route('/updatePost/:id')
     .put(validateParam(schemas.idSchema,'id'),validateBody(schemas.userUpdatePostSchemas),upload.single('image'),authenToken,UserController.updatePost)
     .patch(validateParam(schemas.idSchema,'id'),validateBody(schemas.userUpdatePostSchemas),upload.single('image'),authenToken,UserController.updatePost)
 router.route('/deletePost/:id').delete(validateParam(schemas.idSchema,'id'),authenToken,UserController.deletePost)
-
+router.route('/commentPost/:idPost').post(validateParam(schemas.idSchema,'idPost'),validateBody(schemas.postCommentSchema),authenToken,UserController.commentPost)
+router.route('/updateCommentPost/:idPost/:idComment').post(validateParam(schemas.idSchema,'idPost'),validateParam(schemas.idSchema,'idComment'),validateBody(schemas.postCommentSchema),authenToken,UserController.updateCommentPost)
+router.route('/deleteCommentPost/:idPost/:idComment').delete(validateParam(schemas.idSchema,'idPost'),validateParam(schemas.idSchema,'idComment'),authenToken,UserController.deleteCommentPost)
 
 module.exports = router

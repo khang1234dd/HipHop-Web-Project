@@ -70,26 +70,22 @@ const UserSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'Post'
     }],
-    comment:[{
-        type: Schema.Types.ObjectId,
-        ref: 'Post'
-    }]
     
-})
+}, { timestamps: true })
 
-UserSchema.pre('save', async function(next) {
-    try {
-        // Generate a salt 
-        const salt = await bcrypt.genSalt(10)
-        // Generate a password hash (salt + hash)
-        const passwordHashed = await bcrypt.hash(this.password, salt)
-        this.password = passwordHashed
-        next()
-    }
-    catch (error){
-        next(next)
-    }
-})
+// UserSchema.pre('save', async function(next) {
+//     try {
+//         // Generate a salt 
+//         const salt = await bcrypt.genSalt(10)
+//         // Generate a password hash (salt + hash)
+//         const passwordHashed = await bcrypt.hash(this.password, salt)
+//         this.password = passwordHashed
+//         next()
+//     }
+//     catch (error){
+//         next(next)
+//     }
+// })
 
 
 UserSchema.methods.isValidPassword = async function(newPassword) {

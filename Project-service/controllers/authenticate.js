@@ -1,8 +1,9 @@
 const User = require("../models/User");
 const nodeMailer = require("nodemailer");
 const { sendMail } = require("../common/mailer");
-const otpGenerator = require('otp-generator');
-const { unlink } = require('fs/promises');
+const otpGenerator = require("otp-generator");
+const { unlink } = require("fs/promises");
+const { enpass } = require("../common/enpass");
 
 const JWT = require("jsonwebtoken");
 const { JWT_SECRET, CLIENT_URL } = require("../config/index");
@@ -24,8 +25,20 @@ const secret = async (req, res, next) => {
 };
 
 const signIn = async (req, res, next) => {
+
+  const {username, password} = req.value.body
+
+  const user = await User.findOne({ username });
+
+  if (!user) return res.status(400).json({message: 'Your username is invalid .Try again !'})
+  if (user.lock) return res.status(403).json({message: 'Your ID has been locked!'})
+
+  const isCorrectPassword = await user.isValidPassword(password);
+
+  if (!isCorrectPassword) return res.status(400).json({message: 'Password is not correct!'})
+
   //Assign a token
-  const token = encodedToken(req.user._id);
+  const token = encodedToken(user._id);
   res.setHeader("Authorization", token);
   return res.status(200).json({ success: true });
 };
@@ -41,9 +54,14 @@ const signUp = async (req, res, next) => {
   if (foundUserName)
     return res.status(403).json({ err: { message: "UserName is already" } });
 
-  const name = username;
+  const password1 = await enpass(password);
 
-  const newUser = new User({ username, password, email, name });
+  const newUser = new User({
+    username,
+    password: password1,
+    email,
+    name: username,
+  });
 
   newUser.save();
 
@@ -63,16 +81,16 @@ const forgetPassword = async (req, res, next) => {
     return res
       .status(404)
       .json({ message: "User with this email does not exist" });
-  
-  if(user.username !== username){
-    return res
-      .status(404)
-      .json({ message: "The email is not from this user" });
-    
+
+  if (user.username !== username) {
+    return res.status(404).json({ message: "The email is not from this user" });
   }
 
   // const resetLink = encodedToken(user._id);
-  const otp = otpGenerator.generate(6, { upperCase: false, specialChars: false });
+  const otp = otpGenerator.generate(6, {
+    upperCase: false,
+    specialChars: false,
+  });
   user.otpFG = otp;
 
   // user.resetLink = resetLink;
@@ -88,11 +106,11 @@ const forgetPassword = async (req, res, next) => {
 };
 
 const resetPassword = async (req, res, next) => {
-  const { newpassword, newpasswordconfirm, otp } = req.value.body;
+  const { newpassword, otp } = req.value.body;
   const user = await User.findOne({ otpFG: otp });
-  console.log(user)
+  console.log(user);
   if (!user) return res.status(400).json({ message: "Invalid Otp" });
-  const checkPass = await user.isValidPassword(newpassword)
+  const checkPass = await user.isValidPassword(newpassword);
   if (checkPass)
     return res.status(400).json({
       message: "The new password cannot be the same as the old password",
@@ -101,9 +119,11 @@ const resetPassword = async (req, res, next) => {
   if (user.otpFG === "")
     return res.status(400).json({ message: "please verify otp" });
 
-  if(user.otpFG !== otp) return res.status(404).json({ message: "wrong otp" });
+  if (user.otpFG !== otp) return res.status(404).json({ message: "wrong otp" });
 
-  user.password = newpassword;
+  const password1 = await enpass(newpassword);
+
+  user.password = password1;
   user.otpFG = "";
 
   await user.save();
@@ -118,8 +138,9 @@ const updateName = async (req, res, next) => {
   const user = await User.findById(userId);
 
   if (!user) return res.status(400).json({ message: "Invalid user" });
-  
-  if(user.name === name) return res.status(400).json({message: 'Name is old name'})
+
+  if (user.name === name)
+    return res.status(400).json({ message: "Name is old name" });
 
   user.name = name;
 
@@ -135,14 +156,14 @@ const updateImage = async (req, res, next) => {
 
   if (!user) return res.status(400).json({ message: "Invalid user" });
 
-  console.log('authenticate.js --> line 138 --> req.file',req.file)
+  console.log("authenticate.js --> line 138 --> req.file", req.file);
 
-  if(!req.file){
-    return res.status(400).json({message: 'Input is file image'})
+  if (!req.file) {
+    return res.status(400).json({ message: "Input is file image" });
   }
 
-  if(user.image !== 'upload/image/1.png' ) await unlink(user.image)
-  user.image = req.file.path
+  if (user.image !== "upload/image/1.png") await unlink(user.image);
+  user.image = req.file.path;
   await user.save();
 
   return res.status(200).json({ success: true });
@@ -175,9 +196,12 @@ const sendMailUpdateEmail = async (req, res, next) => {
 
   const user = await User.findById(userId);
 
-  if(!user) return res.status(404).json({ message: "User does not exist" });
+  if (!user) return res.status(404).json({ message: "User does not exist" });
 
-  const otp = otpGenerator.generate(6, { upperCase: false, specialChars: false });
+  const otp = otpGenerator.generate(6, {
+    upperCase: false,
+    specialChars: false,
+  });
   user.otp = otp;
   await user.save();
 
@@ -185,8 +209,9 @@ const sendMailUpdateEmail = async (req, res, next) => {
                 <p> ${otp}</p>
                 <p>Trân trọng</p>
                 `;
-  const sendmail =  await sendMail(user.email, "Your Otp", body);
-  if(sendmail === 'daylaloi') return res.status(400).json({message: 'error send mail'})
+  const sendmail = await sendMail(user.email, "Your Otp", body);
+  if (sendmail === "daylaloi")
+    return res.status(400).json({ message: "error send mail" });
 
   return res.status(200).json({ message: "Otp code has been sent" });
 };
@@ -194,7 +219,7 @@ const sendMailUpdateEmail = async (req, res, next) => {
 const updateEmail = async (req, res, next) => {
   const userId = req.body.token.sub;
 
-  const { newemail,otp } = req.value.body;
+  const { newemail, otp } = req.value.body;
 
   const user = await User.findById(userId);
 
@@ -202,7 +227,7 @@ const updateEmail = async (req, res, next) => {
   if (user.otp === "")
     return res.status(400).json({ message: "please verify otp" });
 
-  if(user.otp !== otp) return res.status(400).json({ message: "wrong otp" });
+  if (user.otp !== otp) return res.status(400).json({ message: "wrong otp" });
 
   user.email = newemail;
   user.otp = "";
@@ -210,7 +235,6 @@ const updateEmail = async (req, res, next) => {
   await user.save();
 
   return res.status(200).json({ success: true });
-
 };
 
 const checkOtp = async (req, res, next) => {
@@ -230,11 +254,11 @@ const checkOtp = async (req, res, next) => {
 };
 
 const userInfo = async (req, res, next) => {
-  const userId = req.body.token.sub
+  const userId = req.body.token.sub;
 
-  const user = await User.findById(userId)
+  const user = await User.findById(userId);
 
-  if(!user) return res.status(404).json({ message: "User does not exist" });
+  if (!user) return res.status(404).json({ message: "User does not exist" });
 
   return res.status(200).json({ user });
 };

@@ -10,6 +10,8 @@ passport.use(new LocalStrategy({
       const user = await User.findOne({ username })
   
       if (!user) return done(null, false)
+
+      if (user.lock) return done('User has been banned', false)
   
       const isCorrectPassword = await user.isValidPassword(password)
   

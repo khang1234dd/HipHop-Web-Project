@@ -45,7 +45,7 @@ const SongSchema = new Schema({
         ref: 'User'
     }]
     
-})
+}, { timestamps: true })
 
 const Song = mongoose.model('Song',SongSchema)
 module.exports = Song

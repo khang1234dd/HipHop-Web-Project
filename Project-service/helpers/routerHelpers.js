@@ -151,6 +151,11 @@ const schemas = {
         image: Joi.string().min(2),
     }),
 
+    postCommentSchema: Joi.object().keys({
+        content: Joi.string().min(1).required(),
+    }),
+
+
 
 
 }

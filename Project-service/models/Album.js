@@ -43,7 +43,7 @@ const AlbumSchema = new Schema({
         ref: 'User'
     }]
     
-})
+}, { timestamps: true })
 
 const Album = mongoose.model('Album',AlbumSchema)
 module.exports = Album

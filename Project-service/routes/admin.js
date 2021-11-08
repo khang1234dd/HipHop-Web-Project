@@ -7,7 +7,7 @@ const { validateBody, validateParam, schemas } = require('../helpers/routerHelpe
 
 const {authenToken} = require('../middlewares/verifyToken')
 
-const {isAdmin} =require('../common/isrole')
+const {isAdmin} =require('../middlewares/isrole')
 
 // user
 router.route('/getAllUser').get(authenToken,isAdmin,AdminController.getAllUser)
