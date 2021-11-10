@@ -14,11 +14,10 @@ const getAlbum = async (req, res, next) => {
 
   const album = await Album.find({ _id: { $in: user.album } });
 
-  console.log("user.js --> line 30 --> album", album);
   const song = await Song.find({ _id: { $in: album.song } });
 
   return res.status(200).json({ album, song });
-};
+}; //done
 
 const createAlbum = async (req, res, next) => {
   const userId = req.body.token.sub;
@@ -34,7 +33,6 @@ const createAlbum = async (req, res, next) => {
   if (!category)
     return res.status(404).json({ message: "Category does not exist" });
 
-    console.log('user.js -> line 37')
   const newAlbum = new Album({
     name: nameAlbum,
     description: description,
@@ -57,7 +55,7 @@ const createAlbum = async (req, res, next) => {
   await category.save();
 
   return res.status(201).json({ success: true });
-};
+};//done
 
 const updateAlbum = async (req, res, next) => {
   const userId = req.body.token.sub;
@@ -85,13 +83,10 @@ const updateAlbum = async (req, res, next) => {
     newAlbum1.image = req.file.path
   }
 
-  newAlbum1.dateupdate = Date.now();
-
-
   newAlbum1.save();
 
   return res.status(200).json({ success: true });
-};
+};//done
 
 const deleteAlbum = async (req, res, next) => {
   const userId = req.body.token.sub;
@@ -115,9 +110,24 @@ const deleteAlbum = async (req, res, next) => {
   if (album.category.length > 0) {
     album.category.forEach(async (item) => {
       const categoryPlus = await Category.findById(item._id);
-      if (!categoryPlus) res.status(404).json({ message: "Category does exist" });
       categoryPlus.album.pull(album._id);
       await categoryPlus.save();
+    });
+  }
+
+  if (album.song.length > 0) {
+    album.song.forEach(async (item) => {
+      const songPlus = await Song.findById(item._id);
+      songPlus.album.pull(album._id);
+      await songPlus.save();
+    });
+  }
+
+  if (album.favoriteuser.length > 0) {
+    album.favoriteuser.forEach(async (item) => {
+      const userPlus = await User.findById(item._id);
+      userPlus.favoritealbum.pull(album._id);
+      await userPlus.save();
     });
   }
 
@@ -132,7 +142,7 @@ const deleteAlbum = async (req, res, next) => {
   await user.save();
 
   return res.status(200).json({ success: true });
-};
+};//done
 
 const addSongforAlbum = async (req, res, next) => {
   const userId = req.body.token.sub;
@@ -163,19 +173,15 @@ const addSongforAlbum = async (req, res, next) => {
   if (checkSong === true)
     return res.status(400).json({ message: "Song with this album have exist" });
 
-  console.log("user.js --> line 140 --> song", song);
-
   album.song.push(song._id);
   song.album.push(album._id);
-
-  album.dateupdate = Date.now();
 
   await album.save();
 
   await song.save();
 
   return res.status(200).json({ success: true });
-};
+};//done
 
 const removeSonginAlbum = async (req, res, next) => {
   const userId = req.body.token.sub;
@@ -211,14 +217,12 @@ const removeSonginAlbum = async (req, res, next) => {
   album.song.pull(song._id);
   song.album.pull(album._id);
 
-  album.dateupdate = Date.now();
-
   await album.save();
 
   await song.save();
 
   return res.status(200).json({ success: true });
-};
+};//done
 
 const likeAlbum = async (req, res, next) => {
   const userId = req.body.token.sub;
@@ -246,7 +250,7 @@ const likeAlbum = async (req, res, next) => {
   await album.save();
 
   return res.status(200).json({ success: true });
-};
+};//done
 
 const unlikeAlbum = async (req, res, next) => {
   const userId = req.body.token.sub;
@@ -274,7 +278,7 @@ const unlikeAlbum = async (req, res, next) => {
   await album.save();
 
   return res.status(200).json({ success: true });
-};
+};//done
 
 const checklikeAlbum = async (req, res, next) => {
   const userId = req.body.token.sub;
@@ -293,7 +297,7 @@ const checklikeAlbum = async (req, res, next) => {
   if (!checkAlbum) return res.status(200).json({ message: false });
 
   return res.status(200).json({ message: true });
-};
+};//done
 
 const likeSong = async (req, res, next) => {
   const userId = req.body.token.sub;
@@ -321,7 +325,7 @@ const likeSong = async (req, res, next) => {
   await song.save();
 
   return res.status(200).json({ success: true });
-};
+};//done
 
 const unlikeSong = async (req, res, next) => {
   const userId = req.body.token.sub;
@@ -349,7 +353,7 @@ const unlikeSong = async (req, res, next) => {
   await song.save();
 
   return res.status(200).json({ success: true });
-};
+};//done
 
 const checklikeSong = async (req, res, next) => {
   const userId = req.body.token.sub;
@@ -368,7 +372,7 @@ const checklikeSong = async (req, res, next) => {
   if (!checkSong) return res.status(200).json({ message: false });
 
   return res.status(200).json({ message: true });
-};
+};//done
 
 const likePost = async (req, res, next) => {
   const userId = req.body.token.sub;
@@ -396,7 +400,7 @@ const likePost = async (req, res, next) => {
   await post.save();
 
   return res.status(200).json({ success: true });
-};
+};//done
 
 const unlikePost = async (req, res, next) => {
   const userId = req.body.token.sub;
@@ -424,7 +428,7 @@ const unlikePost = async (req, res, next) => {
   await post.save();
 
   return res.status(200).json({ success: true });
-};
+};//done
 
 const checklikePost = async (req, res, next) => {
   const userId = req.body.token.sub;
@@ -443,7 +447,7 @@ const checklikePost = async (req, res, next) => {
   if (!checkPost) return res.status(200).json({ message: false });
 
   return res.status(200).json({ message: true });
-};
+};//done
 
 const createPost = async (req, res, next) => {
   const userId = req.body.token.sub;
@@ -498,18 +502,21 @@ const updatePost = async (req, res, next) => {
 
   const newPost1 = await Post.findByIdAndUpdate(postId, newPost);
 
-  if(!req.file){
+  if(req.file){
     if(newPost1 !== 'upload/image/3.png')
     await unlink(newPost1.image)
     newPost1.image = req.file.path
   }
 
-  newPost1.dateupdate = Date.now();
-
+  if(user.role === 0)
+  {
+    newPost1.pass = false
+  }
+  
   newPost1.save();
 
   return res.status(200).json({ success: true });
-};
+};//done
 
 const deletePost = async (req, res, next) => {
   const userId = req.body.token.sub;
@@ -533,10 +540,16 @@ const deletePost = async (req, res, next) => {
   if (post.category.length > 0) {
     post.category.forEach(async (item) => {
       const categoryPlus = await Category.findById(item._id);
-      if (!categoryPlus)
-        res.status(404).json({ message: "Category does exist" });
       categoryPlus.post.pull(post._id);
       await categoryPlus.save();
+    });
+  }
+
+  if (post.favoriteuser.length > 0) {
+    post.favoriteuser.forEach(async (item) => {
+      const userPlus = await User.findById(item._id);
+      userPlus.favoritepost.pull(post._id);
+      await userPlus.save();
     });
   }
 
@@ -551,7 +564,7 @@ const deletePost = async (req, res, next) => {
   await user.save();
 
   return res.status(200).json({ success: true });
-};
+};//done
 
 const commentPost = async (req, res, next) => {
   const userId = req.body.token.sub;
@@ -562,7 +575,6 @@ const commentPost = async (req, res, next) => {
   const { content } = req.value.body;
   const postId = req.value.params.idPost;
 
-
   const comment = {"userId": userId, "content": content};
   await Post.findByIdAndUpdate(postId,{$push: {comment: comment}});
 
@@ -570,8 +582,8 @@ const commentPost = async (req, res, next) => {
 
   // await user.save()
 
-  return res.status(201).json({ success: true });
-}; 
+  return res.status(200).json({ success: true });
+}; //done
 
 const updateCommentPost = async (req, res, next) => {
   const userId = req.body.token.sub;
@@ -584,9 +596,11 @@ const updateCommentPost = async (req, res, next) => {
   
   const post = await Post.findById(idPost)
 
-  const comment = post.comment.find(item=>item.id = idComment)
+  const comment = post.comment.find(item=>item.id === idComment)
 
-  if(userId !== comment.userId) return res.status(403).json({message: "User cannot delete this comment"})
+  if(!comment) return res.status(404).json({message: 'Comment does not exist'})
+
+  if(userId !== comment.userId) return res.status(403).json({message: "User cannot update this comment"})
 
   await Post.updateOne({_id: idPost, "comment._id": idComment}, 
   {$set: {"comment.$.content": content , "comment.$.haveChange": true, "comment.$.date": Date.now() }});
@@ -596,7 +610,7 @@ const updateCommentPost = async (req, res, next) => {
   // await user.save()
 
   return res.status(201).json({ success: true });
-}; 
+}; //done
 
 const deleteCommentPost = async (req, res, next) => {
   const userId = req.body.token.sub;
@@ -608,7 +622,9 @@ const deleteCommentPost = async (req, res, next) => {
 
   const post = await Post.findById(idPost)
 
-  const comment = post.comment.find(item=>item.id = idComment)
+  const comment = post.comment.find(item=>item.id === idComment)
+
+  if(!comment) return res.status(404).json({message: 'Comment does not exist'})
 
   if(userId !== comment.userId) return res.status(403).json({message: "User cannot delete this comment"})
 
@@ -617,8 +633,8 @@ const deleteCommentPost = async (req, res, next) => {
 
   // await user.save()
 
-  return res.status(201).json({ success: true });
-}; 
+  return res.status(200).json({ success: true });
+}; //done
 
 module.exports = {
   getAlbum,

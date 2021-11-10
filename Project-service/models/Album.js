@@ -22,13 +22,9 @@ const AlbumSchema = new Schema({
         type:String,
         required:true
     },
-    datecreate:{
-        type:Date,
-        default: Date.now
-    },
-    dateupdate:{
-        type:Date,
-        default: Date.now
+    hot: {
+        type: Boolean,
+        default: false
     },
     song: [{
         type: Schema.Types.ObjectId,

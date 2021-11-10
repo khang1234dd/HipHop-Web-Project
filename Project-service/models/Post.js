@@ -25,17 +25,17 @@ const PostSchema = new Schema({
         type:String,
         default:'upload/image/3.png'
     },
-    datecreate:{
-        type:Date,
-        default: Date.now
-    },
-    dateupdate:{
-        type:Date,
-        default: Date.now
-    },
     owner:{
         type:String,
         required:true
+    },
+    hot: {
+        type: Boolean,
+        default: false,
+    },
+    banned: {
+        type: Boolean,
+        defaut:false,
     },
     comment:[{
         
@@ -66,10 +66,6 @@ const PostSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'User'
     }],
-    feedback:[{
-        type: Schema.Types.ObjectId,
-        ref: 'User'
-    }]
     
 },{ timestamps: true })
 

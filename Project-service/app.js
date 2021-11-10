@@ -5,8 +5,6 @@ const logger = require('morgan')
 const mongoClient = require('mongoose')
 const {ORIGIN_DEV,ORIGIN_PROD,MONGODB_CONNECTION_STRING} = require('./config/index')
 
-const passport = require('passport')
-
 
 // setup connect mongodb
 // mongoClient.connect(MONGODB_CONNECTION_STRING,{ useUnifiedTopology:true, useNewUrlParser:true })
@@ -27,13 +25,13 @@ const albumRoute = require('./routes/album')
 const songRoute = require('./routes/song')
 const postRoute = require('./routes/post')
 const adminRoute = require('./routes/admin')
+const superadminRoute = require('./routes/superadmin')
 
 
 // Middlewares
 app.use(logger('dev'))
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-app.use(passport.initialize());
 app.use(
     cors({
       origin: [ORIGIN_DEV, ORIGIN_PROD],
@@ -49,6 +47,7 @@ app.use('/album',albumRoute)
 app.use('/song',songRoute)
 app.use('/post',postRoute)
 app.use('/admin',adminRoute)
+app.use('/superadmin',superadminRoute)
 app.use('/upload',express.static('upload'))
 
 

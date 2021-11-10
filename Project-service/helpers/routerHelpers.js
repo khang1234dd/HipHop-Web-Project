@@ -75,6 +75,10 @@ const schemas = {
         otp: Joi.string().min(6).max(6).required(),
     }),
 
+    authCheckOtpFGSchema: Joi.object().keys({
+        otp: Joi.string().min(6).max(6).required(),
+        email: Joi.string().email().required(),
+    }),
     // Params _id validate 
     idSchema: Joi.object().keys({
         param: Joi.string().regex(/^[0-9a-fA-F]{24}$/).required()
@@ -119,7 +123,6 @@ const schemas = {
         name: Joi.string().min(6),
         tinydes: Joi.string().min(6),
         description: Joi.string().min(10),
-        image: Joi.string(),
         categoryId: Joi.string().regex(/^[0-9a-fA-F]{24}$/),
         public: Joi.forbidden(),
     }),
@@ -137,8 +140,16 @@ const schemas = {
     songCreateSchema: Joi.object().keys({
         nameSong: Joi.string().min(2).required(),
         link: Joi.string().min(2).required(),
-        image: Joi.string().min(2),
         categoryId: Joi.string().regex(/^[0-9a-fA-F]{24}$/).required(),
+        ownerSong: Joi.string().required(),
+
+    }),
+
+    songUpdateSchema: Joi.object().keys({
+        nameSong: Joi.string().min(2),
+        link: Joi.string().min(2),
+        categoryId: Joi.string().regex(/^[0-9a-fA-F]{24}$/),
+        ownerSong: Joi.string(),
 
     }),
 
@@ -148,7 +159,6 @@ const schemas = {
         tinydes: Joi.string().min(6).required(),
         description:Joi.string().min(10).required(),
         categoryId: Joi.string().regex(/^[0-9a-fA-F]{24}$/).required(),
-        image: Joi.string().min(2),
     }),
 
     postCommentSchema: Joi.object().keys({
@@ -156,7 +166,9 @@ const schemas = {
     }),
 
 
-
+    superadminChangeRoleSchemas: Joi.object().keys({
+        keySecret: Joi.string().required(),
+    }),
 
 }
 

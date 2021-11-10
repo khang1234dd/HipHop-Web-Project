@@ -24,13 +24,9 @@ const SongSchema = new Schema({
     ownersong:{
         type: String,
     },
-    datecreate:{
-        type: Date,
-        default: Date.now
-    },
-    dateupdate:{
-        type: Date,
-        default: Date.now
+    hot:{
+        type: Boolean,
+        default: false
     },
     album: [{
         type: Schema.Types.ObjectId,

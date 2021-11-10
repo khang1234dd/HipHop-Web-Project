@@ -7,8 +7,8 @@ const { validateBody, validateParam, schemas } = require('../helpers/routerHelpe
 
 const {authenToken} = require('../middlewares/verifyToken')
 
-router.route('/getAllCategory').get(categoryController.getAllCategory)
-router.route('/getCategoryById/:id').get(validateParam(schemas.idSchema,'id'),categoryController.getCategoryById)
+router.route('/getAllCategory').get(categoryController.getAllCategory)//done
+router.route('/getCategoryById/:id').get(validateParam(schemas.idSchema,'id'),categoryController.getCategoryById)//done
 
 // Role: Admin
 // router.route('/createCategory').post(validateBody(schemas.categoryCreateSchema),categoryController.createCategory)

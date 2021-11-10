@@ -73,6 +73,22 @@ const signUp = async (req, res, next) => {
   return res.status(201).json({ success: true });
 };
 
+const checkOtpSignUp = async (req, res, next) => {
+  const { otp , email } = req.value.body;
+
+  const user = await User.findOne({email})
+  if (!user)
+    return res
+      .status(404)
+      .json({ message: "User with this email does not exist" });
+  
+  if(user.activate) return res.status(400).json({message: 'email have activated'})
+
+  if (user.otp !== otp) return res.status(400).json({ message: "wrong otp" });
+
+  return res.status(200).json({ success: true });
+};
+
 const forgetPassword = async (req, res, next) => {
   const { username, email } = req.value.body;
   const user = await User.findOne({ email });
@@ -127,6 +143,22 @@ const resetPassword = async (req, res, next) => {
   user.otpFG = "";
 
   await user.save();
+  return res.status(200).json({ success: true });
+};
+
+const checkOtpFG = async (req, res, next) => {
+  const { otp , email } = req.value.body;
+
+  const user = await User.findOne({email})
+  if (!user)
+    return res
+      .status(404)
+      .json({ message: "User with this email does not exist" });
+  
+  if(!user.activate) return res.status(400).json({message: 'unconfirmed email'})
+
+  if (user.otp !== otp) return res.status(400).json({ message: "wrong otp" });
+
   return res.status(200).json({ success: true });
 };
 
@@ -191,6 +223,7 @@ const updatePassword = async (req, res, next) => {
   return res.status(200).json({ success: true });
 };
 
+//da login -->
 const sendMailUpdateEmail = async (req, res, next) => {
   const userId = req.body.token.sub;
 
@@ -248,10 +281,13 @@ const checkOtp = async (req, res, next) => {
       .status(404)
       .json({ message: "User with this token does not exist" });
 
+  if(!user.activate) return res.status(400).json({message: 'unconfirmed email'})
+
   if (user.otp !== otp) return res.status(400).json({ message: "wrong otp" });
 
   return res.status(200).json({ success: true });
 };
+// <--
 
 const userInfo = async (req, res, next) => {
   const userId = req.body.token.sub;
@@ -267,8 +303,10 @@ module.exports = {
   secret,
   signIn,
   signUp,
+  checkOtpSignUp,
   forgetPassword,
   resetPassword,
+  checkOtpFG,
   updateName,
   updateImage,
   updatePassword,

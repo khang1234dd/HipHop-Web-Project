@@ -5,8 +5,26 @@ const Song = require("../models/Song");
 const Post = require("../models/Post");
 
 const getAllCategory = async (req, res, next) => {
-  const category = await Category.find({});
-  return res.status(200).json({ category });
+  var {_page, _limit} = req.query;
+  if(_page && !_limit){
+    _page = parseInt(_page)
+    var skipPage = (_page - 1) * 10
+
+    const category = await Category.find({}).skip(skipPage).limit(10)
+    return res.status(200).json({category})
+  }
+  else if(_page && _limit){
+    _page = parseInt(_page)
+    _limit = parseInt(_limit)
+    var skipPage = (_page - 1) * _limit
+
+    const category = await Category.find({}).skip(skipPage).limit(_limit)
+    return res.status(200).json({category})
+  }
+  else{
+    const category = await Category.find({});
+    return res.status(200).json({ category, pagination: '?_page=1&_limit=10' });
+  }
 }; //done
 
 const getCategoryById = async (req, res, next) => {
@@ -38,7 +56,7 @@ const getCategoryById = async (req, res, next) => {
       song: newSong,
       post: newPost,
     });
-};
+};//done
 
 const createCategory = async (req, res, next) => {
   const { categoryname, categorytinydes } = req.value.body;
@@ -51,7 +69,7 @@ const createCategory = async (req, res, next) => {
   await newCategory.save();
 
   return res.status(201).json({ success: true });
-}; // da test
+}; // xoa
 
 const updateCategory = async (req, res, next) => {
   const categoryId = req.value.params.id;
@@ -68,7 +86,7 @@ const updateCategory = async (req, res, next) => {
   category.save();
 
   return res.status(200).json({ success: true });
-}; // da test
+}; // xoa
 
 const deleteCategory = async (req, res, next) => {
   const categoryId = req.value.params.id;
@@ -117,7 +135,7 @@ const deleteCategory = async (req, res, next) => {
   await category.remove();
 
   return res.status(200).json({ success: true });
-};
+};// xoa
 module.exports = {
   getAllCategory,
   getCategoryById,

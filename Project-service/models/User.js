@@ -46,6 +46,10 @@ const UserSchema = new Schema({
         type:String,
         default: ''
     },
+    activate: {
+        type:Boolean,
+        default: false,
+    },
     album:[{
         type: Schema.Types.ObjectId,
         ref: 'Album'
@@ -72,21 +76,6 @@ const UserSchema = new Schema({
     }],
     
 }, { timestamps: true })
-
-// UserSchema.pre('save', async function(next) {
-//     try {
-//         // Generate a salt 
-//         const salt = await bcrypt.genSalt(10)
-//         // Generate a password hash (salt + hash)
-//         const passwordHashed = await bcrypt.hash(this.password, salt)
-//         this.password = passwordHashed
-//         next()
-//     }
-//     catch (error){
-//         next(next)
-//     }
-// })
-
 
 UserSchema.methods.isValidPassword = async function(newPassword) {
     try {
