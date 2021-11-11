@@ -1,0 +1,33 @@
+@import '/src/Styles/Variables.scss';
+
+.footer {
+	&-block {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		background-color: black;
+		color: white;
+		font-family: $f-2;
+		padding: 20px 20px;
+	}
+	&-header {
+		text-transform: uppercase;
+		color: #838383;
+	}
+	&-ceremony {
+		text-transform: uppercase;
+		color: #838383;
+		text-align: center;
+	}
+}
+
+.logo-footer-adjustment {
+	margin: 0;
+}
+.logo {
+	width: 5rem;
+	height: auto;
+	border: none;
+
+	display: block;
+}

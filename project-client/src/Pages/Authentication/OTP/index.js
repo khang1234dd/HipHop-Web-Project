@@ -1,7 +1,8 @@
 import React from 'react';
-import { Input } from '../../Components/Input';
+import { Input } from '../../../Components/Input';
 import './style.scss';
-import ButtonHipHop from '../../Components/ButtonHipHop';
+import ButtonHipHop from '../../../Components/ButtonHipHop';
+import { Link } from 'react-router-dom';
 export const OTP = () => {
 	return (
 		<>
@@ -16,8 +17,13 @@ export const OTP = () => {
 								<ButtonHipHop name='Go !'></ButtonHipHop>
 								<p className='otp-form-already'>
 									<span>Verify passcode has been sent to your email</span>
-									<a>Check now</a>
+									<Link to='/https://mail.google.com/mail/u/0/'>
+										Check now !
+									</Link>
 								</p>
+								<Link to='/main'>
+									<div className='otp-form-hometown'>Back to Town</div>
+								</Link>
 							</div>
 						</form>
 					</div>

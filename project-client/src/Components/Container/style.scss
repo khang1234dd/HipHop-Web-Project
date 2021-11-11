@@ -1,12 +1,15 @@
 @import '/src/Styles/Variables.scss';
 .container {
-	width: 100%;
+	background: #fff;
+	zoom: 1;
+	display: block;
 	margin: 0 auto;
-	padding: $pm-80;
+	width: 1002px;
+	padding: 20px 0;
 }
 
-@media only screen and (min-width: 768px) {
-	.container {
-		max-width: 1440px;
-	}
-}
+// @media only screen and (min-width: 768px) {
+// 	.container {
+// 		max-width: 1440px;
+// 	}
+// }

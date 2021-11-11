@@ -6,7 +6,11 @@ export const Input = props => {
 		<>
 			<div className='input-block'>
 				<div className='form-field'>
-					<input type='text' className='form-input' placeholder=' '></input>
+					<input
+						name={props.name}
+						type={props.type}
+						className='form-input'
+						placeholder=' '></input>
 					<label for='' className='form-label'>
 						{props.name}
 					</label>

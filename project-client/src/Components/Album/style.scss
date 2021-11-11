@@ -1,0 +1,15 @@
+@import '/src/Styles/Variables.scss';
+
+.album {
+	&-block {
+		padding: 0px 20px;
+	}
+	&-image {
+		width: 120px;
+	}
+	&-header {
+		font-family: $f-1;
+		text-transform: capitalize;
+		font-weight: bold;
+	}
+}

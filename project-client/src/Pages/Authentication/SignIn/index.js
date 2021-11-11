@@ -1,25 +1,49 @@
-import React from 'react';
-import { Input } from '../../Components/Input';
+import { React } from 'react';
+import { Input } from '../../../Components/Input';
 import './style.scss';
-import ButtonHipHop from '../../Components/ButtonHipHop';
+import ButtonHipHop from '../../../Components/ButtonHipHop';
+import { Link } from 'react-router-dom';
+import { signinapi } from '../../../Apis/auth.api';
+import { useNavigate } from 'react-router-dom';
+
 export const SignIn = () => {
+	const navigate = useNavigate();
+	const signin = async e => {
+		e.preventDefault();
+		const username = e.target.username.value;
+		const password = e.target.password.value;
+		const res = await signinapi({ username, password });
+		if (res.success) {
+			alert('dang nhap thanh cong');
+			navigate('/main');
+		} else {
+			alert('try again');
+		}
+	};
+
 	return (
 		<>
 			<div className='signin-block'>
 				<div className='signin'>
 					<div className='signin-heading'>Sign in</div>
 					<div className='signin-form'>
-						<form action='#' className='signin-form-adjust'>
-							<Input name='Username'></Input>
-							<Input name='Password'></Input>
+						<form onSubmit={signin} className='signin-form-adjust'>
+							<Input type='text' name='username'></Input>
+							<Input type='password' name='password'></Input>
 							<div className='signin-form-button'>
+								{/* <Link to='/main'> */}
 								<ButtonHipHop name='Go !'></ButtonHipHop>
+								{/* </Link> */}
+
 								<p className='signin-form-already'>
 									<span>Didn't have an account ?</span>
-									<a>Sign up now</a>
+									<Link to='/signup'>Sign up now</Link>
 								</p>
-								<p className='forgotpassword'>
-									<a>Forgot your Password</a>
+								<p className='adjust'>
+									<Link to='/forgotpassword'>Forgot your Password</Link>
+								</p>
+								<p className='adjust'>
+									<Link to='/main'>Back to Town</Link>
 								</p>
 							</div>
 						</form>

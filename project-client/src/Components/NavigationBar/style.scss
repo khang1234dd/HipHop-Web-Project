@@ -1,8 +1,20 @@
 @import '/src/Styles/Variables.scss';
 
-.navigationbar-container {
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	font-family: $f-1;
+.navigationbar {
+	// &-block {
+	// 	position: fixed;
+	// 	width: 1002px;
+	// 	top: 0;
+	// }
+	&-container {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		font-family: $f-1;
+		background-color: #7c1111;
+	}
+	&-button {
+		margin: 0 10px;
+		z-index: 1;
+	}
 }

@@ -9,10 +9,12 @@ export const MiniCard = props => {
 					<img src={props.link} className='minicard-image'></img>
 				</div>
 				<div className='minicard-block-text'>
-					<div className=''>{props.heading}</div>
-					<div>
-						<span>1</span>
-						<span>2</span>
+					<div className={'minicard-block-text-adjust' + props.color}>
+						{props.heading}
+					</div>
+					<div className='minicard-block-desc'>
+						<span className='minicard-block-desc-author'>{props.writer}</span>
+						<span className='minicard-block-desc-time'>{props.time}</span>
 					</div>
 				</div>
 			</div>

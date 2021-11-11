@@ -1,5 +1,5 @@
 import React from 'react';
-
+import { Link } from 'react-router-dom';
 import './style.scss';
 import MenuIcon from '@mui/icons-material/Menu';
 import IconButton from '@mui/material/IconButton';
@@ -8,6 +8,7 @@ import SearchIcon from '@mui/icons-material/Search';
 import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
 import Container from '../Container';
+import ButtonHipHop from '../ButtonHipHop';
 
 const Navigation = () => {
 	return (
@@ -26,8 +27,12 @@ const Navigation = () => {
 						<IconButton aria-label=''>
 							<SearchIcon></SearchIcon>
 						</IconButton>
-						<Button>Sign in</Button>
-						<Button color='secondary'>Sign up</Button>
+						<Link to='/signin'>
+							<ButtonHipHop name='Sign in'></ButtonHipHop>
+						</Link>
+						<Link to='/signup'>
+							<ButtonHipHop name='Sign up'></ButtonHipHop>
+						</Link>
 					</div>
 				</div>
 			</Container>

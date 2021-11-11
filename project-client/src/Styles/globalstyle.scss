@@ -1,0 +1,18 @@
+@import '/src/Styles/Variables.scss';
+a {
+	color: $second-color;
+	text-decoration: none;
+	font-family: $f-1;
+}
+
+a:hover {
+	cursor: pointer;
+}
+
+* {
+	box-sizing: border-box;
+	margin: 0;
+}
+body {
+	background-color: #000000;
+}

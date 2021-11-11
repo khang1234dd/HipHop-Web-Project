@@ -1,7 +1,8 @@
 import React from 'react';
-import { Input } from '../../Components/Input';
+import { Input } from '../../../Components/Input';
 import './style.scss';
-import ButtonHipHop from '../../Components/ButtonHipHop';
+import ButtonHipHop from '../../../Components/ButtonHipHop';
+import { Link } from 'react-router-dom';
 export const SignUp = () => {
 	return (
 		<>
@@ -15,11 +16,17 @@ export const SignUp = () => {
 							<Input name='Confirm Password'></Input>
 							<Input name='Email'></Input>
 							<div className='signup-form-button'>
-								<ButtonHipHop name='Submit'></ButtonHipHop>
+								<Link to='/otp'>
+									<ButtonHipHop name='Submit'></ButtonHipHop>
+								</Link>
+
 								<p className='signup-form-already'>
 									<span>Already have an account ?</span>
-									<a>Login</a>
+									<Link to='/signin'>Login</Link>
 								</p>
+								<Link to='/main'>
+									<div className='signup-form-back'>Back to Town</div>
+								</Link>
 							</div>
 						</form>
 					</div>

@@ -4,12 +4,13 @@
 	padding: 15px 30px;
 	background-color: transparent;
 	color: #fdac53;
-	font-family: $f-1;
+	font-family: $f-2;
 	cursor: pointer;
 	border: none;
 	outline: none;
 	position: relative;
-	font-weight: 400;
+	font-weight: 600;
+	text-transform: uppercase;
 
 	& span {
 		position: absolute;

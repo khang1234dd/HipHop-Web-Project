@@ -1,0 +1,24 @@
+@import '/src/Styles/Variables.scss';
+
+.musiclist {
+	list-style: none;
+
+	&-single {
+		font-weight: 550;
+		text-transform: capitalize;
+	}
+
+	&-icon {
+		margin-right: 5px;
+		color: $second-color !important;
+	}
+	&-singer {
+		text-transform: uppercase;
+	}
+}
+
+.musiclist-singer::before {
+	content: '-';
+	color: red;
+	margin: 0 5px;
+}

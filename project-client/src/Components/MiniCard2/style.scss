@@ -1,0 +1,48 @@
+@import '/src/Styles/Variables.scss';
+
+.minicard2-block {
+	margin-bottom: 10px;
+
+	&-image {
+		max-width: 640px;
+		margin-right: 7px;
+		line-height: 1.2;
+	}
+	&-text {
+		margin-left: 10px;
+		font-family: 'Oswald', sans-serif;
+		padding: 10px;
+		max-width: 540px;
+		&-adjust {
+			text-transform: uppercase;
+			font-size: 1.2rem;
+			line-height: 1.8rem;
+			font-weight: 700;
+			color: white;
+		}
+	}
+	&-desc {
+		margin-top: 5px;
+		color: #666;
+		text-transform: uppercase;
+
+		&-author {
+		}
+	}
+}
+
+.minicard2-block-desc-author::after {
+	content: '';
+	display: inline-block;
+	width: 2px;
+	height: 14px;
+	background-color: #666;
+	margin: 0 10px;
+}
+
+.minicard2-image {
+	height: 305px;
+	width: 543px;
+
+	border-radius: 3px;
+}

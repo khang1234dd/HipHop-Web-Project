@@ -16,14 +16,15 @@
 	padding: 90px 75px;
 	background-color: white;
 	width: 100%;
-	max-width: 400px;
+	max-width: 500px;
 	border-radius: 20px;
 	&-heading {
-		font-size: 30px;
-		font-family: $f-1;
+		font-size: 50px;
+		font-family: $f-3;
 		font-weight: 700;
 		text-align: center;
 		margin-bottom: 35px;
+		color: $second-color;
 	}
 	&-form {
 		align-items: center;
@@ -45,7 +46,7 @@
 	}
 }
 
-.forgotpassword {
+.adjust {
 	margin: 20px;
 	font-family: $f-1;
 }
