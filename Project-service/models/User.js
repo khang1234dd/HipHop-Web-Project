@@ -24,11 +24,15 @@ const UserSchema = new Schema({
     },
     image:{
         type: String,
-        default: null,
+        default: 'upload/image/1.png',
     },
     role: {
         type: Number,
         default: 0
+    },
+    lock: {
+        type: Boolean,
+        default: false
     },
     resetLink:{
         type:String,
@@ -41,6 +45,10 @@ const UserSchema = new Schema({
     otpFG:{
         type:String,
         default: ''
+    },
+    activate: {
+        type:Boolean,
+        default: false,
     },
     album:[{
         type: Schema.Types.ObjectId,
@@ -66,27 +74,8 @@ const UserSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'Post'
     }],
-    feedback:[{
-        type: Schema.Types.ObjectId,
-        ref: 'Post'
-    }]
     
-})
-
-UserSchema.pre('save', async function(next) {
-    try {
-        // Generate a salt 
-        const salt = await bcrypt.genSalt(10)
-        // Generate a password hash (salt + hash)
-        const passwordHashed = await bcrypt.hash(this.password, salt)
-        this.password = passwordHashed
-        next()
-    }
-    catch (error){
-        next(next)
-    }
-})
-
+}, { timestamps: true })
 
 UserSchema.methods.isValidPassword = async function(newPassword) {
     try {

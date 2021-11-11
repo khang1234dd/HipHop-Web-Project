@@ -23,20 +23,37 @@ const PostSchema = new Schema({
     },
     image:{
         type:String,
-        default:null
-    },
-    datecreate:{
-        type:Date,
-        default: Date.now
-    },
-    dateupdate:{
-        type:Date,
-        default: Date.now
+        default:'upload/image/3.png'
     },
     owner:{
         type:String,
         required:true
     },
+    hot: {
+        type: Boolean,
+        default: false,
+    },
+    banned: {
+        type: Boolean,
+        defaut:false,
+    },
+    comment:[{
+        
+        userId:{
+            type: String
+        },
+        content:{
+            type: String
+        },
+        date:{
+            type:Date,
+            default: Date.now
+        },
+        haveChange:{
+            type: Boolean,
+            default: false
+        },
+    }],
     view:{
         type:Number,
         default: 0,
@@ -49,12 +66,8 @@ const PostSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'User'
     }],
-    feedback:[{
-        type: Schema.Types.ObjectId,
-        ref: 'User'
-    }]
     
-})
+},{ timestamps: true })
 
 const Post = mongoose.model('Post',PostSchema)
 module.exports = Post

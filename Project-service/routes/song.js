@@ -7,18 +7,12 @@ const { validateBody, validateParam, schemas } = require('../helpers/routerHelpe
 
 const {authenToken} = require('../middlewares/verifyToken')
 
-router.route('/getAllSongPublic').get(songController.getAllSongPublic)
-router.route('/getSongPublicById/:id').get(validateParam(schemas.idSchema, 'id'),songController.getSongPublicById)
+router.route('/getAllSongPublic').get(songController.getAllSongPublic) //done
+router.route('/getSongPublicById/:id').get(validateParam(schemas.idSchema, 'id'),songController.getSongPublicById) //done
 
-//test
-router.route('/createSong').post(validateBody(schemas.songCreateSchema),authenToken,songController.createSong)
-
-// router.route('/getCategoryById/:id').get(validateParam(schemas.idSchema,'id'),categoryController.getCategoryById)
-// router.route('/createCategory').post(validateBody(schemas.categoryGetByIdSchema),categoryController.createCategory)
-// router.route('/updateCategory/:id')
-//     .put(validateParam(schemas.idSchema,'id'),validateBody(schemas.categoryUpdateSchema),categoryController.updateCategory)
-//     .patch(validateParam(schemas.idSchema,'id'),validateBody(schemas.categoryUpdateSchema),categoryController.updateCategory)
-// router.route('/deleteCategory/:id').delete(validateParam(schemas.idSchema,'id'),categoryController.deleteCategory)
+router.route('/getSongMostLike').get(songController.getSongMostLike) //done
+router.route('/getSongTopDay').get(songController.getSongTopDay) //done
+router.route('/getSongNow').get(songController.getSongNow) //done
 
 
 module.exports = router

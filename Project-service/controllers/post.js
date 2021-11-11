@@ -3,15 +3,33 @@ const Post = require("../models/Post");
 const Category = require("../models/Category");
 
 const getAllPostPassAndPublic = async (req, res, next) => {
-  const post = await Post.find({pass: false, public: false });
-  return res.status(200).json({ post });
-};
+  var {_page, _limit} = req.query;
+  if(_page && !_limit){
+    _page = parseInt(_page)
+    var skipPage = (_page - 1) * 10
+
+    const post = await Post.find({pass: true, public: true, banned: false }).skip(skipPage).limit(10)
+    return res.status(200).json({post})
+  }
+  else if(_page && _limit){
+    _page = parseInt(_page)
+    _limit = parseInt(_limit)
+    var skipPage = (_page - 1) * _limit
+
+    const post = await Post.find({pass: true, public: true, banned: false }).skip(skipPage).limit(_limit)
+    return res.status(200).json({post})
+  }
+  else{
+    const post = await Post.find({pass: true, public: true, banned: false });
+    return res.status(200).json({ post, pagination: '?_page=1&_limit=10' });
+  }
+}; //done
 
 const getPostPassAndPublicById = async (req, res, next) => {
   const postId = req.value.params.id;
 
-  const post = await Post.findOne({ postId , pass: false, public: false });
-  if (!post) return res.status(404).json({ message: "Post does not exist" });
+  const post = await Post.findOne({ postId , pass: true, public: true, banned: false });
+  if (!post) return res.status(404).json({ message: "Post does not exist or isn't public or have banned or not approved yet" });
 
   return res.status(200).json({
     // _id: post._id,
@@ -24,40 +42,162 @@ const getPostPassAndPublicById = async (req, res, next) => {
     // category: song.category,
     post
   });
-}; // dang lam
-
-const createPost = async (req, res, next) => {
-  const userId = req.body.token.sub;
-
-  const { namePost, tinydes, description, image, categoryId } = req.value.body;
-
-  const user = await User.findById(userId);
-  if (!user) res.status(404).json({ message: "User does not exist" });
-
-  const category= await Category.findById(categoryId)
-  if(!category) res.status(404).json({ message: "Category does not exist" });
-
-  const newPost = new Post({
-    name: namePost,
-    tinydes: tinydes,
-    description:description,
-    image: image,
-  });
-
-  newPost.category.push(category._id)
-  newPost.owner = user._id;
-  category.post.push(newPost._id)
-  user.post.push(newPost._id);
-
-  await newPost.save();
-  await user.save();
-  await category.save();
-
-  return res.status(201).json({ success: true });
 }; // done
+
+const getPostHipHopTopDay = async (req, res, next) => {
+  var {_page, _limit} = req.query;
+  if(_page && !_limit){
+    _page = parseInt(_page)
+    var skipPage = (_page - 1) * 12
+    const day = new Date()
+    const post = await Post.find({pass: true, public: true, banned: false, createdAt: {$gte: day - (1000*60*60*24)}})
+    .skip(skipPage)
+    .limit(12)
+    .sort({$natural:-1})
+    return res.status(200).json({post})
+  }
+  else if(_page && _limit){
+    _page = parseInt(_page)
+    _limit = parseInt(_limit)
+    var skipPage = (_page - 1) * _limit
+    const day = new Date()
+    const post = await Post.find({pass: true, public: true, banned: false, createdAt: {$gte: day - (1000*60*60*24)}})
+    .skip(skipPage)
+    .limit(_limit)
+    .sort({$natural:-1})
+    return res.status(200).json({post})
+  }
+  else{
+    const day =Date.now()
+    const post = await Post.find({pass: true, public: true, banned: false, createdAt: {$gte: day - (1000*60*60*24)}})
+    .limit(12)
+    .sort({$natural:-1})
+    return res.status(200).json({ post, pagination: '?_page=1&_limit=12' });
+  }
+};//done
+
+const getPostHipHopNow = async (req, res, next) => {
+  var {_page, _limit} = req.query;
+  if(_page && !_limit){
+    _page = parseInt(_page)
+    var skipPage = (_page - 1) * 6
+    const post = await Post.find({pass: true, public: true, banned: false, hot: true})
+    .skip(skipPage)
+    .limit(6)
+    .sort({$natural:-1})
+    return res.status(200).json({post})
+  }
+  else if(_page && _limit){
+    _page = parseInt(_page)
+    _limit = parseInt(_limit)
+    var skipPage = (_page - 1) * _limit
+    const post = await Post.find({pass: true, public: true, banned: false, hot: true})
+    .skip(skipPage)
+    .limit(_limit)
+    .sort({$natural:-1})
+    return res.status(200).json({post})
+  }
+  else{
+    const post = await Post.find({pass: true, public: true, banned: false, hot: true})
+    .limit(6)
+    .sort({$natural:-1})
+    return res.status(200).json({ post, pagination: '?_page=1&_limit=6' });
+  }
+};//done
+
+const getPostHipHopMostViewed = async (req, res, next) => {
+  var {_page, _limit} = req.query;
+  if(_page && !_limit){
+    _page = parseInt(_page)
+    var skipPage = (_page - 1) * 6
+    const post = await Post.find({pass: true, public: true, banned: false})
+    .skip(skipPage)
+    .limit(6)
+    .sort({view: -1})
+    return res.status(200).json({post})
+  }
+  else if(_page && _limit){
+    _page = parseInt(_page)
+    _limit = parseInt(_limit)
+    var skipPage = (_page - 1) * _limit
+    const post = await Post.find({pass: true, public: true, banned: false})
+    .skip(skipPage)
+    .limit(_limit)
+    .sort({view: -1})
+    return res.status(200).json({post})
+  }
+  else{
+    const post = await Post.find({pass: true, public: true, banned: false})
+    .limit(6)
+    .sort({view: -1})
+    return res.status(200).json({ post, pagination: '?_page=1&_limit=6' });
+  }
+};//done
+
+const getPostHipHopMostComment = async (req, res, next) => {
+  var {_page, _limit} = req.query;
+  if(_page && !_limit){
+    _page = parseInt(_page)
+    var skipPage = (_page - 1) * 6
+    const post = await Post.find({pass: true, public: true, banned: false})
+    .skip(skipPage)
+    .limit(6)
+    .sort({comment: -1})
+    return res.status(200).json({post})
+  }
+  else if(_page && _limit){
+    _page = parseInt(_page)
+    _limit = parseInt(_limit)
+    var skipPage = (_page - 1) * _limit
+    const post = await Post.find({pass: true, public: true, banned: false})
+    .skip(skipPage)
+    .limit(_limit)
+    .sort({comment: -1})
+    return res.status(200).json({post})
+  }
+  else{
+    const post = await Post.find({pass: true, public: true, banned: false})
+    .limit(6)
+    .sort({comment: -1})
+    return res.status(200).json({ post, pagination: '?_page=1&_limit=6' });
+  }
+};//done
+
+const getPostHipHopMostLike = async (req, res, next) => {
+  var {_page, _limit} = req.query;
+  if(_page && !_limit){
+    _page = parseInt(_page)
+    var skipPage = (_page - 1) * 6
+    const post = await Post.find({pass: true, public: true, banned: false})
+    .skip(skipPage)
+    .limit(6)
+    .sort({favoriteuser: -1})
+    return res.status(200).json({post})
+  }
+  else if(_page && _limit){
+    _page = parseInt(_page)
+    _limit = parseInt(_limit)
+    var skipPage = (_page - 1) * _limit
+    const post = await Post.find({pass: true, public: true, banned: false})
+    .skip(skipPage)
+    .limit(_limit)
+    .sort({favoriteuser: -1})
+    return res.status(200).json({post})
+  }
+  else{
+    const post = await Post.find({pass: true, public: true, banned: false})
+    .limit(6)
+    .sort({favoriteuser: -1})
+    return res.status(200).json({ post, pagination: '?_page=1&_limit=6' });
+  }
+};//done
 
 module.exports = {
   getAllPostPassAndPublic,
   getPostPassAndPublicById,
-  createPost,
+  getPostHipHopTopDay,
+  getPostHipHopNow,
+  getPostHipHopMostViewed,
+  getPostHipHopMostComment,
+  getPostHipHopMostLike,
 };

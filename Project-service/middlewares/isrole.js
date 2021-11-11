@@ -1,4 +1,3 @@
-const { forbidden } = require("@hapi/joi");
 const User = require("../models/User");
 
 const isUser = async (req, res, next) => {

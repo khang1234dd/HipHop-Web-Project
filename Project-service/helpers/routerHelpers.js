@@ -75,6 +75,10 @@ const schemas = {
         otp: Joi.string().min(6).max(6).required(),
     }),
 
+    authCheckOtpFGSchema: Joi.object().keys({
+        otp: Joi.string().min(6).max(6).required(),
+        email: Joi.string().email().required(),
+    }),
     // Params _id validate 
     idSchema: Joi.object().keys({
         param: Joi.string().regex(/^[0-9a-fA-F]{24}$/).required()
@@ -96,15 +100,15 @@ const schemas = {
     userCreateAlbumSchemas: Joi.object().keys({
         nameAlbum: Joi.string().min(6).required(),
         description: Joi.string().min(10).required(),
-        image: Joi.string()
-        
+        categoryId: Joi.string().regex(/^[0-9a-fA-F]{24}$/).required(),
     }),
 
     userUpdateAlbumSchemas: Joi.object().keys({
         name: Joi.string().min(6),
         description: Joi.string().min(10),
         image: Joi.string(),
-        
+        categoryId: Joi.string().regex(/^[0-9a-fA-F]{24}$/),
+        public: Joi.forbidden(),
     }),
 
     userAddSongforAlbumSchemas: Joi.object().keys({
@@ -115,8 +119,15 @@ const schemas = {
         songId: Joi.string().regex(/^[0-9a-fA-F]{24}$/).required(),
     }),
 
+    userUpdatePostSchemas:Joi.object().keys({
+        name: Joi.string().min(6),
+        tinydes: Joi.string().min(6),
+        description: Joi.string().min(10),
+        categoryId: Joi.string().regex(/^[0-9a-fA-F]{24}$/),
+        public: Joi.forbidden(),
+    }),
     //category validate
-    categoryGetByIdSchema: Joi.object().keys({
+    categoryCreateSchema: Joi.object().keys({
         categoryname: Joi.string().min(2).required(),
         categorytinydes: Joi.string().min(10).required(),
     }),
@@ -129,8 +140,16 @@ const schemas = {
     songCreateSchema: Joi.object().keys({
         nameSong: Joi.string().min(2).required(),
         link: Joi.string().min(2).required(),
-        image: Joi.string().min(2),
         categoryId: Joi.string().regex(/^[0-9a-fA-F]{24}$/).required(),
+        ownerSong: Joi.string().required(),
+
+    }),
+
+    songUpdateSchema: Joi.object().keys({
+        nameSong: Joi.string().min(2),
+        link: Joi.string().min(2),
+        categoryId: Joi.string().regex(/^[0-9a-fA-F]{24}$/),
+        ownerSong: Joi.string(),
 
     }),
 
@@ -140,10 +159,16 @@ const schemas = {
         tinydes: Joi.string().min(6).required(),
         description:Joi.string().min(10).required(),
         categoryId: Joi.string().regex(/^[0-9a-fA-F]{24}$/).required(),
-        image: Joi.string().min(2),
+    }),
+
+    postCommentSchema: Joi.object().keys({
+        content: Joi.string().min(1).required(),
     }),
 
 
+    superadminChangeRoleSchemas: Joi.object().keys({
+        keySecret: Joi.string().required(),
+    }),
 
 }
 

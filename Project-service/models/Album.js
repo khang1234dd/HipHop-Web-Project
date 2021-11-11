@@ -8,7 +8,7 @@ const AlbumSchema = new Schema({
     },
     image:{
         type:String,
-        default: null,
+        default: 'upload/image/3.png',
     },
     description: {
         type:String,
@@ -22,13 +22,9 @@ const AlbumSchema = new Schema({
         type:String,
         required:true
     },
-    datecreate:{
-        type:Date,
-        default: Date.now
-    },
-    dateupdate:{
-        type:Date,
-        default: Date.now
+    hot: {
+        type: Boolean,
+        default: false
     },
     song: [{
         type: Schema.Types.ObjectId,
@@ -43,7 +39,7 @@ const AlbumSchema = new Schema({
         ref: 'User'
     }]
     
-})
+}, { timestamps: true })
 
 const Album = mongoose.model('Album',AlbumSchema)
 module.exports = Album

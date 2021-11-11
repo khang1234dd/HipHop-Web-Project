@@ -8,7 +8,7 @@ const SongSchema = new Schema({
     },
     image:{
         type:String,
-        default: null,
+        default: 'upload/image/2.jpg',
     },
     link:{
         type:String,
@@ -21,13 +21,12 @@ const SongSchema = new Schema({
         type: String,
         required: true
     },
-    datecreate:{
-        type: Date,
-        default: Date.now
+    ownersong:{
+        type: String,
     },
-    dateupdate:{
-        type: Date,
-        default: Date.now
+    hot:{
+        type: Boolean,
+        default: false
     },
     album: [{
         type: Schema.Types.ObjectId,
@@ -42,7 +41,7 @@ const SongSchema = new Schema({
         ref: 'User'
     }]
     
-})
+}, { timestamps: true })
 
 const Song = mongoose.model('Song',SongSchema)
 module.exports = Song
