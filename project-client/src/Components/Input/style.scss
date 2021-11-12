@@ -28,14 +28,16 @@
 	pointer-events: none;
 	font-family: $f-1;
 	transition: 0.25s ease;
+	font-size: 13px;
 }
 .form-input:not(:placeholder-shown) + .form-label,
 .form-input:focus + .form-label {
 	top: 0;
-	padding: 10px;
+	padding: 5px;
 	display: inline-block;
 	background-color: white;
 	border: none;
+	text-transform: capitalize;
 
 	.signin-block {
 		box-sizing: border-box;

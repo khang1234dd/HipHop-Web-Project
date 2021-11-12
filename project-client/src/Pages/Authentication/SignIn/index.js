@@ -3,17 +3,19 @@ import { Input } from '../../../Components/Input';
 import './style.scss';
 import ButtonHipHop from '../../../Components/ButtonHipHop';
 import { Link } from 'react-router-dom';
-import { signinapi } from '../../../Apis/auth.api';
+import { signinApi } from '../../../Apis/auth.api';
 import { useNavigate } from 'react-router-dom';
+import Cookies from 'js-cookie';
 
 export const SignIn = () => {
 	const navigate = useNavigate();
 	const signin = async e => {
 		e.preventDefault();
-		const username = e.target.username.value;
-		const password = e.target.password.value;
-		const res = await signinapi({ username, password });
+		const username = e.target.Username.value;
+		const password = e.target.Password.value;
+		const res = await signinApi({ username, password });
 		if (res.success) {
+			Cookies.set('jwt', res.token);
 			alert('dang nhap thanh cong');
 			navigate('/main');
 		} else {
@@ -28,8 +30,8 @@ export const SignIn = () => {
 					<div className='signin-heading'>Sign in</div>
 					<div className='signin-form'>
 						<form onSubmit={signin} className='signin-form-adjust'>
-							<Input type='text' name='username'></Input>
-							<Input type='password' name='password'></Input>
+							<Input type='text' name='Username'></Input>
+							<Input type='password' name='Password'></Input>
 							<div className='signin-form-button'>
 								{/* <Link to='/main'> */}
 								<ButtonHipHop name='Go !'></ButtonHipHop>

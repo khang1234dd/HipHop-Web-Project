@@ -2,23 +2,36 @@ import React from 'react';
 import { Input } from '../../../Components/Input';
 import './style.scss';
 import ButtonHipHop from '../../../Components/ButtonHipHop';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { signupApi } from '../../../Apis/auth.api';
+
 export const SignUp = () => {
+	const navigate = useNavigate();
+	const signup = async e => {
+		e.preventDefault();
+		const username = e.target.Username.value;
+		const password = e.target.Password.value;
+		const passwordconfirm = e.target.PasswordConfirm.value;
+		const email = e.target.Email.value;
+		const res = await signupApi({ username, password, email, passwordconfirm });
+		if (res.success) {
+			alert('kha zoo');
+			navigate('/otp');
+		} else alert('try again');
+	};
 	return (
 		<>
 			<div className='signup-block'>
 				<div className='signup'>
 					<div className='signup-heading'>Sign up</div>
 					<div className='signup-form'>
-						<form action='#' className='signup-form-adjust'>
-							<Input name='Username'></Input>
-							<Input name='Password'></Input>
-							<Input name='Confirm Password'></Input>
-							<Input name='Email'></Input>
+						<form onSubmit={signup} className='signup-form-adjust'>
+							<Input type='text' name='Username'></Input>
+							<Input type='password' name='Password'></Input>
+							<Input type='password' name='PasswordConfirm'></Input>
+							<Input type='email' name='Email'></Input>
 							<div className='signup-form-button'>
-								<Link to='/otp'>
-									<ButtonHipHop name='Submit'></ButtonHipHop>
-								</Link>
+								<ButtonHipHop name='Submit'></ButtonHipHop>
 
 								<p className='signup-form-already'>
 									<span>Already have an account ?</span>

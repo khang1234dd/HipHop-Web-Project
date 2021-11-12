@@ -6,8 +6,17 @@ import { SignUp } from '../Pages/Authentication/SignUp';
 import { ForgotPassword } from '../Pages/Authentication/ForgotPassword';
 import { OTP } from '../Pages/Authentication/OTP';
 import { OTPForgotPassword } from '../Pages/Authentication/OTPForgotPassword';
+import { authenticateApi } from '../Apis/auth.api';
+import Cookies from 'js-cookie';
 
 export const Routers = () => {
+	// useEffect(() => {
+	// 	(async () => {
+	// 		const res = await authenticateApi();
+	// 		console.log(res);
+	// 	})();
+	// }, []);
+
 	return (
 		<>
 			<Router>
