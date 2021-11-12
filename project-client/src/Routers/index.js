@@ -6,6 +6,8 @@ import { SignUp } from '../Pages/Authentication/SignUp';
 import { ForgotPassword } from '../Pages/Authentication/ForgotPassword';
 import { OTP } from '../Pages/Authentication/OTP';
 import { OTPForgotPassword } from '../Pages/Authentication/OTPForgotPassword';
+import {PostCard} from '../Components/PostCard';
+import {VideoCard} from '../Components/VideoCard';
 import { authenticateApi } from '../Apis/auth.api';
 import Cookies from 'js-cookie';
 
@@ -31,6 +33,26 @@ export const Routers = () => {
 					<Route
 						path='/otpforgotpassword'
 						element={<OTPForgotPassword></OTPForgotPassword>}></Route>
+				</Routes>
+			</Router>
+		</>
+	);
+};
+
+export const RoutersAdmin = () => {
+	// useEffect(() => {
+	// 	(async () => {
+	// 		const res = await authenticateApi();
+	// 		console.log(res);
+	// 	})();
+	// }, []);
+
+	return (
+		<>
+			<Router>
+				<Routes>
+					<Route path='/postcard' element={<PostCard></PostCard>}></Route>
+					<Route path='/videocard' element={<VideoCard></VideoCard>}></Route>
 				</Routes>
 			</Router>
 		</>
