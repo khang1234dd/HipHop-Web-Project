@@ -6,7 +6,7 @@ import './Styles/globalstyle.scss';
 function App() {
 	return (
 		<>
-			{/* <Routers></Routers> */}
+			<Routers></Routers>
 			<RoutersAdmin></RoutersAdmin>
 		</>
 	);
