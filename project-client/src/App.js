@@ -10,7 +10,7 @@ function App() {
 			<Routers></Routers>
 			<ToastContainer></ToastContainer>
 
-			{/* <RoutersAdmin></RoutersAdmin> */}
+			<RoutersAdmin></RoutersAdmin>
 		</>
 	);
 }

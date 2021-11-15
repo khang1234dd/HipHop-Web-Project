@@ -1,0 +1,28 @@
+@import '/src/Styles/Variables.scss';
+
+.dashboard-wapper{
+
+    &-container {
+		background-color: white;
+		padding: 8px 16px;
+        width: auto;
+		&-firstcontent {
+			margin-right: 10px;
+			&-block {
+				display: flex;
+			}
+		}
+		&-secondarycontent {
+			&-link {
+				color: $second-color;
+				text-decoration: none;
+				font-weight: 700;
+				margin-left: auto;
+			}
+		}
+	}
+}
+.navigationadmin{
+    display: flex;
+}
+
