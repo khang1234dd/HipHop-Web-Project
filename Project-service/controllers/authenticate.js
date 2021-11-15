@@ -48,23 +48,35 @@ const signUp = async (req, res, next) => {
 
   const foundEmail = await User.findOne({ email });
   if (foundEmail)
-    return res.status(403).json({ err: { message: "Email is already" } });
+    return res.status(409).json({ err: { message: "Email is already" } });
 
   const foundUserName = await User.findOne({ username });
   if (foundUserName)
-    return res.status(403).json({ err: { message: "UserName is already" } });
+    return res.status(409).json({ err: { message: "UserName is already" } });
 
   const password1 = await enpass(password);
+
+  const otp = otpGenerator.generate(6, {
+    upperCase: false,
+    specialChars: false,
+  });
+
+  const body = `<h2>this is your otp code </h2>
+                <p>${otp}</p>
+                <p>Trân trọng</p>
+                `;
+  await sendMail(email, "Forgot Password", body);
 
   const newUser = new User({
     username,
     password: password1,
     email,
     name: username,
+    otpFG: otp,
   });
 
-  newUser.save();
-
+  await newUser.save();
+  
   //Encode  a token
   const token = encodedToken(newUser._id);
 
@@ -74,19 +86,20 @@ const signUp = async (req, res, next) => {
 };
 
 const checkOtpSignUp = async (req, res, next) => {
-  const { otp , email } = req.value.body;
+  const { otp } = req.value.body;
 
-  const user = await User.findOne({email})
+  const user = await User.findOne({otpFG: otp})
   if (!user)
     return res
       .status(404)
-      .json({ message: "User with this email does not exist" });
+      .json({ message: "wrong otp" });
   
   if(user.activate) return res.status(400).json({message: 'email have activated'})
 
-  if (user.otp !== otp) return res.status(400).json({ message: "wrong otp" });
+  user.activate = true;
+  await user.save()
 
-  return res.status(200).json({ success: true });
+  return res.status(200).json({ success: true, message: 'account activated successfully'});
 };
 
 const forgetPassword = async (req, res, next) => {
@@ -101,6 +114,8 @@ const forgetPassword = async (req, res, next) => {
   if (user.username !== username) {
     return res.status(404).json({ message: "The email is not from this user" });
   }
+
+  if(!user.activate) return res.status(403).json({ message: "Email has not been activated"})
 
   // const resetLink = encodedToken(user._id);
   const otp = otpGenerator.generate(6, {
@@ -118,7 +133,7 @@ const forgetPassword = async (req, res, next) => {
                 `;
   await sendMail(email, "Forgot Password", body);
 
-  return res.status(200).json({ message: "Reset password otp has been sent" });
+  return res.status(200).json({success: true,message: "Reset password otp has been sent" });
 };
 
 const resetPassword = async (req, res, next) => {
@@ -147,17 +162,15 @@ const resetPassword = async (req, res, next) => {
 };
 
 const checkOtpFG = async (req, res, next) => {
-  const { otp , email } = req.value.body;
+  const { otp } = req.value.body;
 
-  const user = await User.findOne({email})
+  const user = await User.findOne({otpFG: otp})
   if (!user)
     return res
       .status(404)
-      .json({ message: "User with this email does not exist" });
+      .json({ message: "wrong otp" });
   
   if(!user.activate) return res.status(400).json({message: 'unconfirmed email'})
-
-  if (user.otp !== otp) return res.status(400).json({ message: "wrong otp" });
 
   return res.status(200).json({ success: true });
 };

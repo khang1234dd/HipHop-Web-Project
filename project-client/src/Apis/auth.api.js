@@ -68,11 +68,12 @@ const checkotpsignupApi = async body => {
 };
 
 const forgotpasswordApi = async body => {
+	console.log(body)
 	const response = await fetch(
 		'https://hiphop-g28.herokuapp.com/authenticate/forgetpassword',
 		{
 			method: 'POST',
-			mode: 'no-cors',
+			mode: 'cors',
 			headers: {
 				'Content-Type': 'application/json',
 				'Access-Control-Allow-Origin': '*',

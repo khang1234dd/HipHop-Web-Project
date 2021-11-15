@@ -32,8 +32,8 @@ export const ForgotPassword = () => {
 						<form
 							onSubmit={forgotpassword}
 							className='forgotpassword-form-adjust'>
-							<Input name='Username'></Input>
-							<Input name='Email'></Input>
+							<Input type='text' name='Username'></Input>
+							<Input type='text' name='Email'></Input>
 							<div className='forgotpassword-form-button'>
 								<ButtonHipHop name='Go !'></ButtonHipHop>
 								<p className='forgotpassword-form-already'>
