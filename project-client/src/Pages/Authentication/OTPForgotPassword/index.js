@@ -2,16 +2,32 @@ import React from 'react';
 import { Input } from '../../../Components/Input';
 import './style.scss';
 import ButtonHipHop from '../../../Components/ButtonHipHop';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import toastNotify from '../../../Components/Toast';
+import { otpForgotPasswordApi } from '../../../Apis/auth.api';
 export const OTPForgotPassword = () => {
+	const navigate = useNavigate();
+	const otpforgot = async e => {
+		e.preventDefault();
+		const otp = e.target.OTP.value;
+		const res = await otpForgotPasswordApi({ otp });
+		if (res.success) {
+			toastNotify('success', 'success');
+			navigate('/newpassword');
+		} else {
+		}
+	};
+
 	return (
 		<>
 			<div className='otpforgotpassword-block'>
 				<div className='otpforgotpassword'>
 					<div className='otpforgotpassword-heading'>Forgot Password</div>
 					<div className='otpforgotpassword-form'>
-						<form action='#' className='otpforgotpassword-form-adjust'>
-							<Input name='Please enter 6 letters'></Input>
+						<form
+							onSubmit={otpforgot}
+							className='otpforgotpassword-form-adjust'>
+							<Input name='OTP'></Input>
 
 							<div className='otpforgotpassword-form-button'>
 								<ButtonHipHop name='Go !'></ButtonHipHop>

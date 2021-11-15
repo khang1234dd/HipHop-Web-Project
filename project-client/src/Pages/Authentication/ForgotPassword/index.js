@@ -2,22 +2,40 @@ import React from 'react';
 import { Input } from '../../../Components/Input';
 import './style.scss';
 import ButtonHipHop from '../../../Components/ButtonHipHop';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { forgotpasswordApi } from '../../../Apis/auth.api';
+import toastNotify from '../../../Components/Toast';
+import validate from './validate';
 export const ForgotPassword = () => {
+	const navigate = useNavigate();
+	const forgotpassword = async e => {
+		e.preventDefault();
+		const username = e.target.Username.value;
+		const email = e.target.Email.value;
+		const validdata = validate(username, email);
+		if (validdata) {
+			const res = await forgotpasswordApi({ username, email });
+			if (res.success) {
+				toastNotify('Please check OTP passcode in your email', 'warn');
+				navigate('/otpforgotpassword');
+			} else {
+				toastNotify(res.err.message, 'error');
+			}
+		}
+	};
 	return (
 		<>
 			<div className='forgotpassword-block'>
 				<div className='forgotpassword'>
 					<div className='forgotpassword-heading'>Forgot Password</div>
 					<div className='forgotpassword-form'>
-						<form action='#' className='forgotpassword-form-adjust'>
+						<form
+							onSubmit={forgotpassword}
+							className='forgotpassword-form-adjust'>
 							<Input name='Username'></Input>
 							<Input name='Email'></Input>
 							<div className='forgotpassword-form-button'>
-								<Link to='/otpforgotpassword'>
-									<ButtonHipHop name='Go !'></ButtonHipHop>
-								</Link>
-
+								<ButtonHipHop name='Go !'></ButtonHipHop>
 								<p className='forgotpassword-form-already'>
 									<span>Didn't have an account ?</span>
 									<Link to='/signup'>Sign up now</Link>

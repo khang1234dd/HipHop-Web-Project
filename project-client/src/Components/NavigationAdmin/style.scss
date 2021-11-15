@@ -3,23 +3,23 @@
 //     width: 80px;
 //     height: 80px;
 // }
-.frameAvatar{
-    width: auto;
-    height: auto;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    padding-top: 1rem;
+.frameAvatar {
+	width: auto;
+	height: auto;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	padding-top: 1rem;
 }
-.fontName{
-    font-size: 120%;
-    font-weight: bold;
-    font-family: $f-1;
-    margin-top: $pm-10;
+.fontName {
+	font-size: 120%;
+	font-weight: bold;
+	font-family: $f-1;
+	margin-top: $pm-10;
 }
-.fontRole{
-    letter-spacing: 0.1rem;
-    font-family: $f-1;
-    margin-top: $pm-10;
+.fontRole {
+	letter-spacing: 0.1rem;
+	font-family: $f-1;
+	margin-top: $pm-10;
 }

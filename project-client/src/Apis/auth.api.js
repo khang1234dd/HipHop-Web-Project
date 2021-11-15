@@ -67,4 +67,43 @@ const checkotpsignupApi = async body => {
 	return response.json();
 };
 
-export { authenticateApi, signinApi, signupApi, checkotpsignupApi };
+const forgotpasswordApi = async body => {
+	const response = await fetch(
+		'https://hiphop-g28.herokuapp.com/authenticate/forgetpassword',
+		{
+			method: 'POST',
+			mode: 'no-cors',
+			headers: {
+				'Content-Type': 'application/json',
+				'Access-Control-Allow-Origin': '*',
+				'Access-Control-Allow-Credentials': 'true'
+			},
+			body: JSON.stringify(body)
+		}
+	);
+	return response.json();
+};
+
+const otpForgotPasswordApi = async body => {
+	const response = await fetch(
+		'https://hiphop-g28.herokuapp.com/authenticate/checkotpfg',
+		{
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify(body)
+		}
+	);
+
+	return response.json();
+};
+
+export {
+	authenticateApi,
+	signinApi,
+	signupApi,
+	checkotpsignupApi,
+	forgotpasswordApi,
+	otpForgotPasswordApi
+};

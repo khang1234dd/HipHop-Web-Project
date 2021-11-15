@@ -1,4 +1,4 @@
-import { React } from 'react';
+import { React, useState } from 'react';
 import { Input } from '../../../Components/Input';
 import './style.scss';
 import ButtonHipHop from '../../../Components/ButtonHipHop';
@@ -6,6 +6,8 @@ import { Link } from 'react-router-dom';
 import { signinApi } from '../../../Apis/auth.api';
 import { useNavigate } from 'react-router-dom';
 import Cookies from 'js-cookie';
+import validate from './validate';
+import toastNotify from '../../../Components/Toast';
 
 export const SignIn = () => {
 	const navigate = useNavigate();
@@ -13,13 +15,16 @@ export const SignIn = () => {
 		e.preventDefault();
 		const username = e.target.Username.value;
 		const password = e.target.Password.value;
-		const res = await signinApi({ username, password });
-		if (res.success) {
-			Cookies.set('jwt', res.token);
-			alert('dang nhap thanh cong');
-			navigate('/main');
-		} else {
-			alert('try again');
+		const isvaliddata = validate(username, password);
+		if (isvaliddata) {
+			const res = await signinApi({ username, password });
+			if (res.success) {
+				Cookies.set('jwt', res.token);
+				toastNotify('dang nhap thanh cong', 'success');
+				navigate('/main');
+			} else {
+				toastNotify('dang nhap that bai', 'error');
+			}
 		}
 	};
 
@@ -29,9 +34,14 @@ export const SignIn = () => {
 				<div className='signin'>
 					<div className='signin-heading'>Sign in</div>
 					<div className='signin-form'>
-						<form onSubmit={signin} className='signin-form-adjust'>
+						<form
+							autoComplete='off'
+							onSubmit={signin}
+							className='signin-form-adjust'>
 							<Input type='text' name='Username'></Input>
+
 							<Input type='password' name='Password'></Input>
+
 							<div className='signin-form-button'>
 								{/* <Link to='/main'> */}
 								<ButtonHipHop name='Go !'></ButtonHipHop>

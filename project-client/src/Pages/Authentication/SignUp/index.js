@@ -4,6 +4,8 @@ import './style.scss';
 import ButtonHipHop from '../../../Components/ButtonHipHop';
 import { Link, useNavigate } from 'react-router-dom';
 import { signupApi } from '../../../Apis/auth.api';
+import validate from './validate';
+import toastNotify from '../../../Components/Toast';
 
 export const SignUp = () => {
 	const navigate = useNavigate();
@@ -13,11 +15,22 @@ export const SignUp = () => {
 		const password = e.target.Password.value;
 		const passwordconfirm = e.target.PasswordConfirm.value;
 		const email = e.target.Email.value;
-		const res = await signupApi({ username, password, email, passwordconfirm });
-		if (res.success) {
-			alert('kha zoo');
-			navigate('/otp');
-		} else alert('try again');
+		const validdata = validate(username, password, email, passwordconfirm);
+		if (validdata) {
+			const res = await signupApi({
+				username,
+				password,
+				email,
+				passwordconfirm
+			});
+
+			if (res.success) {
+				toastNotify('Please check OTP passcode in your email', 'warn');
+				navigate('/otp');
+			} else {
+				toastNotify(res.err.message, 'error');
+			}
+		}
 	};
 	return (
 		<>
