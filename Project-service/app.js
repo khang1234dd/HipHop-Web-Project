@@ -35,7 +35,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(
     cors({
       origin: [ORIGIN_DEV, ORIGIN_PROD],
-      methods: "GET,POST",
+      methods: "GET,POST,PUT,PATCH,DELETE",
     })
   );
 

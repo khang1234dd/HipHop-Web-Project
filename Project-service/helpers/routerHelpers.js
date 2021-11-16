@@ -77,7 +77,6 @@ const schemas = {
 
     authCheckOtpFGSchema: Joi.object().keys({
         otp: Joi.string().min(6).max(6).required(),
-        email: Joi.string().email().required(),
     }),
     // Params _id validate 
     idSchema: Joi.object().keys({

@@ -1,4 +1,3 @@
-const { forbidden } = require("@hapi/joi");
 const User = require("../models/User");
 
 const isUser = async (req, res, next) => {
@@ -8,20 +7,20 @@ const isUser = async (req, res, next) => {
 
   if (user.role === 2) next();
 
-  if (user.role !== 0) return res.status(403).json({message: "Forbidden"});
+  if (user.role !== 0) return res.status(403).json({ message: "Forbidden"});
 
   next();
 };
 
-const isAdmin =  async (req, res, next) => {
+const isAdmin = () => {
   const userId = req.body.token.sub;
-  
+
   const user = await User.findById(userId);
 
   if (user.role === 2) next();
 
-  if (user.role !== 1) return res.status(403).json({message: "Forbidden"});
-  
+  if (user.role !== 1) return res.status(401).json({ message: "Forbidden" });
+
   next();
 };
 

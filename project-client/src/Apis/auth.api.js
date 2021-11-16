@@ -68,6 +68,7 @@ const checkotpsignupApi = async body => {
 };
 
 const forgotpasswordApi = async body => {
+	console.log(body)
 	const response = await fetch(
 		'https://hiphop-g28.herokuapp.com/authenticate/forgetpassword',
 		{
