@@ -5,16 +5,22 @@ import ButtonHipHop from '../../../Components/ButtonHipHop';
 import { Link, useNavigate } from 'react-router-dom';
 import toastNotify from '../../../Components/Toast';
 import { otpForgotPasswordApi } from '../../../Apis/auth.api';
+import validate from './validate';
+import Cookies from 'js-cookie';
 export const OTPForgotPassword = () => {
 	const navigate = useNavigate();
 	const otpforgot = async e => {
 		e.preventDefault();
 		const otp = e.target.OTP.value;
-		const res = await otpForgotPasswordApi({ otp });
-		if (res.success) {
-			toastNotify('success', 'success');
-			navigate('/newpassword');
-		} else {
+		const validdata = validate(otp);
+		if (validdata) {
+			const res = await otpForgotPasswordApi({ otp });
+			if (res.success) {
+				toastNotify('Please enter your new password', 'success');
+				navigate(`/newpassword/${otp}`);
+			} else {
+				toastNotify(res.message, 'error');
+			}
 		}
 	};
 

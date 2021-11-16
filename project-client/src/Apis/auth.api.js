@@ -72,7 +72,7 @@ const forgotpasswordApi = async body => {
 		'https://hiphop-g28.herokuapp.com/authenticate/forgetpassword',
 		{
 			method: 'POST',
-			mode: 'no-cors',
+			mode: 'cors',
 			headers: {
 				'Content-Type': 'application/json',
 				'Access-Control-Allow-Origin': '*',
@@ -99,11 +99,28 @@ const otpForgotPasswordApi = async body => {
 	return response.json();
 };
 
+const newpasswordApi = async body => {
+	const response = await fetch(
+		'https://hiphop-g28.herokuapp.com/authenticate/resetpassword',
+		{
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json',
+				'Access-Control-Allow-Origin': '*',
+				'Access-Control-Allow-Credentials': 'true'
+			},
+			body: JSON.stringify(body)
+		}
+	);
+
+	return response.json();
+};
 export {
 	authenticateApi,
 	signinApi,
 	signupApi,
 	checkotpsignupApi,
 	forgotpasswordApi,
-	otpForgotPasswordApi
+	otpForgotPasswordApi,
+	newpasswordApi
 };

@@ -41,7 +41,7 @@ export const Routers = () => {
 						path='/otpforgotpassword'
 						element={<OTPForgotPassword></OTPForgotPassword>}></Route>
 					<Route
-						path='/newpassword'
+						path='/newpassword/:otp'
 						element={<NewPassword></NewPassword>}></Route>
 				</Routes>
 			</Router>

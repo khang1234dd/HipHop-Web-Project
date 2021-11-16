@@ -20,10 +20,10 @@ export const SignIn = () => {
 			const res = await signinApi({ username, password });
 			if (res.success) {
 				Cookies.set('jwt', res.token);
-				toastNotify('dang nhap thanh cong', 'success');
+				toastNotify('Welcome to HipHop Viet', 'success');
 				navigate('/main');
 			} else {
-				toastNotify('dang nhap that bai', 'error');
+				toastNotify(res.message, 'error');
 			}
 		}
 	};

@@ -4,18 +4,23 @@ import './style.scss';
 import ButtonHipHop from '../../../Components/ButtonHipHop';
 import { Link, useNavigate } from 'react-router-dom';
 import { checkotpsignupApi } from '../../../Apis/auth.api';
+import validate from './validate';
+import toastNotify from '../../../Components/Toast';
 
 export const OTP = () => {
 	const navigate = useNavigate();
 	const otp = async e => {
 		e.preventDefault();
 		const otp = e.target.OTP.value;
-		const res = await checkotpsignupApi({ otp });
-		if (res.success) {
-			alert('amazing good job');
-			navigate('/signin');
-		} else {
-			alert('try again');
+		const isvaliddata = validate(otp);
+		if (isvaliddata) {
+			const res = await checkotpsignupApi({ otp });
+			if (res.success) {
+				toastNotify('Success', 'success');
+				navigate('/signin');
+			} else {
+				toastNotify(res.err.message, 'error');
+			}
 		}
 	};
 	return (

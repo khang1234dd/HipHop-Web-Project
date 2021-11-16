@@ -15,11 +15,12 @@ export const ForgotPassword = () => {
 		const validdata = validate(username, email);
 		if (validdata) {
 			const res = await forgotpasswordApi({ username, email });
+			console.log(res);
 			if (res.success) {
 				toastNotify('Please check OTP passcode in your email', 'warn');
 				navigate('/otpforgotpassword');
 			} else {
-				toastNotify(res.err.message, 'error');
+				toastNotify(res.message, 'error');
 			}
 		}
 	};
