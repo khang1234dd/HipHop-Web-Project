@@ -9,33 +9,16 @@ import iconalbum from '../../images/iconalbum.png';
 const CardHover = () => {
 	return (
 		<>
-			<div className='container'>
-				<div className='cards'>
-					<div className='card card-one'>
-						<img className='card-title' src={iconuser} alt='img' />
-						<p className='date'>User</p>
-						<p className='description'>1000</p>
-					</div>
+			<div className='cards'>
+				<div className="card">
+          			<img src='http://hiphop-g28.herokuapp.com/upload/image/1.png' alt="img" />
+          			<div className="card-body">
+            			<h5>Nancy Wheeler</h5>
+          			</div>
+        		</div>
 
-					<div className='card card-two'>
-						<img className='card-title' src={iconalbum} alt='img' />
-						<p className='date'>Album</p>
-						<p className='description'>500</p>
-					</div>
-
-					<div className='card card-three'>
-						<img className='card-title' src={iconsong} alt='img' />
-						<p className='date'>Song</p>
-						<p className='description'>200</p>
-					</div>
-
-					<div className='card card-four'>
-						<img className='card-title' src={iconpost} alt='img' />
-						<p className='date'>Post</p>
-						<p className='description'>3000</p>
-					</div>
-				</div>
-			</div>
+				
+      		</div>  
 		</>
 	);
 };

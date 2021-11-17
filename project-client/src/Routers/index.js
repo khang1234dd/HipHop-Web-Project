@@ -16,6 +16,8 @@ import Navigation from '../Components/Navigation';
 import Dashboard from '../Pages/Admin/Dashboard';
 import Card3D from '../Components/Card3D';
 import CardHover from '../Components/CardHover';
+import AlbumType2 from '../Components/AlbumType2';
+import Carousel from '../Components/Carousel';
 import { authenticateApi } from '../Apis/auth.api';
 import Cookies from 'js-cookie';
 import { Article } from '../Components/Article';
@@ -78,6 +80,9 @@ export const RoutersAdmin = () => {
 					<Route path='/card3d' element={<Card3D></Card3D>}></Route>
 					<Route path='/cardhover' element={<CardHover></CardHover>}></Route>
 					<Route path='/dashboard' element={<Dashboard></Dashboard>}></Route>
+					<Route path='/albumtype2' element={<AlbumType2></AlbumType2>}></Route>
+					<Route path='/carousel' element={<Carousel></Carousel>}></Route>
+
 				</Routes>
 			</Router>
 		</>
