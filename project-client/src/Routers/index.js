@@ -22,6 +22,8 @@ import { authenticateApi } from '../Apis/auth.api';
 import Cookies from 'js-cookie';
 import { Article } from '../Components/Article';
 import { Articles } from '../Pages/Home/Articles';
+import CardHoverType2 from '../Components/CardHoverType2';
+import TablePassPost from '../Components/Admin/Common/TablePassPost';
 
 export const Routers = () => {
 	// useEffect(() => {
@@ -82,7 +84,8 @@ export const RoutersAdmin = () => {
 					<Route path='/dashboard' element={<Dashboard></Dashboard>}></Route>
 					<Route path='/albumtype2' element={<AlbumType2></AlbumType2>}></Route>
 					<Route path='/carousel' element={<Carousel></Carousel>}></Route>
-
+					<Route path='/cardhovertype2' element={<CardHoverType2></CardHoverType2>}></Route>
+					<Route path='/tablepasspost' element={<TablePassPost></TablePassPost>}></Route>
 				</Routes>
 			</Router>
 		</>

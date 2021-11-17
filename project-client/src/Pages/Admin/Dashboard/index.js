@@ -1,5 +1,5 @@
 import React from 'react'
-import './style.scss'
+import './style-dashboard.scss'
 import NavigationAdminTop from '../../../Components/NavigationAdminTop'
 import NavigationAdmin from '../../../Components/NavigationAdmin'
 import DashboardContent from '../../../Components/Admin/Dashboard'
@@ -14,7 +14,7 @@ const Dashboard = () => {
 
             <NavigationAdmin  ></NavigationAdmin>
 
-            <Box container sx={{marginLeft:'237px'}}>
+            <Box container sx={{marginLeft:'237px' , maxHeight: '30px'}}>
                 <DashboardContent />
             </Box>
             
