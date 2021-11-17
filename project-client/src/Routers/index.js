@@ -7,7 +7,7 @@ import { ForgotPassword } from '../Pages/Authentication/ForgotPassword';
 import { OTP } from '../Pages/Authentication/OTP';
 import { OTPForgotPassword } from '../Pages/Authentication/OTPForgotPassword';
 import { NewPassword } from '../Pages/Authentication/NewPassword';
-
+import { News } from '../Pages/Home/News';
 import { PostCard } from '../Components/PostCard';
 import { VideoCard } from '../Components/VideoCard';
 import NavigationAdmin from '../Components/NavigationAdmin';
@@ -18,6 +18,8 @@ import Card3D from '../Components/Card3D';
 import CardHover from '../Components/CardHover';
 import { authenticateApi } from '../Apis/auth.api';
 import Cookies from 'js-cookie';
+import { Article } from '../Components/Article';
+import { Articles } from '../Pages/Home/Articles';
 
 export const Routers = () => {
 	// useEffect(() => {
@@ -31,7 +33,7 @@ export const Routers = () => {
 		<>
 			<Router>
 				<Routes>
-					<Route path='/main' element={<Main></Main>}></Route>
+					<Route path='/' element={<Main></Main>}></Route>
 					<Route path='/signin' element={<SignIn></SignIn>}></Route>
 					<Route path='/signup' element={<SignUp></SignUp>}></Route>
 					<Route
@@ -44,6 +46,9 @@ export const Routers = () => {
 					<Route
 						path='/newpassword/:otp'
 						element={<NewPassword></NewPassword>}></Route>
+
+					<Route path='/news' element={<News></News>}></Route>
+					<Route path='/newspaper' element={<Articles></Articles>}></Route>
 				</Routes>
 			</Router>
 		</>

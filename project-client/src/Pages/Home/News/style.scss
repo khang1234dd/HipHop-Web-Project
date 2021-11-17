@@ -1,0 +1,13 @@
+.news {
+	&-leftcontainer {
+		margin-right: 10px;
+		&-link {
+			display: flex;
+			align-items: center;
+			justify-content: flex-end;
+			& p {
+				margin-right: 10px;
+			}
+		}
+	}
+}

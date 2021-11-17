@@ -11,18 +11,20 @@ const NavigationBar = () => {
 			<div className='navigationbar-block'>
 				<div className='navigationbar-container'>
 					<div className='navigationbar-button'>
-						<Link to='/main'>
+						<Link to='/'>
 							<ButtonHipHop name='home'></ButtonHipHop>
 						</Link>
 					</div>
 					<div className='navigationbar-button'>
-						<ButtonHipHop name='news'></ButtonHipHop>
+						<Link to='/news'>
+							<ButtonHipHop name='news'></ButtonHipHop>
+						</Link>
 					</div>
 					<div className='navigationbar-button'>
 						<ButtonHipHop name='Single'></ButtonHipHop>
 					</div>
 					<div className='navigationbar-button'>
-						<ButtonHipHop name='Article'></ButtonHipHop>
+						<ButtonHipHop name='Video'></ButtonHipHop>
 					</div>
 				</div>
 			</div>
