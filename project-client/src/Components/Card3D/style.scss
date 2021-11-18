@@ -1,0 +1,136 @@
+@import '/src/Styles/Variables.scss';
+.card3d {
+	&-wrapper {
+		margin: 0;
+		padding: 0;
+		font-family: $f-1;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		// min-height: 100vh;
+		background: black;
+		border-radius: 20px;
+		cursor: pointer;
+	}
+	&-container {
+		position: relative;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		transform-style: preserve-3d;
+	}
+	&-box {
+		position: relative;
+		width: 300px;
+		height: 400px;
+		border-radius: 20px;
+		background: #232323;
+
+		transform-style: preserve-3d;
+	}
+	&-name {
+		font-size: 2rem;
+		font-weight: 900;
+		font-style: italic;
+		position: relative;
+		top: 0;
+		left: 0;
+		text-align: center;
+		color: #fff;
+		width: 100%;
+		transform-style: preserve-3d;
+		transform: translate3d(0, 0, 75px);
+		transition: 0.5s;
+		opacity: 0;
+		z-index: 10;
+		text-transform: uppercase;
+		height: 5%;
+	}
+	&-buy {
+		position: absolute;
+		bottom: 0;
+		right: -10px;
+		// left: 50%;
+		transform-style: preserve-3d;
+		transform: translate3d(-50%, 0, 75px);
+		color: #fff;
+
+		transition: 0.5s;
+		opacity: 0;
+		z-index: 10;
+	}
+	// &-circle {
+	// 	position: absolute;
+	// 	top: 50%;
+	// 	left: 50%;
+	// 	width: 200px;
+	// 	height: 200px;
+	// 	border-radius: 50%;
+	// 	transition: 0.5s;
+	// 	background: #fff;
+	// 	transform-style: preserve-3d;
+	// 	z-index: 10;
+	// 	opacity: 1;
+	// 	transform: translate(-50%, -50%);
+	// }
+	&-product {
+		position: relative;
+		top: 50%;
+		left: 50%;
+		width: 200px;
+		transition: 0.5s;
+		z-index: 11;
+		transition: 0.5s;
+		transform-style: preserve-3d;
+		transform: translate(-50%, -50%) rotate(15deg);
+		border-radius: 20px;
+	}
+	&-play {
+		width: 40px;
+		height: 40px;
+	}
+}
+
+// .card3d-box::before {
+// 	content: 'MUSIC';
+// 	position: absolute;
+// 	top: 20px;
+// 	left: 20px;
+// 	font-size: 6em;
+// 	font-weight: 900;
+// 	color: #fff;
+// 	font-style: italic;
+// 	opacity: 0;
+// }
+.card3d-box::after {
+	content: 'ALBUM';
+	position: absolute;
+	bottom: 20px;
+	right: 65px;
+	font-size: 3.5em;
+	font-weight: 900;
+	color: white;
+	font-style: italic;
+	opacity: 0;
+	transition: 0.5s;
+}
+
+.card3d-box:hover::after {
+	opacity: 0.3;
+}
+
+.card3d-container .card3d-box:hover .card3d-name {
+	top: 40px;
+	opacity: 1;
+}
+
+.card3d-container .card3d-box:hover .card3d-buy {
+	// transform: translateX(-100px);
+	bottom: 38px;
+	opacity: 1;
+	z-index: 12;
+}
+
+// .card3d-box:nth-child(1) .card3d-cirle {
+
+// }

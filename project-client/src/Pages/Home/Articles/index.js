@@ -9,6 +9,7 @@ import './style.scss';
 import { ArticleList } from '../../../Components/ArticleList';
 import { MdDoubleArrow } from 'react-icons/md';
 import { ArticleImages, Newspaper } from '../../../Components/Newspaper';
+import Card3D from '../../../Components/Card3D';
 
 const article = [
 	{
@@ -56,11 +57,15 @@ export const Articles = () => {
 							writer='võ sư 1 mắt'
 							date='Nov 17th , 3:53 PM'></Newspaper>
 					</div>
+
 					<div>
 						<Heading name='hiphop ' desc='Article'></Heading>
 						<ArticleList data={article}></ArticleList>
 					</div>
 				</ContainerTemplate>
+				<div>
+					<Card3D></Card3D>
+				</div>
 			</Wrapper>
 		</>
 	);

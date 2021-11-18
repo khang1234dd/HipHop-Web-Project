@@ -131,23 +131,15 @@ const articlecard = [
 
 const albumlist = [
 	{
-		link: 'https://www.metallica.com/dw/image/v2/BCPJ_PRD/on/demandware.static/-/Sites-met-master/default/dw6a9c4bf8/images/hi-res/TBA_1CDMockup.jpg?sw=650',
+		link: 'https://hiphop-g28.herokuapp.com/upload/image/1.png',
 		header: 'Adele 30 album'
 	},
 	{
-		link: 'https://www.metallica.com/dw/image/v2/BCPJ_PRD/on/demandware.static/-/Sites-met-master/default/dw6a9c4bf8/images/hi-res/TBA_1CDMockup.jpg?sw=650',
+		link: 'https://hiphop-g28.herokuapp.com/upload/image/1.png',
 		header: 'Adele 30 album'
 	},
 	{
-		link: 'https://www.metallica.com/dw/image/v2/BCPJ_PRD/on/demandware.static/-/Sites-met-master/default/dw6a9c4bf8/images/hi-res/TBA_1CDMockup.jpg?sw=650',
-		header: 'Adele 30 album'
-	},
-	{
-		link: 'https://www.metallica.com/dw/image/v2/BCPJ_PRD/on/demandware.static/-/Sites-met-master/default/dw6a9c4bf8/images/hi-res/TBA_1CDMockup.jpg?sw=650',
-		header: 'Adele 30 album'
-	},
-	{
-		link: 'https://www.metallica.com/dw/image/v2/BCPJ_PRD/on/demandware.static/-/Sites-met-master/default/dw6a9c4bf8/images/hi-res/TBA_1CDMockup.jpg?sw=650',
+		link: 'https://hiphop-g28.herokuapp.com/upload/image/1.png',
 		header: 'Adele 30 album'
 	}
 ];
