@@ -17,10 +17,6 @@ const Dashboard = () => {
             <Box container sx={{marginLeft:'237px'}}>
                 <DashboardContent />
             </Box>
-
-            
-                
-        
             
         </React.Fragment>
     )

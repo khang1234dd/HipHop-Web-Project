@@ -1,0 +1,47 @@
+// .cardsWrapInner {
+//     display: grid;
+//     grid-gap: 16px;
+//     grid-template-columns: repeat(auto-fill, minmax(164px, 1fr));
+
+//     a {
+//       color: inherit;
+//       text-decoration: none;
+//     }
+//   }
+
+//   .card {
+//     background: #282828;
+//     border-radius: 10px;
+//     overflow: hidden;
+//     padding: 1.2rem;
+//     box-shadow: 0 10px 30px 0 rgba(0, 0, 0, 0.3), 0 1px 2px 0 rgba(0, 0, 0, 0.2);
+//     position: relative;
+//     &:hover {
+//       .playIcon {
+//         opacity: 1;
+//       }
+//     }
+// }
+//     .cardImage {
+//       height: 160px;
+//       box-shadow: 0 10px 30px 0 rgba(0, 0, 0, 0.3),
+//         0 1px 2px 0 rgba(0, 0, 0, 0.2);
+//       img {
+//         width: 100%;
+//         height: 100%;
+//         object-fit: cover;
+//       }
+//     }
+//     .cardContent {
+//       padding: 0.4rem 0;
+//       h3 {
+//         font-weight: 600;
+//         font-size: 0.9rem;
+//         margin-bottom: 0;
+//         letter-spacing: 0.6px;
+//       }
+//       span {
+//         font-size: 0.8rem;
+//         color: #b3b3b3;
+//       }
+//     }
