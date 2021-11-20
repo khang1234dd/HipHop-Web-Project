@@ -4,6 +4,7 @@
 //     height: 80px;
 // }
 .frameAvatar {
+	background-color: #9B2335;
 	width: auto;
 	height: auto;
 	display: flex;
@@ -15,11 +16,18 @@
 .fontName {
 	font-size: 120%;
 	font-weight: bold;
+	color: #fff;
 	font-family: $f-1;
 	margin-top: $pm-10;
 }
 .fontRole {
 	letter-spacing: 0.1rem;
+	color: #fff;
 	font-family: $f-1;
 	margin-top: $pm-10;
 }
+
+.kz-background-navtop{
+	background-color:#9B2335;
+}
+

@@ -1,4 +1,5 @@
 import * as React from 'react';
+import './style.scss'
 import PropTypes from 'prop-types';
 import AppBar from '@mui/material/AppBar';
 import Avatar from '@mui/material/Avatar';
@@ -10,15 +11,17 @@ import MenuIcon from '@mui/icons-material/Menu';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import Toolbar from '@mui/material/Toolbar';
 import Tooltip from '@mui/material/Tooltip';
+import Box from '@mui/material/Box';
+
 
 
 
 function NavigationAdminTop(props) {
-  const { onDrawerToggle } = props;
+  const { onDrawerToggle,shadow } = props;
 
   return (
     <React.Fragment>
-      <AppBar color="primary" position="sticky" elevation={0}>
+      <AppBar sx={{backgroundColor:'#9B2335'}} position="sticky" elevation={shadow}>
         <Toolbar>
           <Grid container spacing={1} alignItems="center">
             <Grid sx={{ display: { sm: 'none', xs: 'block' } }} item>
@@ -46,6 +49,10 @@ function NavigationAdminTop(props) {
             </Grid>
           </Grid>
         </Toolbar>
+        {/* <Toolbar className="kz-index">
+          <Box className="kz-index" sx={{ width: 'auto' , height: 273}}></Box>
+        </Toolbar> */}
+      
       </AppBar>
     </React.Fragment>
   );

@@ -1,11 +1,11 @@
 import React from 'react'
 import './style.scss'
 import {PostCard} from '../../PostCard'
-import {Album} from '../../Album'
 import CardHoverType2 from '../../CardHoverType2'
 import styled from 'styled-components'
 import Grid from '@mui/material/Grid';
 import Carousel from '../../Carousel'
+import ShapePieChart from '../Common/ShapePieChart'
 
 const CardHover = styled(CardHoverType2)`
     height: 200px;
@@ -19,6 +19,7 @@ const CardHover = styled(CardHoverType2)`
 `;
 
 const Dashboard = () => {
+
     return (
         <>
             <div className="dashboard-wapper-container" >
@@ -54,6 +55,25 @@ const Dashboard = () => {
                         name="Post"
                         number="200"
                     />
+                    </Grid>
+                </Grid>
+            </div>
+
+            <div className="dashboard-wapper-container-chart" >
+                <PostCard />
+                
+                <Grid container spacing={4}>
+                    <Grid item xs>
+                    <ShapePieChart></ShapePieChart>
+                    </Grid>
+                    <Grid item xs>
+                    <ShapePieChart></ShapePieChart>
+                    </Grid>
+                    <Grid item xs>
+                    <ShapePieChart></ShapePieChart>
+                    </Grid>
+                    <Grid item xs>
+                    <ShapePieChart></ShapePieChart>
                     </Grid>
                 </Grid>
             </div>

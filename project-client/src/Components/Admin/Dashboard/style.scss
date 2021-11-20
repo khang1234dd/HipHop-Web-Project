@@ -2,11 +2,17 @@
 .dashboard-wapper{
 
     &-container {
-		background-color: white;
+		
 		padding: 8px 16px;
 		display: grid;
 		grid-template-columns: 700px auto;
+		margin-top: -155px;
         
+		&-chart{
+			padding: 8px 16px;
+			display: grid;
+			grid-template-columns: 350px auto;
+		}
 	}
 }
 

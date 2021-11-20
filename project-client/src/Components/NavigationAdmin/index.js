@@ -10,42 +10,30 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import HomeIcon from '@mui/icons-material/Home';
 import PeopleIcon from '@mui/icons-material/People';
-import DnsRoundedIcon from '@mui/icons-material/DnsRounded';
-import PermMediaOutlinedIcon from '@mui/icons-material/PhotoSizeSelectActual';
-import PublicIcon from '@mui/icons-material/Public';
-import SettingsEthernetIcon from '@mui/icons-material/SettingsEthernet';
-import SettingsInputComponentIcon from '@mui/icons-material/SettingsInputComponent';
-import TimerIcon from '@mui/icons-material/Timer';
-import SettingsIcon from '@mui/icons-material/Settings';
-import PhonelinkSetupIcon from '@mui/icons-material/PhonelinkSetup';
-import CardHeader from '@mui/material/CardHeader';
 import {Avatar} from "@mui/material"
+import DescriptionIcon from '@mui/icons-material/Description';
+import CategoryIcon from '@mui/icons-material/Category';
+import AlbumIcon from '@mui/icons-material/Album';
+import LibraryMusicIcon from '@mui/icons-material/LibraryMusic';
+import DashboardIcon from '@mui/icons-material/Dashboard';
+import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 
 const categories = [
   {
-    id: 'Build',
+    id: 'Home',
     children: [
-      {
-        id: 'Authentication',
-        icon: <PeopleIcon />,
-        active: true,
-      },
-      { id: 'Database', icon: <DnsRoundedIcon /> },
-      { id: 'Storage', icon: <PermMediaOutlinedIcon /> },
-      { id: 'Hosting', icon: <PublicIcon /> },
-      { id: 'Functions', icon: <SettingsEthernetIcon /> },
-      {
-        id: 'Machine learning',
-        icon: <SettingsInputComponentIcon />,
-      },
+      { id: 'Dashboard', icon: <DashboardIcon /> },
     ],
   },
   {
-    id: 'Quality',
+    id: 'Manager',
     children: [
-      { id: 'Analytics', icon: <SettingsIcon /> },
-      { id: 'Performance', icon: <TimerIcon /> },
-      { id: 'Test Lab', icon: <PhonelinkSetupIcon /> },
+      { id: 'User', icon: <PeopleIcon /> },
+      { id: 'Album', icon: <AlbumIcon /> },
+      { id: 'Post', icon: <DescriptionIcon />},
+      { id: 'Category', icon: <CategoryIcon />},
+      { id: 'Song', icon: <LibraryMusicIcon />},
     ],
   },
 ];
@@ -60,17 +48,29 @@ const item = {
 };
 
 const itemCategory = {
-  boxShadow: '0 -1px 0 rgb(255,255,255,0.1) inset',
   py: 1.5,
   px: 3,
 };
 
+
 export default function NavigatorAdmin(props) {
   const { ...other } = props;
+  const navigate = useNavigate();
+  const handleClick = (e) => {
+    
+    const link= e.target.innerHTML;
+    if(link === 'Dashboard' || link === 'User' || link === 'Album' || link === 'Post' || link === 'Song' || link === 'Song' )
+    {
+      console.log(link)
+      navigate('/admin/' + link)
+    }
+    
+  }
 
   return (
     <Drawer variant="permanent" {...other}>
-      <List disablePadding>
+      <List disablePadding >
+        <div className="kz-background-navtop">
         <div className="frameAvatar">
             <Avatar 
                 src="http://hiphop-g28.herokuapp.com/upload/image/1.png"
@@ -83,13 +83,14 @@ export default function NavigatorAdmin(props) {
                 Administrator
             </div>
         </div>
-        <ListItem sx={{ ...item, ...itemCategory }}>
+        <ListItem sx={{ ...item, ...itemCategory}}>
           <ListItemIcon>
-            <HomeIcon />
+            <HomeIcon sx={{color: '#fff'}} />
           </ListItemIcon>
-          <ListItemText sx={{color: 'black'}}>Back to hometown</ListItemText>
+          <ListItemText sx={{color: '#fff'}}>Back to hometown</ListItemText>
         </ListItem>
         <Divider sx={{ mt: 2 }} />
+        </div>
         {categories.map(({ id, children }) => (
           <Box key={id} sx={{ bgcolor: '#fff' }}>
             <ListItem sx={{ py: 2, px: 3 }}>
@@ -97,9 +98,9 @@ export default function NavigatorAdmin(props) {
             </ListItem>
             {children.map(({ id: childId, icon, active }) => (
               <ListItem disablePadding key={childId}>
-                <ListItemButton selected={active} sx={item}>
+                <ListItemButton  onClick={handleClick} sx={item}>
                   <ListItemIcon>{icon}</ListItemIcon>
-                  <ListItemText sx={{ color: 'black' }}>{childId}</ListItemText>
+                  <ListItemText sx={{ color: 'black' }} >{childId}</ListItemText>
                 </ListItemButton>
               </ListItem>
             ))}

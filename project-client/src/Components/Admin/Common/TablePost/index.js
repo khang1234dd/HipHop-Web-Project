@@ -46,7 +46,7 @@ const rows = [
     createData('Gingerbread', 'asdasdasdasdasdasdasdasd', 16.0, 49),
   ];
 
-const TablePassPost = () => {
+const TablePost = () => {
   const [checked, setChecked] = React.useState(true);
   const handleSwitchChange = (event) => {
     setChecked(event.target.checked);
@@ -132,4 +132,4 @@ const TablePassPost = () => {
     )
 }
 
-export default TablePassPost
+export default TablePost

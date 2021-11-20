@@ -13,7 +13,7 @@ import { VideoCard } from '../Components/VideoCard';
 import NavigationAdmin from '../Components/NavigationAdmin';
 import NavigationAdminTop from '../Components/NavigationAdminTop';
 import Navigation from '../Components/Navigation';
-import Dashboard from '../Pages/Admin/Dashboard';
+import AdminRouters from '../Pages/Admin/AdminRouters';
 import Card3D from '../Components/Card3D';
 import CardHover from '../Components/CardHover';
 import AlbumType2 from '../Components/AlbumType2';
@@ -23,7 +23,7 @@ import Cookies from 'js-cookie';
 import { Article } from '../Components/Article';
 import { Articles } from '../Pages/Home/Articles';
 import CardHoverType2 from '../Components/CardHoverType2';
-import TablePassPost from '../Components/Admin/Common/TablePassPost';
+import TablePost from '../Components/Admin/Common/TablePost';
 
 export const Routers = () => {
 	// useEffect(() => {
@@ -71,21 +71,8 @@ export const RoutersAdmin = () => {
 		<>
 			<Router>
 				<Routes>
-					<Route path='/postcard' element={<PostCard></PostCard>}></Route>
-					<Route path='/videocard' element={<VideoCard></VideoCard>}></Route>
-					<Route
-						path='/navigationadmin'
-						element={<NavigationAdmin></NavigationAdmin>}></Route>
-					<Route
-						path='/navigationadmintop'
-						element={<NavigationAdminTop></NavigationAdminTop>}></Route>
-					<Route path='/card3d' element={<Card3D></Card3D>}></Route>
-					<Route path='/cardhover' element={<CardHover></CardHover>}></Route>
-					<Route path='/dashboard' element={<Dashboard></Dashboard>}></Route>
-					<Route path='/albumtype2' element={<AlbumType2></AlbumType2>}></Route>
-					<Route path='/carousel' element={<Carousel></Carousel>}></Route>
-					<Route path='/cardhovertype2' element={<CardHoverType2></CardHoverType2>}></Route>
-					<Route path='/tablepasspost' element={<TablePassPost></TablePassPost>}></Route>
+					<Route path='/admin/:page' element={<AdminRouters></AdminRouters>}></Route>
+
 				</Routes>
 			</Router>
 		</>
