@@ -1,4 +1,4 @@
-.cards-list {
+.kzcards-list {
     z-index: 0;
     width: 100%;
     display: flex;
@@ -6,31 +6,31 @@
     flex-wrap: wrap;
   }
   
-.card {
-  margin: 30px auto;
+.kzcard{
+  margin: 0px 8px;
   width: 300px;
   height: 300px;
   border-radius: 40px;
-box-shadow: 5px 5px 30px 7px rgba(0,0,0,0.25), -5px -5px 30px 7px rgba(0,0,0,0.22);
+  box-shadow: 5px 5px 30px 7px rgba(0,0,0,0.25), -5px -5px 30px 7px rgba(0,0,0,0.22);
   cursor: pointer;
   transition: 0.4s;
   
 }
 
-.card .card_image {
+.kzcard .kzcard_image {
   width: inherit;
   height: inherit;
   border-radius: 40px;
 }
 
-.card .card_image img {
+.kzcard .kzcard_image img {
   width: inherit;
   height: inherit;
   border-radius: 40px;
   object-fit: cover;
 }
 
-.card .card_title {
+.kzcard .kzcard_title {
   text-align: center;
   border-radius: 0px 0px 40px 40px;
   font-family: sans-serif;
@@ -41,17 +41,17 @@ box-shadow: 5px 5px 30px 7px rgba(0,0,0,0.25), -5px -5px 30px 7px rgba(0,0,0,0.2
 
 }
 
-.card:hover {
+.kzcard:hover {
   transform: scale(0.9, 0.9);
   box-shadow: 5px 5px 30px 15px rgba(0,0,0,0.25), 
     -5px -5px 30px 15px rgba(0,0,0,0.22);
 }
 
-.title-white {
+.kztitle-white {
   color: white;
 }
 
-.title-black {
+.kztitle-black {
   color: black;
 }
 
