@@ -1,0 +1,66 @@
+@import '/src/Styles/Variables.scss';
+
+.largecard {
+	&-box {
+		// padding: 20px;
+		// background-color: black;
+		// border-width: 3px;
+		// border-style: solid;
+		// border-radius: 4px;
+		// border-image: linear-gradient(to bottom, #9b2335, rgba(0, 0, 0, 0)) 1 45%;
+		background-size: cover;
+		background: black;
+		box-sizing: border-box;
+		overflow: hidden;
+		box-shadow: 0 20px 50px rgb(155, 35, 53);
+
+		padding: 20px;
+		margin-bottom: 10px;
+	}
+	&-container {
+		display: grid;
+		grid-template-columns: 543px auto;
+		&-main {
+		}
+		&-secondary {
+			padding-left: 12px;
+		}
+	}
+}
+
+// .largecard-box-rgb::after {
+// 	content: '';
+// 	background: linear-gradient(
+// 			45deg,
+// 			#9b2335 0%,
+// 			#363945 10%,
+// 			#9b2335 20%,
+// 			#363945 30%,
+// 			#9b2335 40%,
+// 			#363945 50%,
+// 			#ff0000 60%,
+// 			#363945 70%,
+// 			#ff0000 80%,
+// 			#363945 90%,
+// 			#ff0000 100%
+// 		)
+// 		repeat 0% 0% / 300% 100%;
+
+// 	inset: -3px;
+// 	border-radius: 20px;
+// 	filter: blur(8px);
+// 	z-index: -2;
+// 	animation: rgb 6s linear infinite;
+// }
+
+// @keyframes largecard-box-rgb {
+// 	0% {
+// 		background-position: 0% 50%;
+// 	}
+// 	50% {
+// 		background-position: 100% 50%;
+// 	}
+// 	100% {
+// 		background-position: 0% 50%;
+// 	}
+// }

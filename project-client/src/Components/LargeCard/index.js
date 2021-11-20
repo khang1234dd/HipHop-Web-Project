@@ -2,12 +2,12 @@ import React from 'react';
 import { MiniCard } from '../MiniCard';
 import { MiniCard2 } from '../MiniCard2';
 import { MiniCardList } from '../MiniCardList';
-import './style.scss';
+import './largecard.scss';
 
 export const LargeCard = props => {
 	return (
 		<>
-			<div className='largecard-box'>
+			<div className='largecard-box largecard-box-rgb'>
 				<div className='largecard-container'>
 					<div className='largecard-container-main'>
 						<MiniCard2

@@ -1,12 +1,13 @@
-@import '/src/Styles/Variables.scss';
 a {
-	color: $second-color;
+	color: #9b2335;
 	text-decoration: none;
-	font-family: $f-1;
+	font-family: 'Roboto', sans-serif;
 }
 
 a:hover {
 	cursor: pointer;
+	transform: translate(2px, -4px);
+	transition: ease 0.25s;
 }
 
 * {

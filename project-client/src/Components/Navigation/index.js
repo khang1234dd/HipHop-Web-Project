@@ -9,6 +9,7 @@ import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
 import Container from '../Container';
 import ButtonHipHop from '../ButtonHipHop';
+import NavigationBar from '../NavigationBar';
 
 const Navigation = () => {
 	return (
@@ -16,23 +17,12 @@ const Navigation = () => {
 			<Container>
 				<div className='navigation'>
 					<div className='hamburger-block'>
-						<IconButton aria-label=''>
-							<MenuIcon></MenuIcon>
-						</IconButton>
+						<Link to='/'>
+							<img src={logo} className='logo'></img>
+						</Link>
 					</div>
 					<div className='logo-block'>
-						<img src={logo} className='logo'></img>
-					</div>
-					<div className='authentication-block'>
-						<IconButton aria-label=''>
-							<SearchIcon></SearchIcon>
-						</IconButton>
-						<Link to='/signin'>
-							<ButtonHipHop name='Sign in'></ButtonHipHop>
-						</Link>
-						<Link to='/signup'>
-							<ButtonHipHop name='Sign up'></ButtonHipHop>
-						</Link>
+						<NavigationBar></NavigationBar>
 					</div>
 				</div>
 			</Container>

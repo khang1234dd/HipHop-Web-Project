@@ -1,5 +1,5 @@
 @import '/src/Styles/Variables.scss';
-.card3d {
+.singlecard {
 	&-wrapper {
 		margin: 0;
 		padding: 0;
@@ -22,7 +22,7 @@
 	&-box {
 		position: relative;
 		width: 300px;
-		height: 400px;
+		height: 300px;
 		border-radius: 20px;
 		background: #232323;
 
@@ -91,7 +91,7 @@
 	}
 }
 
-// .card3d-box::before {
+// .singlecard-box::before {
 // 	content: 'MUSIC';
 // 	position: absolute;
 // 	top: 20px;
@@ -102,53 +102,53 @@
 // 	font-style: italic;
 // 	opacity: 0;
 // }
-.card3d-box::after {
-	content: 'ALBUM';
-	position: absolute;
-	bottom: 20px;
-	right: 65px;
-	font-size: 3.5em;
-	font-weight: 900;
-	color: white;
-	font-style: italic;
-	opacity: 0;
-	transition: 0.5s;
-}
+// .singlecard-box::after {
+// 	content: 'SINGLE';
+// 	position: absolute;
+// 	bottom: 20px;
+// 	right: 65px;
+// 	font-size: 3.5em;
+// 	font-weight: 900;
+// 	color: white;
+// 	font-style: italic;
+// 	opacity: 0;
+// 	transition: 0.5s;
+// }
 
-.card3d-box:hover::after {
+.singlecard-box:hover::after {
 	opacity: 0.3;
 }
 
-.card3d-container .card3d-box:hover .card3d-name {
-	top: 40px;
+.singlecard-container .singlecard-box:hover .singlecard-name {
+	top: 8px;
 	opacity: 1;
 }
 
-.card3d-container .card3d-box:hover .card3d-buy {
+.singlecard-container .singlecard-box:hover .singlecard-buy {
 	// transform: translateX(-100px);
 	bottom: 34px;
 	opacity: 1;
 	z-index: 12;
 }
 
-// .card3d-box:nth-child(1) .card3d-cirle {
+// .singlecard-box:nth-child(1) .singlecard-cirle {
 
 // }
 .rgb::after {
 	content: '';
 	background: linear-gradient(
 			45deg,
-			#ff0000 0%,
-			#ff9a00 10%,
-			#d0de21 20%,
-			#4fdc4a 30%,
-			#3fdad8 40%,
-			#2fc9e2 50%,
-			#1c7fee 60%,
-			#5f15f2 70%,
-			#ba0cf8 80%,
-			#fb07d9 90%,
-			#ff0000 100%
+			#3fdad8 0%,
+			#363945 10%,
+			#3fdad8 20%,
+			#363945 30%,
+			#2fc9e2 40%,
+			#363945 50%,
+			#45b8ac 60%,
+			#363945 70%,
+			#45b8ac 80%,
+			#363945 90%,
+			#45b8ac 100%
 		)
 		repeat 0% 0% / 300% 100%;
 	position: absolute;

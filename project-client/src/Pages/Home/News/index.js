@@ -6,7 +6,7 @@ import { ContainerTemplate } from '../../../Components/ContainerTemplate';
 import { Heading } from '../../../Components/Heading';
 import { MiniCardList } from '../../../Components/MiniCardList';
 import { Link } from 'react-router-dom';
-import './style.scss';
+import './news.scss';
 import { ArticleList } from '../../../Components/ArticleList';
 import { MdDoubleArrow } from 'react-icons/md';
 
@@ -87,7 +87,7 @@ export const News = () => {
 		<>
 			<Wrapper>
 				<Navigation></Navigation>
-				<NavigationBar></NavigationBar>
+
 				<ContainerTemplate>
 					<div className='news-leftcontainer'>
 						<Heading name='hiphop ' desc='now'></Heading>

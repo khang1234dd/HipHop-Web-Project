@@ -6,7 +6,9 @@ export const Album = props => {
 		<>
 			<div className='album-block'>
 				<img className='album-image' src={props.link}></img>
-				<p className='album-header'>{props.header}</p>
+				<div>
+					<p className='album-header'>{props.header}</p>
+				</div>
 			</div>
 		</>
 	);

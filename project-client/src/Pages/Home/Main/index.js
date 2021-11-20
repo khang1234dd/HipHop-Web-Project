@@ -2,20 +2,18 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import Navigation from '../../../Components/Navigation';
 import { Wrapper } from '../../../Components/Wrapper';
-import NavigationBar from '../../../Components/NavigationBar';
 import Container from '../../../Components/Container';
-import { MiniCard } from '../../../Components/MiniCard';
-import { MiniCard2 } from '../../../Components/MiniCard2';
+
 import { LargeCard } from '../../../Components/LargeCard';
-import './style.scss';
+import './main.scss';
 import { Heading } from '../../../Components/Heading';
 import { ArticleList } from '../../../Components/ArticleList';
 import { SingleList } from '../../../Components/SingleList';
 import { MiniCardList } from '../../../Components/MiniCardList';
 import { Footer } from '../../../Components/Footer';
-import { Album } from '../../../Components/Album';
-import { AlbumList } from '../../../Components/AlbumList';
+
 import { VideoList } from '../../../Components/VideoList';
+import { MusicVideoCardList } from '../../../Components/MusicVideoList';
 const hero = [
 	{
 		color: '-color2',
@@ -181,7 +179,7 @@ export const Main = () => {
 		<>
 			<Wrapper>
 				<Navigation></Navigation>
-				<NavigationBar></NavigationBar>
+
 				<Container>
 					<LargeCard data={hero}></LargeCard>
 				</Container>
@@ -211,7 +209,7 @@ export const Main = () => {
 							<Heading name='HIP HOP ' desc='VIDEOS'></Heading>
 							<VideoList data={videos}></VideoList>
 							<Link
-								to='/signin'
+								to='/musicvideo'
 								className='mainpage-container-secondarycontent-link'>
 								More videos
 							</Link>
@@ -221,11 +219,12 @@ export const Main = () => {
 
 				<Container>
 					<div className='mainpage-albumlist-block'>
-						<Heading name='HIPHOP ' desc='ALBUM'></Heading>
-
+						<div className='mainpage-albumlist-block-header'>
+							<Heading desc='MUSIC VIDEO OF THE WEEK'></Heading>
+						</div>
 						<div className='mainpage-albumlist'>
 							<button className='mainpage-albumlist-button-previous'></button>
-							<AlbumList data={albumlist}></AlbumList>
+							<MusicVideoCardList data={albumlist}></MusicVideoCardList>
 							<button className='mainpage-albumlist-button-next'></button>
 						</div>
 					</div>

@@ -5,11 +5,10 @@ import { Wrapper } from '../../../Components/Wrapper';
 import { ContainerTemplate } from '../../../Components/ContainerTemplate';
 import { Heading } from '../../../Components/Heading';
 
-import './style.scss';
+import './article.scss';
 import { ArticleList } from '../../../Components/ArticleList';
-import { MdDoubleArrow } from 'react-icons/md';
+
 import { ArticleImages, Newspaper } from '../../../Components/Newspaper';
-import Card3D from '../../../Components/Card3D';
 
 const article = [
 	{
@@ -46,7 +45,7 @@ export const Articles = () => {
 		<>
 			<Wrapper>
 				<Navigation></Navigation>
-				<NavigationBar></NavigationBar>
+
 				<ContainerTemplate>
 					<div className='articles-leftcontainer'>
 						<Newspaper
@@ -63,9 +62,6 @@ export const Articles = () => {
 						<ArticleList data={article}></ArticleList>
 					</div>
 				</ContainerTemplate>
-				<div>
-					<Card3D></Card3D>
-				</div>
 			</Wrapper>
 		</>
 	);

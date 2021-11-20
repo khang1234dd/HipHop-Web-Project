@@ -1,10 +1,10 @@
 import React from 'react';
-import './style.scss';
+import './musicvideocard.scss';
 import { Link } from 'react-router-dom';
 import Tilt from 'react-vanilla-tilt';
 import styled from 'styled-components';
 
-const Card3d = styled(Tilt)`
+const MusicVideoCard3D = styled(Tilt)`
 	width: 300px;
 	padding: 0px !important;
 	margin: 5px !important;
@@ -18,28 +18,28 @@ const Card3d = styled(Tilt)`
 	transform: perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1);
 `;
 
-const Card3D = props => {
+const MusicVideoCard = props => {
 	return (
 		<>
-			<Card3d options={{ speed: 400, max: 25 }}>
-				<div className='card3d-wrapper rgb'>
-					<div className='card3d-container'>
-						<div className='card3d-box'>
-							<h2 className='card3d-name'>{props.header}</h2>
-							<Link className='card3d-buy' to=''>
+			<MusicVideoCard3D options={{ speed: 400, max: 25 }}>
+				<div className='musicvideocard-wrapper musicvideorgb'>
+					<div className='musicvideocard-container'>
+						<div className='musicvideocard-box'>
+							<h2 className='musicvideocard-name'>{props.header}</h2>
+							<Link className='musicvideocard-buy' to=''>
 								<img
 									src='https://img.icons8.com/external-kmg-design-flat-kmg-design/64/000000/external-play-user-interface-kmg-design-flat-kmg-design.png'
-									className='card3d-play'
+									className='musicvideocard-play'
 								/>
 							</Link>
-							{/* <div className='card3d-circle '></div> */}
-							<img src={props.link} className='card3d-product'></img>
+							{/* <div className='musicvideocard-circle '></div> */}
+							<img src={props.link} className='musicvideocard-product'></img>
 						</div>
 					</div>
 				</div>
-			</Card3d>
+			</MusicVideoCard3D>
 		</>
 	);
 };
 
-export default Card3D;
+export default MusicVideoCard;

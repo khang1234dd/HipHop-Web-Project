@@ -1,6 +1,11 @@
 import React from 'react';
 import { MiniCard } from '../MiniCard';
 import './style.scss';
+import styled from 'styled-components';
+
+const MiniSingleCard = styled(MiniCard)`
+	color: white;
+`;
 
 export const MiniCardList = props => {
 	return (

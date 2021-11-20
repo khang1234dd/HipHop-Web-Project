@@ -5,7 +5,11 @@
 		display: flex;
 		justify-content: center;
 		&-block {
-			padding: 0 20px;
+			background-color: black;
+			padding: 20px 20px;
+			&-header {
+				padding-bottom: 20px;
+			}
 		}
 		&-button {
 			&-next {
@@ -34,9 +38,10 @@
 		background-color: white;
 		display: grid;
 		grid-template-columns: 600px auto;
-		padding: 0 20px;
+		padding: 20px 20px;
 		&-firstcontent {
 			margin-right: 10px;
+
 			&-block {
 				display: flex;
 			}

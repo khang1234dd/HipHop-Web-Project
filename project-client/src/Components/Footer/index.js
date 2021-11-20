@@ -22,8 +22,7 @@ export const Footer = () => {
 					</p>
 				</div>
 				<div className='footer-ceremony'>
-					This website is developed by KJ
-					<p>Thank you for your supporting</p>
+					This website is developed by K & J<p>Thank you for your supporting</p>
 				</div>
 
 				<div className='logo-footer-adjustment'>

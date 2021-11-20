@@ -3,9 +3,12 @@
 .album {
 	&-block {
 		padding: 0px 20px;
+		display: flex;
+		justify-content: center;
+		align-items: center;
 	}
 	&-image {
-		width: 120px;
+		width: 200px;
 	}
 	&-header {
 		font-family: $f-1;

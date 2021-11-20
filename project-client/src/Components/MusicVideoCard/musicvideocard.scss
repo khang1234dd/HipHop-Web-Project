@@ -1,5 +1,5 @@
 @import '/src/Styles/Variables.scss';
-.card3d {
+.musicvideocard {
 	&-wrapper {
 		margin: 0;
 		padding: 0;
@@ -36,7 +36,7 @@
 		top: 0;
 		left: 0;
 		text-align: center;
-		color: #fff;
+		color: #9b2335;
 		width: 100%;
 		transform-style: preserve-3d;
 		transform: translate3d(0, 0, 75px);
@@ -82,7 +82,7 @@
 		z-index: 11;
 		transition: 0.5s;
 		transform-style: preserve-3d;
-		transform: translate(-50%, -50%) rotate(15deg);
+		transform: translate(-50%, -50%); //rotate(15deg);
 		border-radius: 20px;
 	}
 	&-play {
@@ -91,7 +91,7 @@
 	}
 }
 
-// .card3d-box::before {
+// .musicvideocard-box::before {
 // 	content: 'MUSIC';
 // 	position: absolute;
 // 	top: 20px;
@@ -102,11 +102,11 @@
 // 	font-style: italic;
 // 	opacity: 0;
 // }
-.card3d-box::after {
-	content: 'ALBUM';
+.musicvideocard-box::after {
+	content: 'MV';
 	position: absolute;
-	bottom: 20px;
-	right: 65px;
+	bottom: 0px;
+	right: 110px;
 	font-size: 3.5em;
 	font-weight: 900;
 	color: white;
@@ -115,39 +115,39 @@
 	transition: 0.5s;
 }
 
-.card3d-box:hover::after {
+.musicvideocard-box:hover::after {
 	opacity: 0.3;
 }
 
-.card3d-container .card3d-box:hover .card3d-name {
+.musicvideocard-container .musicvideocard-box:hover .musicvideocard-name {
 	top: 40px;
 	opacity: 1;
 }
 
-.card3d-container .card3d-box:hover .card3d-buy {
+.musicvideocard-container .musicvideocard-box:hover .musicvideocard-buy {
 	// transform: translateX(-100px);
-	bottom: 34px;
+	bottom: 14px;
 	opacity: 1;
 	z-index: 12;
 }
 
-// .card3d-box:nth-child(1) .card3d-cirle {
+// .musicvideocard-box:nth-child(1) .musicvideocard-cirle {
 
 // }
-.rgb::after {
+.musicvideorgb::after {
 	content: '';
 	background: linear-gradient(
 			45deg,
-			#ff0000 0%,
-			#ff9a00 10%,
-			#d0de21 20%,
-			#4fdc4a 30%,
-			#3fdad8 40%,
-			#2fc9e2 50%,
-			#1c7fee 60%,
-			#5f15f2 70%,
-			#ba0cf8 80%,
-			#fb07d9 90%,
+			#9b2335 0%,
+			#363945 10%,
+			#9b2335 20%,
+			#363945 30%,
+			#9b2335 40%,
+			#363945 50%,
+			#ff0000 60%,
+			#363945 70%,
+			#ff0000 80%,
+			#363945 90%,
 			#ff0000 100%
 		)
 		repeat 0% 0% / 300% 100%;
@@ -159,7 +159,7 @@
 	animation: rgb 6s linear infinite;
 }
 
-@keyframes rgb {
+@keyframes musicvideorgb {
 	0% {
 		background-position: 0% 50%;
 	}

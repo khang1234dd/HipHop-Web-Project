@@ -1,18 +1,22 @@
 @import '/src/Styles/Variables.scss';
+.heading {
+	&-title {
+		text-transform: uppercase;
+		font-family: $f-2;
+		margin-bottom: 5px;
 
-.title {
-	text-transform: uppercase;
-	font-family: $f-2;
-	margin-bottom: 5px;
-
-	border-bottom: 1px solid #eee;
-	&-name {
-		font-weight: 500;
-		letter-spacing: 1px;
-		font-size: 24px;
-		color: $primary-color;
-	}
-	&-desc {
-		color: $second-color;
+		border-bottom: 1px solid;
+		border-image-slice: 1;
+		border-width: 3px;
+		border-image-source: linear-gradient(to left, red, black);
+		&-name {
+			font-weight: 500;
+			letter-spacing: 1px;
+			font-size: 24px;
+			color: $primary-color;
+		}
+		&-desc {
+			color: $second-color;
+		}
 	}
 }

@@ -46,3 +46,8 @@
 
 	border-radius: 3px;
 }
+
+.minicard2-block:hover {
+	transform: translateY(-2px);
+	transition: ease 0.25s;
+}

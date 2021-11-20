@@ -4,7 +4,7 @@ import './style.scss';
 export const MiniCard2 = props => {
 	return (
 		<>
-			<div className='minicard2-block'>
+			<div className='minicard2-block '>
 				<div className='minicard2-block-image '>
 					<img src={props.link} className='minicard2-image'></img>
 				</div>

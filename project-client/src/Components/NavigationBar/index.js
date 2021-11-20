@@ -11,9 +11,9 @@ const NavigationBar = () => {
 			<div className='navigationbar-block'>
 				<div className='navigationbar-container'>
 					<div className='navigationbar-button'>
-						<Link to='/'>
+						{/* <Link to='/'>
 							<ButtonHipHop name='home'></ButtonHipHop>
-						</Link>
+						</Link> */}
 					</div>
 					<div className='navigationbar-button'>
 						<Link to='/news'>
@@ -21,10 +21,24 @@ const NavigationBar = () => {
 						</Link>
 					</div>
 					<div className='navigationbar-button'>
-						<ButtonHipHop name='Single'></ButtonHipHop>
+						<Link to='/single'>
+							<ButtonHipHop name='Single'></ButtonHipHop>
+						</Link>
 					</div>
 					<div className='navigationbar-button'>
-						<ButtonHipHop name='Video'></ButtonHipHop>
+						<Link to='/musicvideo'>
+							<ButtonHipHop name='Music Video'></ButtonHipHop>
+						</Link>
+					</div>
+					<div className='navigationbar-button'>
+						<Link to='/signin'>
+							<ButtonHipHop name='Sign in'></ButtonHipHop>
+						</Link>
+					</div>
+					<div className='navigationbar-button'>
+						<Link to='/signup'>
+							<ButtonHipHop name='Sign up'></ButtonHipHop>
+						</Link>
 					</div>
 				</div>
 			</div>

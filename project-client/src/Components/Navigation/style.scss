@@ -1,13 +1,12 @@
 @import '/src/Styles/Variables.scss';
 .navigation {
-	background-color: #fff;
+	background-color: black;
 	display: flex;
 	align-items: center;
 	justify-content: center;
 	padding: $pm-40;
 }
 .logo-block {
-	margin-left: 8rem;
 }
 .logo {
 	width: 5rem;
