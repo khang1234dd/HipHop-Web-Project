@@ -12,6 +12,7 @@ import AdminRouters from '../Pages/Admin/AdminRouters';
 import { Articles } from '../Pages/Home/Articles';
 import { Single } from '../Pages/Home/Single';
 import { MusicVideo } from '../Pages/Home/MusicVideo';
+import { WatchVideos } from '../Pages/WatchVideos';
 
 export const Routers = () => {
 	// useEffect(() => {
@@ -46,6 +47,9 @@ export const Routers = () => {
 						element={<AlbumArticle></AlbumArticle>}></Route> */}
 					<Route path='/single' element={<Single></Single>}></Route>
 					<Route path='/musicvideo' element={<MusicVideo></MusicVideo>}></Route>
+					<Route
+						path='/watchvideos'
+						element={<WatchVideos></WatchVideos>}></Route>
 				</Routes>
 			</Router>
 		</>
@@ -64,7 +68,9 @@ export const RoutersAdmin = () => {
 		<>
 			<Router>
 				<Routes>
-					<Route path='/admin/:page' element={<AdminRouters></AdminRouters>}></Route>
+					<Route
+						path='/admin/:page'
+						element={<AdminRouters></AdminRouters>}></Route>
 				</Routes>
 			</Router>
 		</>

@@ -1,0 +1,66 @@
+.video-responsive {
+	width: 100%;
+}
+
+@import '/src/Styles/Variables.scss';
+.youtubeembed {
+	&-wrapper {
+		box-sizing: border-box;
+		overflow: hidden;
+		box-shadow: 0 20px 50px rgb(155, 35, 53);
+	}
+	&-header {
+		color: $second-color;
+		font-weight: 700;
+		font-size: 3rem;
+		text-transform: uppercase;
+		text-align: center;
+		padding: 20px 20px;
+		font-family: $f-5;
+		// margin: 0 20px;
+		& mark {
+			background: transparent;
+			color: white;
+		}
+	}
+	&-infor {
+		padding: 10px 20px;
+		&-image {
+			width: 28px;
+			height: 28px;
+			border-radius: 100%;
+			vertical-align: top;
+		}
+		&-text {
+			display: inline-block;
+			padding: 0 5px;
+			&-date {
+				font-family: $f-4;
+				font-size: 14px;
+				padding: 0 20px;
+				font-weight: 700;
+				letter-spacing: 0.25px;
+				line-height: 14px;
+				color: #9a9a9a;
+			}
+			&-link {
+				font-family: $f-4;
+				font-size: 14px;
+				padding: 0 20px;
+				font-weight: 700;
+				letter-spacing: 0.25px;
+				line-height: 14px;
+				color: #9a9a9a;
+				text-transform: capitalize;
+				& a {
+					color: red;
+					font-size: 14px;
+
+					font-weight: 700;
+					letter-spacing: 0.25px;
+					line-height: 14px;
+				}
+			}
+		}
+	}
+}

@@ -2,12 +2,12 @@ a {
 	color: #9b2335;
 	text-decoration: none;
 	font-family: 'Roboto', sans-serif;
+	transition: transform 500ms ease;
 }
 
 a:hover {
 	cursor: pointer;
 	transform: translate(2px, -4px);
-	transition: ease 0.25s;
 }
 
 * {
