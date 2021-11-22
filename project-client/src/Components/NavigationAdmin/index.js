@@ -59,10 +59,14 @@ export default function NavigatorAdmin(props) {
   const handleClick = (e) => {
     
     const link= e.target.innerHTML;
-    if(link === 'Dashboard' || link === 'User' || link === 'Album' || link === 'Post' || link === 'Song' || link === 'Song' )
+    if(link === 'Dashboard' || link === 'User' || link === 'Album' || link === 'Post' || link === 'Song' || link === 'Category' )
     {
-      console.log(link)
-      navigate('/admin/' + link)
+      if(link === 'Dashboard') navigate('/admin' )
+      else{
+        
+        navigate('/admin/' + link)
+      }
+      
     }
     
   }

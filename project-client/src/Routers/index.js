@@ -68,9 +68,7 @@ export const RoutersAdmin = () => {
 		<>
 			<Router>
 				<Routes>
-					<Route
-						path='/admin/:page'
-						element={<AdminRouters></AdminRouters>}></Route>
+					<Route path='/admin/*' element={<AdminRouters></AdminRouters>}></Route>
 				</Routes>
 			</Router>
 		</>
