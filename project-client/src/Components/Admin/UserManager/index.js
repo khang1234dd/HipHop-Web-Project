@@ -1,6 +1,6 @@
 import React from 'react'
 import './style.scss'
-import TableUser from '../Common/TableUser'
+// import TableUser from '../Common/TableUser'
 import Pagination from '../Common/Pagination'
 import CRUDTable from '../Common/CRUDTable'
 

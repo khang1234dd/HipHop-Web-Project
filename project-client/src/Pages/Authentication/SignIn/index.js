@@ -21,7 +21,7 @@ export const SignIn = () => {
 			if (res.success) {
 				Cookies.set('jwt', res.token);
 				toastNotify('Welcome to HipHop Viet', 'success');
-				navigate('/main');
+				navigate('/');
 			} else {
 				toastNotify(res.message, 'error');
 			}
