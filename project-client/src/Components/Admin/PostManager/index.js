@@ -1,39 +1,19 @@
-
+import React, {useState, useEffect} from 'react'
 import AddIcon from '@mui/icons-material/Add';
 import { Link as RouterLink } from 'react-router-dom';
 // material
 import { Grid, Button, Container, Stack, Typography,Box } from '@mui/material';
 // components
 
-import { PostCard, PostsSort, PostsSearch } from '../Common/PostCard';
-//
+import { PostCard, PostsSort, PostsSearch, PostModal } from '../Common/PostCard';
+import Pagination from '@mui/material/Pagination';
 
-const POST_TITLES = [
-    'Whiteboard Templates By Industry Leaders',
-    'Tesla Cybertruck-inspired camper trailer for Tesla fans who can’t just wait for the truck!',
-    'Designify Agency Landing Page Design',
-    '✨What is Done is Done ✨',
-    'Fresh Prince',
-    'Six Socks Studio',
-    'vincenzo de cotiis’ crossing over showcases a research on contamination',
-    'Simple, Great Looking Animations in Your Project | Video Tutorial',
-    '40 Free Serif Fonts for Digital Designers',
-    'Examining the Evolution of the Typical Web Design Client',
-    'Katie Griffin loves making that homey art',
-    'The American Dream retold through mid-century railroad graphics',
-    'Illustration System Design',
-    'CarZio-Delivery Driver App SignIn/SignUp',
-    'How to create a client-serverless Jamstack app using Netlify, Gatsby and Fauna',
-    'Tylko Organise effortlessly -3D & Motion Design',
-    'RAYO ?? A expanded visual arts festival identity',
-    'Anthony Burrill and Wired mag’s Andrew Diprose discuss how they made January’s Change Everything cover',
-    'Inside the Mind of Samuel Day',
-    'Portfolio Review: Is This Portfolio Too Creative?',
-    'Akkers van Margraten',
-    'Gradient Ticket icon',
-    'Here’s a Dyson motorcycle concept that doesn’t ‘suck’!',
-    'How to Animate a SVG with border-image'
-  ];
+import {getAllPostApi} from '../../../Apis/admin.api'
+import toastNotify from'../../Toast';
+import {vlCreatePost} from '../Common/Validate'
+
+
+//
 
 const POSTS = [
     {
@@ -108,7 +88,54 @@ const SORT_OPTIONS = [
 
 // ----------------------------------------------------------------------
 
+const MODALCREATEPOST ={
+  title: 'new post',
+  typeCreate: true,
+
+  chill: [
+  {id: 1 , field: 'Post Name',inputName1:'namePost', fieldSelect: 'Post Category',inputName2:'categoryId', boxSelect: true},
+  {id: 2 , field: 'Tiny Description',inputName:'tinydes' , boxTextArea: true},
+  {id: 3 , field: 'Description',inputName:'description',boxEditor: true},
+  {id: 4 , field: 'Post Image',inputName:'image' , boxImage: true },
+  ]
+}
+const MODALUPDATEPost ={
+  title: 'update song',
+  typeCreate: false,
+  chill: [
+  {id: 1 , field: 'Song Name'},
+  {id: 2 , field: 'Song Author'},
+  {id: 3 , field: 'Song Image', boxImage: true},
+  ]
+}
+
 export default function PostManager() {
+  const [open, setOpen] = useState(false);
+  const [typeModal, setTypeModal] = useState(1)
+  const [pagination, setPagination] = useState(1)
+
+  const handleOpen = () => {
+    setTypeModal(1);
+    setOpen(true)
+  };
+  const handleClose = () => setOpen(false);
+
+  const handleUpdate = () => {
+    setTypeModal(2);
+    setOpen(true)
+  }
+
+  useEffect(() => {
+    (async () => {
+        const res = await getAllPostApi({page: pagination, limit:3});
+        console.log(res)
+        // setCategoryArray(res.category)
+        // console.log(categoryArray)
+
+  })();
+  }, []);
+
+
   return (
     <Box 
     sx={{
@@ -123,14 +150,19 @@ export default function PostManager() {
     >
       <Container>
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
-          <Typography variant="h4" gutterBottom>
-            Blog
+          <Typography variant="h4" gutterBottom sx={{color: '#9B2335', fontWeight: 600}}>
+            Post
           </Typography>
           <Button
             variant="contained"
-            component={RouterLink}
-            to="#"
             startIcon={<AddIcon />}
+            onClick={handleOpen}
+            sx={{
+              backgroundColor: '#9B2335',
+              '&:hover': {
+                  backgroundColor: '#7b1c2a',
+              }
+            }}
           >
             New Post
           </Button>
@@ -146,7 +178,15 @@ export default function PostManager() {
             <PostCard key={post.id} post={post} index={index} />
           ))}
         </Grid>
+        <Stack mt={5} mb={2} direction="row" alignItems="center" justifyContent="center">
+          <Pagination count={10} variant="outlined" color="secondary" />
+
+        </Stack>
       </Container>
+      {typeModal === 1 
+      ? <PostModal open={open} handleClose={handleClose} {...MODALCREATEPOST}></PostModal>
+      : <PostModal open={open} handleClose={handleClose} {...MODALUPDATEPost} ></PostModal>
+      }
     </Box>
   );
 }

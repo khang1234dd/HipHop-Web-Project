@@ -11,6 +11,8 @@ import { fShortenNumber } from '../../utils/formatNumber';
 //
 import SvgIconStyle from '../../utils/SvgIconStyle';
 
+import PostMoreMenu from './PostMoreMenu'
+
 // ----------------------------------------------------------------------
 
 
@@ -36,6 +38,8 @@ const AvatarStyle = styled(Avatar)(({ theme }) => ({
   bottom: theme.spacing(-2)
 }));
 
+
+
 const InfoStyle = styled('div')(({ theme }) => ({
   display: 'flex',
   flexWrap: 'wrap',
@@ -52,12 +56,19 @@ const CoverImgStyle = styled('img')({
   position: 'absolute'
 });
 
+const PostMenu = styled('div')(({ theme }) => ({
+  position: 'absolute',
+  zIndex: 9,
+  right: theme.spacing(1),
+  bottom: theme.spacing(-9),
+}));
+
 
 
 // ----------------------------------------------------------------------
 
 
-export default function BlogPostCard({ post, index }) {
+export default function PostCard({ post, index }) {
   const { cover, title, view, comment, author, createdAt } = post;
   const latestPostLarge = index === 0;
   const latestPost = index === 1 || index === 2;
@@ -130,6 +141,18 @@ export default function BlogPostCard({ post, index }) {
               })
             }}
           />
+
+          <PostMenu sx={{
+              ...((latestPostLarge || latestPost) && {
+                zIndex: 9,
+                top: 24,
+                right: 24,
+                width: 40,
+                height: 40
+              })
+            }}>
+            <PostMoreMenu></PostMoreMenu>
+          </PostMenu>
 
           <CoverImgStyle alt={title} src={cover} />
         </CardMediaStyle>

@@ -1,11 +1,8 @@
-import * as React from 'react';
+import  React, {useState, useEffect} from 'react';
 import './style.scss'
-import PropTypes from 'prop-types';
 import AppBar from '@mui/material/AppBar';
 import Avatar from '@mui/material/Avatar';
-import Button from '@mui/material/Button';
 import Grid from '@mui/material/Grid';
-import HelpIcon from '@mui/icons-material/Help';
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
 import NotificationsIcon from '@mui/icons-material/Notifications';
@@ -13,11 +10,53 @@ import Toolbar from '@mui/material/Toolbar';
 import Tooltip from '@mui/material/Tooltip';
 import Box from '@mui/material/Box';
 
+import PersonIcon from '@mui/icons-material/Person';
+import HomeIcon from '@mui/icons-material/Home';
+import Logout from '@mui/icons-material/Logout';
+
+import Menu from '@mui/material/Menu';
+import MenuItem from '@mui/material/MenuItem';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import Divider from '@mui/material/Divider';
+import Typography from '@mui/material/Typography';
+import {styled} from '@mui/material/styles';
 
 
 
-function NavigationAdminTop(props) {
-  const { onDrawerToggle,shadow } = props;
+function NavigationAdminTop() {
+
+  const [offset, setOffset] = useState(0);
+  const [shadow, setShadow] = useState(0);
+
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const open = Boolean(anchorEl);
+  const handleAnchorElMenuAvatar = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  useEffect(() => {
+    if(offset !== 0)
+    {
+        window.onscroll = () => {
+          setOffset(window.pageYOffset)
+          
+        }
+        setShadow(2)
+        console.log('shadow', shadow)
+    }
+    else{
+        window.onscroll = () => {
+            setOffset(window.pageYOffset)
+            
+          }
+          setShadow(0)
+        console.log('shadow', shadow)
+    }
+  }, [offset]);
+
+  const handleCloseMenuAvatar =() => {
+    setAnchorEl(null);
+  }
 
   return (
     <React.Fragment>
@@ -28,7 +67,6 @@ function NavigationAdminTop(props) {
               <IconButton
                 color="inherit"
                 aria-label="open drawer"
-                onClick={onDrawerToggle}
                 edge="start"
               >
                 <MenuIcon />
@@ -42,8 +80,9 @@ function NavigationAdminTop(props) {
                 </IconButton>
               </Tooltip>
             </Grid>
+            
             <Grid item>
-              <IconButton color="inherit" sx={{ p: 0.5 }}>
+              <IconButton onClick={handleAnchorElMenuAvatar} color="inherit" sx={{ p: 0.5 }}>
                 <Avatar src="https://hiphop-g28.herokuapp.com/upload/image/1.png" alt="My Avatar" />
               </IconButton>
             </Grid>
@@ -52,14 +91,69 @@ function NavigationAdminTop(props) {
         {/* <Toolbar className="kz-index">
           <Box className="kz-index" sx={{ width: 'auto' , height: 273}}></Box>
         </Toolbar> */}
+        <Menu
+         anchorEl={anchorEl}
+         open={open}
+         onClose={handleCloseMenuAvatar}
+         onClick={handleCloseMenuAvatar}
+         sx={{disableScrollLock: true}}
+        PaperProps={{
+          elevation: 2,
+          sx: {
+            overflow: 'visible',
+            filter: 'drop-shadow(0px 2px 8px rgba(0,0,0,0.32))',
+            mt: 1.5,
+            '& .MuiAvatar-root': {
+              width: 32,
+              height: 32,
+              ml: -0.5,
+              mr: 1,
+
+            },
+            '&:before': {
+              content: '""',
+              display: 'block',
+              position: 'absolute',
+              top: 0,
+              right: 14,
+              width: 10,
+              height: 10,
+              bgcolor: 'background.paper',
+              transform: 'translateY(-50%) rotate(45deg)',
+              zIndex: 100,
+
+            },
+          },
+        }}
+        transformOrigin={{ horizontal: 'right', vertical: 'top' }}
+        anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
+      >
+        <Box sx={{margin: '12px 0px', padding: '0px 20px'}} >
+          <Typography sx={{fontFamily: "Public Sans, sans-serif", fontWeight: '600'}} variant="subtitle1" noWrap component="h6">Kha Zoo</Typography>
+          <Typography sx={{fontFamily: "Public Sans, sans-serif" , color: '#637381'}} variant="body2" noWrap component="p">khang@gmail.cơm</Typography>
+        </Box>
+        <Divider />
+        <MenuItem component="a">
+          <HomeIcon sx={{marginRight: '16px'}}  /> Home
+        </MenuItem>
+        
+        <MenuItem component="a">
+            <PersonIcon sx={{marginRight: '16px'}} />  Profile
+        </MenuItem>
+        
+        <MenuItem>
+          <ListItemIcon>
+            <Logout fontSize="small" />
+          </ListItemIcon>
+          Logout
+        </MenuItem>
+      </Menu>
       
       </AppBar>
     </React.Fragment>
   );
 }
 
-NavigationAdminTop.propTypes = {
-  onDrawerToggle: PropTypes.func.isRequired,
-};
+
 
 export default NavigationAdminTop;

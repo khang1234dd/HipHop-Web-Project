@@ -1,5 +1,5 @@
 import { filter } from 'lodash';
-
+// import { sentenceCase } from 'change-case';
 import React, { useState } from 'react';
 import AddIcon from '@mui/icons-material/Add';
 import { Link as RouterLink } from 'react-router-dom';
@@ -180,7 +180,7 @@ function applySortFilter(array, comparator, query) {
 	return stabilizedThis.map(el => el[0]);
 }
 
-export default function User() {
+export default function CRUDTable() {
 	const [page, setPage] = useState(0);
 	const [order, setOrder] = useState('asc');
 	const [selected, setSelected] = useState([]);
