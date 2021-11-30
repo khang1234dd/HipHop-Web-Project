@@ -14,6 +14,8 @@ import { Footer } from '../../../Components/Footer';
 
 import { VideoList } from '../../../Components/VideoList';
 import { MusicVideoCardList } from '../../../Components/MusicVideoList';
+import { motion } from 'framer-motion';
+
 const hero = [
 	{
 		color: '-color2',
@@ -174,6 +176,16 @@ const videos = [
 		singer: 'kha zoo'
 	}
 ];
+
+//variants
+const container = {
+	show: {
+		transition: {
+			staggerChildren: 0.35
+		}
+	}
+};
+
 export const Main = () => {
 	return (
 		<>
@@ -181,7 +193,13 @@ export const Main = () => {
 				<Navigation></Navigation>
 
 				<Container>
-					<LargeCard data={hero}></LargeCard>
+					<motion.div
+						variants={container}
+						initial='hidden'
+						animate='show'
+						exit='exit'>
+						<LargeCard data={hero}></LargeCard>
+					</motion.div>
 				</Container>
 				<Container>
 					<div className='mainpage-container'>
@@ -203,7 +221,13 @@ export const Main = () => {
 					<div className='mainpage-container'>
 						<div className='mainpage-container-firstcontent'>
 							<Heading name='HIPHOP ' desc='NOW'></Heading>
-							<MiniCardList data={articlecard}></MiniCardList>
+							<motion.div
+								variants={container}
+								initial='hidden'
+								animate='show'
+								exit='exit'>
+								<MiniCardList data={articlecard}></MiniCardList>
+							</motion.div>
 						</div>
 						<div className='mainpage-container-secondarycontent'>
 							<Heading name='HIP HOP ' desc='VIDEOS'></Heading>

@@ -9,6 +9,15 @@ import { Link } from 'react-router-dom';
 import './news.scss';
 import { ArticleList } from '../../../Components/ArticleList';
 import { MdDoubleArrow } from 'react-icons/md';
+import { motion } from 'framer-motion';
+
+const container = {
+	show: {
+		transition: {
+			staggerChildren: 0.35
+		}
+	}
+};
 
 const articlecard = [
 	{
@@ -91,7 +100,14 @@ export const News = () => {
 				<ContainerTemplate>
 					<div className='news-leftcontainer'>
 						<Heading name='hiphop ' desc='now'></Heading>
-						<MiniCardList data={articlecard}></MiniCardList>
+						<motion.div
+							variants={container}
+							initial='hidden'
+							animate='show'
+							exit='exit'>
+							<MiniCardList data={articlecard}></MiniCardList>
+						</motion.div>
+
 						<Link to=''>
 							<div className='news-leftcontainer-link'>
 								<p>Next</p>

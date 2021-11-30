@@ -8,6 +8,30 @@ import { SingleCardList } from '../../../Components/SingleCardList';
 import './single.scss';
 import { MiniCardList } from '../../../Components/MiniCardList';
 import { MiniCard } from '../../../Components/MiniCard';
+import { AnimationOne } from '../../../Components/AnimationOne';
+import { motion } from 'framer-motion';
+
+//variants
+const container = {
+	show: {
+		transition: {
+			staggerChildren: 0.35
+		}
+	}
+};
+
+const letter = {
+	initial: {
+		y: 800
+	},
+	animate: {
+		y: 0,
+		transition: {
+			ease: [0.6, 0.01, -0.05, 0.95],
+			duration: 1
+		}
+	}
+};
 
 const singlelist = [
 	{
@@ -85,20 +109,30 @@ export const Single = () => {
 
 	return (
 		<>
+			{/* <AnimationOne> */}
 			<Wrapper>
 				<Container>
 					<Navigation></Navigation>
 				</Container>
 				<Container>
 					<div className='single-wrapper'>
-						<div className='single-header'>
+						<motion.div
+							variants={letter}
+							animate='animate'
+							initial='initial'
+							className='single-header'>
 							<h2>
 								Single <mark>Of the week</mark>
 							</h2>
-						</div>
-						<div className='single-block'>
+						</motion.div>
+						<motion.div
+							variants={container}
+							initial='hidden'
+							animate='show'
+							exit='exit'
+							className='single-block'>
 							<SingleCardList data={data}></SingleCardList>
-						</div>
+						</motion.div>
 						<div className='single-top100'>
 							<div className='single-top100-header'>
 								<h3>TOP 100</h3>
@@ -115,6 +149,7 @@ export const Single = () => {
 					</div>
 				</Container>
 			</Wrapper>
+			{/* </AnimationOne> */}
 		</>
 	);
 };

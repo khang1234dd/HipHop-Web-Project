@@ -4,11 +4,28 @@ import SplitButton from '../SplitButton';
 import './style.scss';
 import ButtonHipHop from '../ButtonHipHop';
 import { Link } from 'react-router-dom';
-const test = ['Nhac hot 100', 'bang xep hang ', 'top rapper	'];
+import { motion } from 'framer-motion';
+
+const letter = {
+	initial: {
+		x: 1000
+	},
+	animate: {
+		x: 0,
+		transition: {
+			ease: [0.6, 0.01, -0.05, 0.95],
+			duration: 2
+		}
+	}
+};
 const NavigationBar = () => {
 	return (
 		<>
-			<div className='navigationbar-block'>
+			<motion.div
+				variants={letter}
+				initial='initial'
+				animate='animate'
+				className='navigationbar-block'>
 				<div className='navigationbar-container'>
 					<div className='navigationbar-button'>
 						{/* <Link to='/'>
@@ -41,7 +58,7 @@ const NavigationBar = () => {
 						</Link>
 					</div>
 				</div>
-			</div>
+			</motion.div>
 		</>
 	);
 };

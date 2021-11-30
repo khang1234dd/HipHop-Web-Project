@@ -11,6 +11,9 @@
 	position: relative;
 	font-weight: 600;
 	text-transform: uppercase;
+	&-block {
+		margin: 0 10px;
+	}
 
 	& span {
 		position: absolute;

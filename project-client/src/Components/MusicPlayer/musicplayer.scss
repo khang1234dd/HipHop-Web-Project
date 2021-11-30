@@ -1,0 +1,90 @@
+@import '/src/Styles/Variables.scss';
+
+@keyframes spin {
+	from {
+		transform: rotate(0deg);
+	}
+	to {
+		transform: rotate(360deg);
+	}
+}
+
+.musicplayer-SongThumbnail-custom {
+	width: 50px;
+	height: 50px;
+	background-color: black;
+	display: inline-block;
+	border-radius: 50px;
+	position: absolute;
+	top: 50px;
+	left: 50%;
+	transform: translateX(-50%);
+}
+.musicplayer {
+	// box-sizing: border-box;
+	// min-height: 100vh;
+	// padding: 120px 0;
+	font-family: $f-5;
+	color: #101010;
+	text-align: center;
+	&-thumbnailblock {
+		width: 200px;
+		margin: auto;
+		position: relative;
+	}
+
+	&-SongThumbnail {
+		width: 150px;
+		height: 150px;
+		border-radius: 100%;
+		object-fit: cover;
+		animation-name: spin;
+		animation-duration: 5000ms;
+		animation-iteration-count: infinite;
+		animation-timing-function: linear;
+	}
+	&-SongTitle {
+		margin-top: 20px;
+		text-transform: uppercase;
+		margin-bottom: 0;
+		font-weight: 700;
+		color: $second-color;
+	}
+	&-Singer {
+		margin-top: 0;
+		margin-bottom: 20px;
+		font-size: 12px;
+		color: white;
+		font-weight: 500;
+	}
+	&-ControlButtonGroup {
+		margin: auto;
+		width: 250px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		background-color: $second-color;
+		> * {
+			cursor: pointer;
+		}
+	}
+	&-PrevButton {
+		display: flex;
+		width: 20px;
+	}
+	&-Next-Button {
+		display: flex;
+		width: 20px;
+	}
+	&-PausePlayButton {
+		display: flex;
+		justify-content: center;
+		width: 14px;
+		height: 22px;
+		margin: 0 32px;
+
+		svg {
+			height: 22px;
+		}
+	}
+}

@@ -1,0 +1,65 @@
+@import '/src/Styles/Variables.scss';
+.audioplayer {
+	&-wrapper {
+		background: black;
+	}
+	&-block {
+		background-color: black;
+	}
+	&-header {
+		color: $second-color;
+		font-weight: 700;
+		font-size: 3rem;
+		text-transform: uppercase;
+		text-align: center;
+		padding: 20px 20px;
+		font-family: $f-5;
+		// margin: 0 20px;
+		& mark {
+			background: transparent;
+			color: white;
+		}
+	}
+	&-block {
+		width: 100%;
+
+		padding: 20px 0px;
+	}
+	&-top100 {
+		&-header {
+			color: $second-color;
+			font-weight: 700;
+			font-size: 3rem;
+			text-transform: uppercase;
+			text-align: center;
+			padding: 20px 20px;
+			font-family: $f-5;
+		}
+		&-button {
+			&-block {
+				display: flex;
+				justify-content: center;
+				&-adjust {
+					color: $second-color;
+					font-weight: 700;
+					font-size: 1.5rem;
+					text-transform: uppercase;
+					text-align: center;
+					padding: 20px 20px;
+					font-family: $f-5;
+					background: none;
+					margin-bottom: 20px;
+					width: 50%;
+					border: 1px solid #fff;
+					border-radius: 5px;
+					transition: all 0.2s ease-in-out;
+				}
+			}
+		}
+	}
+}
+
+.audioplayer-top100-button-block-adjust:hover {
+	background-color: white;
+	cursor: pointer;
+}

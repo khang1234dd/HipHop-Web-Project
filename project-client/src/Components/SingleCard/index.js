@@ -3,6 +3,7 @@ import './singlecard.scss';
 import { Link } from 'react-router-dom';
 import Tilt from 'react-vanilla-tilt';
 import styled from 'styled-components';
+import { motion } from 'framer-motion';
 
 const SingleCard3D = styled(Tilt)`
 	width: 300px;
@@ -18,26 +19,28 @@ const SingleCard3D = styled(Tilt)`
 	transform: perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1);
 `;
 
-const SingleCard = props => {
+const SingleCard = ({ header, link, variants }) => {
 	return (
 		<>
-			<SingleCard3D options={{ speed: 400, max: 25 }}>
-				<div className='singlecard-wrapper rgb'>
-					<div className='singlecard-container'>
-						<div className='singlecard-box'>
-							<h2 className='singlecard-name'>{props.header}</h2>
-							<Link className='singlecard-buy' to=''>
-								<img
-									src='https://img.icons8.com/external-kmg-design-flat-kmg-design/64/000000/external-play-user-interface-kmg-design-flat-kmg-design.png'
-									className='singlecard-play'
-								/>
-							</Link>
-							{/* <div className='singlecard-circle '></div> */}
-							<img src={props.link} className='singlecard-product'></img>
+			<motion.div variants={variants}>
+				<SingleCard3D options={{ speed: 400, max: 25 }}>
+					<div className='singlecard-wrapper rgb'>
+						<div className='singlecard-container'>
+							<div className='singlecard-box'>
+								<h2 className='singlecard-name'>{header}</h2>
+								<Link className='singlecard-buy' to=''>
+									<img
+										src='https://img.icons8.com/external-kmg-design-flat-kmg-design/64/000000/external-play-user-interface-kmg-design-flat-kmg-design.png'
+										className='singlecard-play'
+									/>
+								</Link>
+								{/* <div className='singlecard-circle '></div> */}
+								<img src={link} className='singlecard-product'></img>
+							</div>
 						</div>
 					</div>
-				</div>
-			</SingleCard3D>
+				</SingleCard3D>
+			</motion.div>
 		</>
 	);
 };

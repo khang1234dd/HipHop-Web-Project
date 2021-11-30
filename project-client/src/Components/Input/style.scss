@@ -1,6 +1,6 @@
 @import '/src/Styles/Variables.scss';
 .input-block {
-	margin: 20px 0;
+	margin: 10px 0 20px 0;
 }
 .form-input {
 	padding: 20px;
@@ -28,7 +28,7 @@
 	pointer-events: none;
 	font-family: $f-1;
 	transition: 0.25s ease;
-	font-size: 13px;
+	font-size: 10px;
 }
 .form-input:not(:placeholder-shown) + .form-label,
 .form-input:focus + .form-label {

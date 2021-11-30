@@ -10,22 +10,34 @@ import Stack from '@mui/material/Stack';
 import Container from '../Container';
 import ButtonHipHop from '../ButtonHipHop';
 import NavigationBar from '../NavigationBar';
+import { motion } from 'framer-motion';
+
+const banner = {
+	animate: {
+		transition: {
+			delayChildren: 0.4,
+			staggerChildren: 0.1
+		}
+	}
+};
 
 const Navigation = () => {
 	return (
 		<>
-			<Container>
-				<div className='navigation'>
-					<div className='hamburger-block'>
-						<Link to='/'>
-							<img src={logo} className='logo'></img>
-						</Link>
+			<motion.div variants={banner}>
+				<Container>
+					<div className='navigation'>
+						<div className='hamburger-block'>
+							<Link to='/'>
+								<img src={logo} className='logo'></img>
+							</Link>
+						</div>
+						<div className='logo-block'>
+							<NavigationBar></NavigationBar>
+						</div>
 					</div>
-					<div className='logo-block'>
-						<NavigationBar></NavigationBar>
-					</div>
-				</div>
-			</Container>
+				</Container>
+			</motion.div>
 		</>
 	);
 };

@@ -13,6 +13,10 @@ import { Articles } from '../Pages/Home/Articles';
 import { Single } from '../Pages/Home/Single';
 import { MusicVideo } from '../Pages/Home/MusicVideo';
 import { WatchVideos } from '../Pages/WatchVideos';
+import { AudioPlayer } from '../Pages/AudioPlayer';
+import { UserProfile } from '../Pages/UserProfile';
+import { ModalUserProfile } from '../Components/ModalUserProfile';
+import { AnimatePresence } from 'framer-motion';
 
 export const Routers = () => {
 	// useEffect(() => {
@@ -25,32 +29,46 @@ export const Routers = () => {
 	return (
 		<>
 			<Router>
-				<Routes>
-					<Route path='/' element={<Main></Main>}></Route>
-					<Route path='/signin' element={<SignIn></SignIn>}></Route>
-					<Route path='/signup' element={<SignUp></SignUp>}></Route>
-					<Route
-						path='/forgotpassword'
-						element={<ForgotPassword></ForgotPassword>}></Route>
-					<Route path='/otp' element={<OTP></OTP>}></Route>
-					<Route
-						path='/otpforgotpassword'
-						element={<OTPForgotPassword></OTPForgotPassword>}></Route>
-					<Route
-						path='/newpassword/:otp'
-						element={<NewPassword></NewPassword>}></Route>
+				<AnimatePresence>
+					<Routes>
+						<Route path='/' element={<Main></Main>}></Route>
+						<Route path='/signin' element={<SignIn></SignIn>}></Route>
+						<Route path='/signup' element={<SignUp></SignUp>}></Route>
+						<Route
+							path='/forgotpassword'
+							element={<ForgotPassword></ForgotPassword>}></Route>
+						<Route path='/otp' element={<OTP></OTP>}></Route>
+						<Route
+							path='/otpforgotpassword'
+							element={<OTPForgotPassword></OTPForgotPassword>}></Route>
+						<Route
+							path='/newpassword/:otp'
+							element={<NewPassword></NewPassword>}></Route>
 
-					<Route path='/news' element={<News></News>}></Route>
-					<Route path='/newspaper' element={<Articles></Articles>}></Route>
-					{/* <Route
+						<Route path='/news' element={<News></News>}></Route>
+						<Route path='/newspaper' element={<Articles></Articles>}></Route>
+						{/* <Route
 						path='/albumarticle'
 						element={<AlbumArticle></AlbumArticle>}></Route> */}
-					<Route path='/single' element={<Single></Single>}></Route>
-					<Route path='/musicvideo' element={<MusicVideo></MusicVideo>}></Route>
-					<Route
-						path='/watchvideos'
-						element={<WatchVideos></WatchVideos>}></Route>
-				</Routes>
+						<Route path='/single' element={<Single></Single>}></Route>
+						<Route
+							path='/musicvideo'
+							element={<MusicVideo></MusicVideo>}></Route>
+						<Route
+							path='/watchvideos'
+							element={<WatchVideos></WatchVideos>}></Route>
+						<Route
+							path='/audioplayer'
+							element={<AudioPlayer></AudioPlayer>}></Route>
+						<Route
+							path='/userprofile'
+							element={<UserProfile></UserProfile>}></Route>
+
+						<Route
+							path='/modaluserprofile'
+							element={<ModalUserProfile></ModalUserProfile>}></Route>
+					</Routes>
+				</AnimatePresence>
 			</Router>
 		</>
 	);
@@ -68,7 +86,9 @@ export const RoutersAdmin = () => {
 		<>
 			<Router>
 				<Routes>
-					<Route path='/admin/*' element={<AdminRouters></AdminRouters>}></Route>
+					<Route
+						path='/admin/*'
+						element={<AdminRouters></AdminRouters>}></Route>
 				</Routes>
 			</Router>
 		</>
