@@ -10,13 +10,13 @@
 }
 
 .musicplayer-SongThumbnail-custom {
-	width: 50px;
-	height: 50px;
+	width: 30px;
+	height: 30px;
 	background-color: black;
 	display: inline-block;
 	border-radius: 50px;
 	position: absolute;
-	top: 50px;
+	top: 60px;
 	left: 50%;
 	transform: translateX(-50%);
 }
@@ -31,6 +31,12 @@
 		width: 200px;
 		margin: auto;
 		position: relative;
+	}
+	&-SongThumbnailNoSpin {
+		width: 150px;
+		height: 150px;
+		border-radius: 100%;
+		object-fit: cover;
 	}
 
 	&-SongThumbnail {
@@ -48,7 +54,7 @@
 		text-transform: uppercase;
 		margin-bottom: 0;
 		font-weight: 700;
-		color: $second-color;
+		color: #3fdad8;
 	}
 	&-Singer {
 		margin-top: 0;
@@ -63,7 +69,7 @@
 		display: flex;
 		align-items: center;
 		justify-content: center;
-		background-color: $second-color;
+		background-color: #3fdad8;
 		> * {
 			cursor: pointer;
 		}

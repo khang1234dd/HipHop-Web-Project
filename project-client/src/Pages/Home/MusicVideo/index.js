@@ -97,9 +97,6 @@ export const MusicVideo = () => {
 		<>
 			<Wrapper>
 				<Container>
-					<Navigation></Navigation>
-				</Container>
-				<Container>
 					<div className='musicvideocardlist-wrapper'>
 						<div className='musicvideocardlist-header'>
 							<h2>
@@ -113,7 +110,7 @@ export const MusicVideo = () => {
 							<div className='musicvideocardlist-top100-header'>
 								<h3>TOP 100</h3>
 							</div>
-							<MiniCardList data={top100list.slice(0, visible)}></MiniCardList>
+							{/* <MiniCardList data={top100list.slice(0, visible)}></MiniCardList> */}
 							<div className='musicvideocardlist-top100-button-block'>
 								<button
 									onClick={showMoreItems}

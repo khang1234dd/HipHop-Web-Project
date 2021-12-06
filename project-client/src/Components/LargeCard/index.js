@@ -1,7 +1,8 @@
-import React from 'react';
+import { React, useEffect } from 'react';
 import { MiniCard } from '../MiniCard';
 import { MiniCard2 } from '../MiniCard2';
-import { MiniCardList } from '../MiniCardList';
+import { MiniCardWhiteText } from '../MiniCardWhiteText';
+import { MiniCardWhiteTextList } from '../MiniCardWhiteTextList';
 import './largecard.scss';
 
 const item = {
@@ -21,22 +22,18 @@ const item = {
 	}
 };
 
-export const LargeCard = props => {
+export const LargeCard = ({ data, index }) => {
 	return (
 		<>
-			<div className='largecard-box largecard-box-rgb'>
-				<div className='largecard-container'>
-					<div className='largecard-container-main'>
-						<MiniCard2
-							variants={item}
-							link='https://ichef.bbci.co.uk/news/976/cpsprodpb/1261F/production/_121459257_travisgetty.jpg'
-							heading='Astroworld: questions over why Travis Scott played on as crush developed'></MiniCard2>
-					</div>
-					<div className='largecard-container-secondary'>
-						<MiniCardList data={props.data}></MiniCardList>
-					</div>
+			{data && index === 0 ? (
+				<div className='largecard-container-main'>
+					<MiniCard2 variants={item} data={data}></MiniCard2>
 				</div>
-			</div>
+			) : (
+				<div className='largecard-container-secondary'>
+					<MiniCardWhiteText data={data}></MiniCardWhiteText>
+				</div>
+			)}
 		</>
 	);
 };

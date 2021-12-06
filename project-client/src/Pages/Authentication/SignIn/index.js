@@ -9,7 +9,7 @@ import Cookies from 'js-cookie';
 import validate from './validate';
 import toastNotify from '../../../Components/Toast';
 
-export const SignIn = () => {
+export const SignIn = ({ success, setSuccess }) => {
 	const navigate = useNavigate();
 	const signin = async e => {
 		e.preventDefault();
@@ -21,6 +21,7 @@ export const SignIn = () => {
 			if (res.success) {
 				Cookies.set('jwt', res.token);
 				toastNotify('Welcome to HipHop Viet', 'success');
+				setSuccess(success ? false : true);
 				navigate('/');
 			} else {
 				toastNotify(res.message, 'error');

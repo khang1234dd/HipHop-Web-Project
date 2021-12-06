@@ -1,9 +1,9 @@
 import React from 'react';
 import './style.scss';
 import { HiCamera } from 'react-icons/hi';
-import { Input } from '../../Components/Input';
+import { Input } from '../../Input';
 import { InputBase, TextareaAutosize } from '@mui/material';
-import ButtonHipHop from '../ButtonHipHop';
+import ButtonHipHop from '../../ButtonHipHop';
 export const ModalUserProfile = ({ closeModal }) => {
 	return (
 		<>

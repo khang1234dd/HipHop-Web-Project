@@ -1,8 +1,8 @@
 @import '/src/Styles/Variables.scss';
 
-.minicard-block {
-	display: flex;
+.minicardwhitetext-block {
 	margin-bottom: 10px;
+	display: flex;
 
 	&-image {
 		max-width: 640px;
@@ -17,13 +17,10 @@
 		font-family: 'Oswald', sans-serif;
 		&-adjust {
 			text-transform: uppercase;
-			font-size: 1.2rem;
+			font-size: 0.8rem;
 			line-height: 1.5rem;
 			font-weight: 500;
-			color: black;
-			&-color2 {
-				color: white;
-			}
+			color: white;
 		}
 	}
 	&-desc {
@@ -36,7 +33,7 @@
 	}
 }
 
-.minicard-block-desc-author::after {
+.minicardwhitetext-block-desc-author::after {
 	content: '';
 	display: inline-block;
 	width: 2px;
@@ -45,10 +42,10 @@
 	margin: 0 10px;
 }
 
-.minicard-image {
+.minicardwhitetext-image {
 	border-radius: 3px;
-	width: 250px;
-	height: 200px;
+	width: 196px;
+	height: 110px;
 	object-fit: cover;
 }
 

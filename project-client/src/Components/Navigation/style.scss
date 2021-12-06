@@ -22,3 +22,21 @@
 	margin-left: auto;
 	z-index: 1;
 }
+
+.navigationbar {
+	// &-block {
+	// 	position: fixed;
+	// 	width: 1002px;
+	// 	top: 0;
+	// }
+	&-container {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		font-family: $f-1;
+	}
+	&-button {
+		margin: 0 10px;
+		z-index: 1;
+	}
+}

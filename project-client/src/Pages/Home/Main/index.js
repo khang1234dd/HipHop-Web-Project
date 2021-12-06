@@ -1,133 +1,27 @@
-import React from 'react';
+import { React, useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import Navigation from '../../../Components/Navigation';
 import { Wrapper } from '../../../Components/Wrapper';
 import Container from '../../../Components/Container';
-
-import { LargeCard } from '../../../Components/LargeCard';
+import { MusicList } from '../../../Components/MusicList';
 import './main.scss';
 import { Heading } from '../../../Components/Heading';
-import { ArticleList } from '../../../Components/ArticleList';
-import { SingleList } from '../../../Components/SingleList';
-import { MiniCardList } from '../../../Components/MiniCardList';
-import { Footer } from '../../../Components/Footer';
 
+import { SingleList } from '../../../Components/SingleList';
+
+import { Footer } from '../../../Components/Footer';
 import { VideoList } from '../../../Components/VideoList';
 import { MusicVideoCardList } from '../../../Components/MusicVideoList';
 import { motion } from 'framer-motion';
-
-const hero = [
-	{
-		color: '-color2',
-		link: 'https://i.guim.co.uk/img/media/6e02742b13e16eb0ddef79b5ce5a3cd9a51230ca/0_117_3500_2100/master/3500.jpg?width=445&quality=45&auto=format&fit=max&dpr=2&s=07dc0047b7b15fca77c98095bfac7488',
-		heading:
-			'Harris county judge Lina Hidalgo addresses the media on Saturday. Photograph: Daniel Kramer/Reuters',
-		writer: 'kha zoo',
-		time: 'November 8'
-	},
-	{
-		color: '-color2',
-		link: 'https://i.guim.co.uk/img/media/6e02742b13e16eb0ddef79b5ce5a3cd9a51230ca/0_117_3500_2100/master/3500.jpg?width=445&quality=45&auto=format&fit=max&dpr=2&s=07dc0047b7b15fca77c98095bfac7488',
-		heading:
-			'Harris county judge Lina Hidalgo addresses the media on Saturday. Photograph: Daniel Kramer/Reuters',
-		writer: 'kha zoo',
-		time: 'November 8'
-	},
-	{
-		color: '-color2',
-		link: 'https://i.guim.co.uk/img/media/6e02742b13e16eb0ddef79b5ce5a3cd9a51230ca/0_117_3500_2100/master/3500.jpg?width=445&quality=45&auto=format&fit=max&dpr=2&s=07dc0047b7b15fca77c98095bfac7488',
-		heading:
-			'Harris county judge Lina Hidalgo addresses the media on Saturday. Photograph: Daniel Kramer/Reuters',
-		writer: 'kha zoo',
-		time: 'November 8'
-	}
-];
-
-const article = [
-	{
-		content:
-			'Traviscot got many humiliating from his concert dsadssssssssssssss'
-	},
-	{
-		content:
-			'Traviscot got many humiliating from his concertvdvcxzbczbvzbzdfgfdz'
-	},
-	{
-		content:
-			'Traviscot got many humiliating from his concertfdg gfdsssssgggfsdfgsd'
-	},
-	{
-		content:
-			'Traviscot got many humiliating from his concertgfsssssssssssssssssssssssssssg'
-	},
-	{
-		content:
-			'Traviscot got many humiliating from his concertgffgssssssssssssssssssssssssssssssss'
-	},
-	{
-		content:
-			'Traviscot got many humiliating from his concertgfsssssssssssssssssssssssssssssssssssss'
-	},
-	{
-		content:
-			'Traviscot got many humiliating from his concertgfssssssssssssssssssssssssssssssssssssssss'
-	}
-];
-
-const single = [
-	{
-		content: 'back to home town',
-		singer: 'sol 7'
-	},
-	{ content: 'back to home town', singer: 'sol 7' },
-	{ content: 'back to home town', singer: 'sol 7' },
-	{ content: 'back to home town', singer: 'sol 7' },
-	{ content: 'back to home town', singer: 'sol 7' },
-	{ content: 'back to home town', singer: 'sol 7' },
-	{ content: 'back to home town', singer: 'sol 7' },
-	{ content: 'back to home town', singer: 'sol 7' }
-];
-
-const articlecard = [
-	{
-		color: '',
-		link: 'https://static.hiphopdx.com/2020/06/2020-06-04-yfn-lucci-900x506.jpg',
-		heading: 'YFN LUCC IS MURDER + RACKETEERING CASE GETS COURT DATE',
-		writer: 'kha zoo',
-		time: 'nov 10'
-	},
-	{
-		color: '',
-		link: 'https://static.hiphopdx.com/2020/11/201104-Erykah-Badu-900x506.jpg',
-		heading:
-			'ERYKAH BADU GETS GANGSTER ON FAN WHILE BLESSING TRAVIS SCOTT & ASTROWORLDS LOST SOULS',
-		writer: 'kha zoo',
-		time: 'nov 10'
-	},
-	{
-		color: '',
-		link: 'https://static.hiphopdx.com/2021/10/211024-drake-getty-1200x675.jpeg',
-		heading: 'TSU: DRAKE THANKED BY HOUSTON STRIPPERS FOR MILLION-DOLLAR NIGHT',
-		writer: 'kha zoo',
-		time: 'nov 10'
-	},
-	{
-		color: '',
-		link: 'https://static.hiphopdx.com/2020/10/201009-Travis-Scott-900x506.jpg',
-		heading:
-			'TRAVIS SCOTTS EX-MANAGER CLAIMS HE LEFT HIM FOR DEAD WORST PERSON I WORKED WITH IN MY ENTIRE CAREER',
-		writer: 'kha zoo',
-		time: 'nov 10'
-	},
-	{
-		color: '',
-		link: 'https://static.hiphopdx.com/2021/09/kanye-west-rushed-donda-to-drop-before-drake-certified-lover-boy-1200x675.png',
-		heading:
-			'KANYE WEST CALLS FOR AN END TO DRAKE BEEF WITH J PRINCE BY HIS SIDE',
-		writer: 'kha zoo',
-		time: 'nov 10'
-	}
-];
+import {
+	getTopDayPostApi,
+	getHipHopNowApi,
+	getHipHopMostViewedApi
+} from '../../../Apis/article.api';
+import { MiniCard2 } from '../../../Components/MiniCard2';
+import { MiniCardWhiteText } from '../../../Components/MiniCardWhiteText';
+import { MiniCard } from '../../../Components/MiniCard';
+import { Article } from '../../../Components/Article';
+import { getMostLikedSongApi } from '../../../Apis/single.api';
 
 const albumlist = [
 	{
@@ -186,19 +80,103 @@ const container = {
 	}
 };
 
+const item = {
+	hidden: {
+		opacity: 0,
+		y: 200
+	},
+	show: {
+		opacity: 1,
+		y: 0,
+		transition: { ease: [0.6, 0.01, -0.05, 0.95], duration: 1.6 }
+	},
+	exit: {
+		opacity: 0,
+		y: -200,
+		transition: { ease: 'easeInOut', duration: 0.8 }
+	}
+};
+
+const letter = {
+	initial: {
+		y: 400
+	},
+	animate: {
+		y: 0,
+		transition: {
+			ease: [0.6, 0.01, -0.05, 0.95],
+			duration: 1
+		}
+	}
+};
+
 export const Main = () => {
+	const [TopDayPost, setTopDayPost] = useState([]);
+	const [HipHopNowPost, setHipHopNowPost] = useState([]);
+	const [HipHopMostViewed, setHipHopMostViewed] = useState([]);
+	const [MostLikedSong, setMostLikedSong] = useState([]);
+	useEffect(() => {
+		(async () => {
+			const res = await getTopDayPostApi(1, 4);
+			setTopDayPost(res.post);
+			console.log(res, '124');
+		})();
+	}, []);
+
+	useEffect(() => {
+		(async () => {
+			const res = await getHipHopNowApi(1, 6);
+			setHipHopNowPost(res.post);
+		})();
+	}, []);
+
+	useEffect(() => {
+		(async () => {
+			const res = await getHipHopMostViewedApi(1, 12);
+			setHipHopMostViewed(res.post);
+		})();
+	}, []);
+
+	useEffect(() => {
+		(async () => {
+			const res = await getMostLikedSongApi(1, 7);
+			setMostLikedSong(res.song);
+		})();
+	}, []);
+
 	return (
 		<>
 			<Wrapper>
-				<Navigation></Navigation>
-
 				<Container>
 					<motion.div
 						variants={container}
 						initial='hidden'
 						animate='show'
 						exit='exit'>
-						<LargeCard data={hero}></LargeCard>
+						<div className='largecard-box '>
+							<div className='largecard-container'>
+								{TopDayPost.map((x, index) => {
+									return x && index === 0 ? (
+										<div className='largecard-container-main'>
+											<MiniCard2 variants={item} data={x}></MiniCard2>
+										</div>
+									) : (
+										<></>
+									);
+								})}
+								<div>
+									{TopDayPost.map((x, index) => {
+										return x && index !== 0 ? (
+											<div className='largecard-container-secondary'>
+												<MiniCardWhiteText data={x}></MiniCardWhiteText>
+											</div>
+										) : (
+											<></>
+										);
+									})}
+								</div>
+							</div>
+						</div>
 					</motion.div>
 				</Container>
 				<Container>
@@ -206,13 +184,59 @@ export const Main = () => {
 						<div className='mainpage-container-firstcontent'>
 							<Heading name='News ' desc="Today's Article"></Heading>
 							<div className='mainpage-container-firstcontent-block'>
-								<ArticleList data={article}></ArticleList>
-								<ArticleList data={article}></ArticleList>
+								<motion.div
+									variants={letter}
+									initial='initial'
+									animate='animate'>
+									<ul className='articlelist-adjust'>
+										{HipHopMostViewed.map((x, index) => {
+											return x && index <= 5 && index >= 0 ? (
+												<li className='articlelist-adjust-block'>
+													<Article data={x}></Article>
+												</li>
+											) : (
+												<></>
+											);
+										})}
+									</ul>
+								</motion.div>
+
+								<motion.div
+									variants={letter}
+									initial='initial'
+									animate='animate'>
+									<ul className='articlelist-adjust'>
+										{HipHopMostViewed.map((x, index) => {
+											return x && index <= 12 && index >= 6 ? (
+												<li className='articlelist-adjust-block'>
+													<Article data={x}></Article>
+												</li>
+											) : (
+												<></>
+											);
+										})}
+									</ul>
+								</motion.div>
 							</div>
 						</div>
 						<div className='mainpage-container-secondarycontent'>
 							<Heading name='HIP HOP ' desc='Single'></Heading>
-							<SingleList data={single}></SingleList>
+							<ul className='singlelist'>
+								{MostLikedSong.map((x, index) => {
+									return x && index !== 0 ? (
+										<motion.div
+											variants={letter}
+											initial='initial'
+											animate='animate'>
+											<li className='singlelist-block'>
+												<MusicList data={x}></MusicList>
+											</li>
+										</motion.div>
+									) : (
+										<></>
+									);
+								})}
+							</ul>
 						</div>
 					</div>
 				</Container>
@@ -226,7 +250,13 @@ export const Main = () => {
 								initial='hidden'
 								animate='show'
 								exit='exit'>
-								<MiniCardList data={articlecard}></MiniCardList>
+								{HipHopNowPost.map((x, index) => {
+									return x && index !== 0 ? (
+										<MiniCard data={x}></MiniCard>
+									) : (
+										<></>
+									);
+								})}
 							</motion.div>
 						</div>
 						<div className='mainpage-container-secondarycontent'>
@@ -247,9 +277,9 @@ export const Main = () => {
 							<Heading desc='MUSIC VIDEO OF THE WEEK'></Heading>
 						</div>
 						<div className='mainpage-albumlist'>
-							<button className='mainpage-albumlist-button-previous'></button>
+							{/* <button className='mainpage-albumlist-button-previous'></button> */}
 							<MusicVideoCardList data={albumlist}></MusicVideoCardList>
-							<button className='mainpage-albumlist-button-next'></button>
+							{/* <button className='mainpage-albumlist-button-next'></button> */}
 						</div>
 					</div>
 				</Container>

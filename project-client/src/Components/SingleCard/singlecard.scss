@@ -36,7 +36,7 @@
 		top: 0;
 		left: 0;
 		text-align: center;
-		color: #fff;
+		color: #3fdad8;
 		width: 100%;
 		transform-style: preserve-3d;
 		transform: translate3d(0, 0, 75px);
@@ -84,6 +84,7 @@
 		transform-style: preserve-3d;
 		transform: translate(-50%, -50%) rotate(15deg);
 		border-radius: 20px;
+		object-fit: cover;
 	}
 	&-play {
 		width: 40px;

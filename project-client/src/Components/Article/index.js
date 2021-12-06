@@ -1,12 +1,12 @@
 import React from 'react';
 import './style.scss';
 import { Link } from 'react-router-dom';
-export const Article = props => {
+export const Article = ({ data }) => {
 	return (
 		<>
 			{/* <div className='article-sign'></div> */}
-			<Link to=''>
-				<div className='article-content'>{props.content}</div>
+			<Link to={`/newspaper/${data._id}`}>
+				<div className='article-content'>{data.name}</div>
 			</Link>
 		</>
 	);

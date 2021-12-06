@@ -1,12 +1,26 @@
 @import '/src/Styles/Variables.scss';
 .newspaper {
+	&-articles {
+		line-height: 20px;
+		margin: 0;
+		padding: 0;
+		font-size: 14px;
+		list-style: none;
+		&-block {
+			margin-top: 10px;
+			margin-bottom: 10px;
+			margin-left: 5px;
+		}
+	}
 	&-large {
-		background-color: #222;
-		border: 7px solid #222;
+		background-color: white;
+
 		border-bottom: none;
 	}
 	&-block {
-		width: 100%;
+		width: 600px;
+		object-fit: cover;
+		height: 400px;
 		border-radius: 3px;
 	}
 	&-heading {
@@ -37,6 +51,7 @@
 	&-infor {
 		padding: 10px 20px;
 		&-image {
+			object-fit: cover;
 			width: 28px;
 			height: 28px;
 			border-radius: 100%;
@@ -74,4 +89,9 @@
 			}
 		}
 	}
+}
+
+.newspaper-articles-block:hover {
+	// transition: ease 0.25s;
+	transform: translateY(-2px);
 }

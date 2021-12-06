@@ -1,22 +1,24 @@
 import { React, useState } from 'react';
 import Container from '../../Components/Container';
-import Navigation from '../../Components/Navigation';
+
 import { Wrapper } from '../../Components/Wrapper';
 import { HiCamera } from 'react-icons/hi';
 import './userprofile.scss';
 import ButtonHipHop from '../../Components/ButtonHipHop';
 import { ContainerTemplate } from '../../Components/ContainerTemplate';
 import { Link } from 'react-router-dom';
-import { ModalUserProfile } from '../../Components/ModalUserProfile';
+import { ModalUserProfile } from '../../Components/Modal/ModalUserProfile';
+import { ModalUserAdd } from '../../Components/Modal/ModalUserAdd';
 
-export const UserProfile = () => {
+export const UserProfile = ({ ...data }) => {
 	const [openModal, setOpenModal] = useState(false);
+	const [openModalAdd, setOpenModalAdd] = useState(false);
+	const [userArticles, setuserArticles] = useState([]);
 
 	return (
 		<>
 			<Wrapper>
 				<Container>
-					<Navigation></Navigation>
 					<div className='userprofile-block'>
 						<div className='userprofile-edit'>
 							<div className='userprofile-edit-wrapper'>
@@ -34,7 +36,7 @@ export const UserProfile = () => {
 									<div className='userprofile-infor-avatar-edit-select'>
 										<div className='userprofile-infor-avatar-edit-select-image'>
 											<img
-												src='https://img.wattpad.com/e730b0898d0418b446135de802256129da9d2169/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f776174747061642d6d656469612d736572766963652f53746f7279496d6167652f563157715f33666a33382d6c57673d3d2d3538313835373338362e313533333732643430383662613536663633363331303039383132382e6a7067'
+												src={data.user.image}
 												width='200px'
 												height='200px'
 												className='userprofile-infor-avatar-edit-select-image-adjust'></img>
@@ -51,7 +53,9 @@ export const UserProfile = () => {
 								</div>
 							</div>
 							<div className='userprofile-infor-content'>
-								<h2 className='userprofile-infor-content-text'>John</h2>
+								<h2 className='userprofile-infor-content-text'>
+									{data.user.name}
+								</h2>
 							</div>
 						</div>
 					</div>
@@ -72,7 +76,11 @@ export const UserProfile = () => {
 								onClick={() => {
 									setOpenModal(true);
 								}}></ButtonHipHop>
-							<ButtonHipHop name='Add'></ButtonHipHop>
+							<ButtonHipHop
+								onClick={() => {
+									setOpenModalAdd(true);
+								}}
+								name='Add'></ButtonHipHop>
 						</div>
 					</div>
 				</Container>
@@ -118,6 +126,12 @@ export const UserProfile = () => {
 
 			{openModal && (
 				<ModalUserProfile closeModal={setOpenModal}></ModalUserProfile>
+			)}
+
+			{openModalAdd && (
+				<ModalUserAdd
+					openModalAdd={openModalAdd}
+					closeModalAdd={setOpenModalAdd}></ModalUserAdd>
 			)}
 		</>
 	);

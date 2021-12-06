@@ -5,7 +5,7 @@ export default function ButtonHipHop(props) {
 	return (
 		<>
 			<div className='button-block'>
-				<button className='button' onClick={props.onClick}>
+				<button type={props.type} className='button' onClick={props.onClick}>
 					<span></span>
 					<span></span>
 					<span></span>

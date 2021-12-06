@@ -1,33 +1,106 @@
-import React from 'react';
+import { React, useEffect, useState } from 'react';
 import './style.scss';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
+import { getHipHopMostViewedApi, getPostByIdApi } from '../../Apis/article.api';
+import Container from '../../Components/Container';
+import { ContainerTemplate } from '../ContainerTemplate';
+import { Heading } from '../Heading';
+import { Article } from '../../Components/Article';
+export const Newspaper = () => {
+	const { id } = useParams();
+	const [PostById, setPostById] = useState();
+	const [HipHopArticles, setHipHopArticles] = useState([]);
 
-export const Newspaper = props => {
+	useEffect(() => {
+		(async () => {
+			const res = await getPostByIdApi(id);
+			setPostById(res.post);
+		})();
+	}, [id]);
+
+	useEffect(() => {
+		(async () => {
+			const res = await getHipHopMostViewedApi(1, 8);
+			setHipHopArticles(res.post);
+			// console.log(res, '26');
+		})();
+	}, []);
+
+	function createMarkup() {
+		return { __html: PostById.description };
+	}
+
 	return (
 		<>
-			<div className='newspaper-large'>
-				<img alt='' src={props.link} className='newspaper-block'></img>
-			</div>
-			<div className='newspaper-heading'>
-				<h1 className='newspaper-heading-adjust'>{props.heading}</h1>
-			</div>
-			<div className='newspaper-infor'>
-				<img
-					alt=''
-					src={props.inforimage}
-					className='newspaper-infor-image'></img>
-				<div className='newspaper-infor-text'>
-					<div className='newspaper-infor-text-date'>
-						Publish on {props.date}
-					</div>
-					<div className='newspaper-infor-text-link'>
-						by <Link to=''>{props.writer}</Link>
-					</div>
-				</div>
-			</div>
-			<div className='newspaper-body'>
-				<p>{props.content}</p>
-			</div>
+			{PostById ? (
+				<>
+					<Container>
+						<ContainerTemplate>
+							<div>
+								<div className='newspaper-large'>
+									{PostById.image !== 'upload/image/3.png' ? (
+										<img
+											alt=''
+											src={PostById.image}
+											className='newspaper-block'></img>
+									) : (
+										<img
+											alt=''
+											src={'https://hiphop-g28.herokuapp.com/' + PostById.image}
+											className='newspaper-block'></img>
+									)}
+								</div>
+								<div className='newspaper-heading'>
+									<h1 className='newspaper-heading-adjust'>{PostById.name}</h1>
+								</div>
+								<div className='newspaper-infor'>
+									{PostById.owner.image !== 'upload/image/1.png' ? (
+										<img
+											alt=''
+											src={PostById.owner.image}
+											className='newspaper-infor-image'></img>
+									) : (
+										<img
+											alt=''
+											src={
+												'https://hiphop-g28.herokuapp.com/' +
+												PostById.owner.image
+											}
+											className='newspaper-infor-image'></img>
+									)}
+									<div className='newspaper-infor-text'>
+										<div className='newspaper-infor-text-date'>
+											Publish on {PostById.createdAt}
+										</div>
+										<div className='newspaper-infor-text-link'>
+											by <Link to=''>{PostById.owner.name}</Link>
+										</div>
+									</div>
+								</div>
+								<div className='newspaper-body'>
+									<div dangerouslySetInnerHTML={createMarkup()} />
+								</div>
+							</div>
+							<div>
+								<Heading name='hiphop ' desc='article'></Heading>
+								<ul className='newspaper-articles'>
+									{HipHopArticles.map((x, index) => {
+										return x && index !== 0 ? (
+											<li className='newspaper-articles-block'>
+												<Article data={x}></Article>
+											</li>
+										) : (
+											<></>
+										);
+									})}
+								</ul>
+							</div>
+						</ContainerTemplate>
+					</Container>
+				</>
+			) : (
+				<></>
+			)}
 		</>
 	);
 };

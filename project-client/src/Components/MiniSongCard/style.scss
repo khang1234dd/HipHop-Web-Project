@@ -1,6 +1,6 @@
 @import '/src/Styles/Variables.scss';
 
-.minicard-block {
+.minisongcard-block {
 	display: flex;
 	margin-bottom: 10px;
 
@@ -11,6 +11,7 @@
 		justify-content: center;
 		align-items: center;
 		line-height: 1.2;
+		object-fit: cover;
 	}
 	&-text {
 		margin-left: 10px;
@@ -20,10 +21,8 @@
 			font-size: 1.2rem;
 			line-height: 1.5rem;
 			font-weight: 500;
-			color: black;
-			&-color2 {
-				color: white;
-			}
+
+			color: white;
 		}
 	}
 	&-desc {
@@ -36,7 +35,7 @@
 	}
 }
 
-.minicard-block-desc-author::after {
+.minisongcard-block-desc-author::after {
 	content: '';
 	display: inline-block;
 	width: 2px;
@@ -45,7 +44,7 @@
 	margin: 0 10px;
 }
 
-.minicard-image {
+.minisongcard-image {
 	border-radius: 3px;
 	width: 250px;
 	height: 200px;
