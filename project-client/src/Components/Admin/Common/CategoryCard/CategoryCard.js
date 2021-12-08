@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useState} from 'react'
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
@@ -7,6 +7,9 @@ import RemoveIcon from '@mui/icons-material/Remove';
 import Button from '@mui/material/Button';
 
 import {styled} from '@mui/material/styles';
+import CategoryModal from './CategoryModal'
+import {deleteCategoryApi} from '../../../../Apis/admin.api'
+import toastNotify from'../../../Toast';
 
 const BoxItem = styled(Box) (({ theme }) => ({
     backgroundColor: '#fff',
@@ -53,7 +56,32 @@ const BoxMain = styled(Box) (({ theme }) => ({
     },
 }))
 
-const CategoryCard = ({ category, index ,handleUpdate }) => {
+const MODALUPDATECATEGORY ={
+    title: 'UPDATE CATEGORY',
+    typeCreate: false,
+    chill: [
+    {id: 1 , field: 'Category Name', inputName: 'categoryname'},
+    {id: 2 , field: 'Description', inputName: 'description'},
+
+    ]
+}
+
+const CategoryCard = ({ category, index }) => {
+    const [open, setOpen] = useState(false);
+    const handleClose = () => setOpen(false);
+
+    const handleUpdate = () => {
+        setOpen(true)
+    }
+    const handleDelete = async () => {
+        const res = await deleteCategoryApi(category._id)
+        if (res.success) {
+            toastNotify("Your Category has been deleted", "success");
+            window.location.reload();
+          } else {
+            toastNotify(res.message, "error");
+          }
+    }
     return (
         <BoxMain component="div">
             <BoxItem 
@@ -79,11 +107,12 @@ const CategoryCard = ({ category, index ,handleUpdate }) => {
                     <BoxChill component="button" onClick={handleUpdate} sx={{mr: 1, '&:hover':{'boxShadow': '5px 5px 30px 15px #669999'}}} item>
                         <CreateIcon sx={{color: '#669999'}} ></CreateIcon>
                     </BoxChill>
-                    <BoxChill component="button">
+                    <BoxChill component="button" onClick={handleDelete}>
                         <RemoveIcon sx={{color: '#9B2335'}}></RemoveIcon>
                     </BoxChill>
                 </Box>
             </BoxItem>
+            <CategoryModal open={open} handleClose={handleClose} {...MODALUPDATECATEGORY} data={category} ></CategoryModal>
         </BoxMain>
     )   
 }

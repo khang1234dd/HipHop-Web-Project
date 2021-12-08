@@ -2,12 +2,15 @@ import React from 'react'
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 
-const CategorySort = ({handleSeeMore,data}) => {
+const CategorySort = ({handleSeeMore}) => {
+    const handleSeeMore1 = () => {
+        handleSeeMore()
+    }
     return (
         <Box
             component="button"
-            onClick={handleSeeMore}
-            sx={data ? {
+            onClick={handleSeeMore1}
+            sx={{
                 backgroundColor: '#fff',
                 border: '1px solid #9B2335',
                 borderRadius: '4px',
@@ -18,7 +21,7 @@ const CategorySort = ({handleSeeMore,data}) => {
                     opacity: 0.8,
                     cursor: 'pointer'
                 }
-            } : {display: 'none'}}
+            }}
             
         >
             <Typography variant="h3" component="h3" noWrap sx={{fontFamily:'Oswald, sans-serif', fontWeight:600, color: '#9B2335'}}>SEE MORE</Typography>

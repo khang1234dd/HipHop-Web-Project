@@ -41,41 +41,74 @@ const content = [
   }
 ];
 
-const Carousel = () => (
+const Carousel = ({data}) => {
+  return (
     <Slider className="slider-wrapper">
-      {content.map((item, index) => (
+      {data? data.map((item, index) => (
         <div
           key={index.toString()}
           className="slider-content"
           style={{ background: `url('${item.image}') no-repeat center center` }}
         >
           <div className="inner">
-            <Typography variant="h4" component="h1"  gutterBottom>{item.title}</Typography>
+            <Typography variant="h4" component="h1"  gutterBottom>{item.name}</Typography>
             <Hidden mdDown>
-              <p>{item.description}</p>
+              <p>{item.tinydes}</p>
             </Hidden>
             <Button variant="contained" color="primary">
-              {item.button}
+              See More
             </Button>
           </div>
           <section>
 
           <CardHeader
             avatar={
-              <Avatar sx={{ width: '40px',height:'40px' }} src={item.userProfile}  alt={item.user}>
+              <Avatar sx={{ width: '40px',height:'40px' }} src={item.owner.image === "" || item.owner.image=== undefined? 'https://hiphop-g28.herokuapp.com/upload/image/1.png' : item.owner.image }  alt={item.owner.name}>
               </Avatar>
             }
             title={<span>
               Posted by
               {' '}
-              <strong>{item.user}</strong>
+              <strong>{item.owner.name}</strong>
             </span>}
           />
             
           </section>
         </div>
-      ))}
+      ))
+      :
+      <div
+      className="slider-content"
+      style={{ background: `url('https://hiphop-g28.herokuapp.com/upload/image/1.png') no-repeat center center` }}
+    >
+      <div className="inner">
+        <Typography variant="h4" component="h1"  gutterBottom>NoName</Typography>
+        <Hidden mdDown>
+          <p>NoTiny</p>
+        </Hidden>
+        <Button variant="contained" color="primary">
+          See More
+        </Button>
+      </div>
+      <section>
+
+      <CardHeader
+        avatar={
+          <Avatar sx={{ width: '40px',height:'40px' }} src= 'https://hiphop-g28.herokuapp.com/upload/image/1.png'  alt="No Name">
+          </Avatar>
+        }
+        title={<span>
+          Posted by
+          {' '}
+          <strong>No Owner</strong>
+        </span>}
+      />
+        
+      </section>
+    </div>
+    }
     </Slider>
-);
+  )
+}
 
 export default Carousel;

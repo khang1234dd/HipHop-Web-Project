@@ -15,11 +15,18 @@ import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
-import SongInput from "./SongInput";
 import AirplanemodeActiveIcon from "@mui/icons-material/AirplanemodeActive";
 
-import {createSongApi, updateSongApi,updateSongImageApi,updateSongFileApi} from "../../../../Apis/admin.api"
-import {vlCreateSong, vlUpdateSong,vlUpdateSongImage,vlUpdateSongFile} from "../Validate"
+import {
+  createVideoMusicApi,
+  updateVideoMusicApi,
+  updateVideoImageApi,
+} from "../../../../Apis/admin.api";
+import {
+  vlCreateVideoMusic,
+  vlUpdateVideoMusic,
+  vlUpdateVideoImage,
+} from "../Validate";
 import toastNotify from "../../../Toast";
 
 const style = {
@@ -73,7 +80,7 @@ const ButtonFileInput = styled(Button)({
   backgroundColor: "#9B2335",
   color: "#fff",
   borderBottomRightRadius: 0,
-  borderTopRightRadius:0,
+  borderTopRightRadius: 0,
   "&:hover": {
     backgroundColor: "#7b1c2a",
   },
@@ -104,13 +111,20 @@ const StyledInputElement = styled("input")`
   }
 `;
 
-const SongModal = ({ open, handleClose,setCongTacHanhTrinh,congtachanhtrinh , data, dataCat, ...modal }) => {
-  const valueDefaultCat = data && data.category[0]._id ? data.category[0]._id : "";
+const VideoMusicModal = ({
+  open,
+  handleClose,
+  setCongTacHanhTrinh,
+  congtachanhtrinh,
+  data,
+  dataCat,
+  ...modal
+}) => {
+  const valueDefaultCat = data && data.category[0]._id  ? data.category[0]._id : "";
   const [category, setCategory] = useState(valueDefaultCat);
   const [imagepreview, setImagePreview] = useState(
     "https://i.pinimg.com/custom_covers/222x/85498161615209203_1636332751.jpg"
   );
-  const [uploadfile, setUploadFile] = useState("");
 
   const handleChange = (event) => {
     setCategory(event.target.value);
@@ -129,40 +143,30 @@ const SongModal = ({ open, handleClose,setCongTacHanhTrinh,congtachanhtrinh , da
     }
   };
 
-  const handleUploadFile = (event) => {
-    if (event.target.files[0].size <= 5 * 1024 * 1024) {
-      const reader = new FileReader();
-      console.log(reader);
-      setUploadFile(event.target.files[0].name);
-    } else {
-      alert("Please upload file low size");
-    }
-  };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     console.log("submit!");
-    const nameSong = e.target.songname.value;
-    const ownerSong = e.target.songauthor.value;
+    const nameVideo = e.target.videoname.value;
+    const ownerVideo = e.target.videoauthor.value;
+    const embedId = e.target.embedId.value;
     const categoryId = e.target.categoryId.value.toString();
-    const song = e.target.song.files[0];
-    const isvaliddata = vlCreateSong(
-      nameSong,
-      ownerSong,
+
+    const isvaliddata = vlCreateVideoMusic(
+      nameVideo,
+      ownerVideo,
       categoryId,
-      song
+      embedId
     );
     if (isvaliddata) {
-      const formData = new FormData();
-      formData.append("song", song);
-      formData.append("nameSong", nameSong);
-      formData.append("ownerSong", ownerSong);
-      formData.append("categoryId", categoryId);
-
-      const res = await createSongApi(formData);
+      const res = await createVideoMusicApi({
+        nameVideo,
+        ownerVideo,
+        categoryId,
+        embedId,
+      });
       if (res.success) {
-        toastNotify("Your Post has been created", "success");
-        setCongTacHanhTrinh(congtachanhtrinh ? false : true)
+        toastNotify("Your Video has been created", "success");
+        setCongTacHanhTrinh(congtachanhtrinh ? false : true);
         handleClose(false);
         console.log(res);
       } else {
@@ -171,89 +175,68 @@ const SongModal = ({ open, handleClose,setCongTacHanhTrinh,congtachanhtrinh , da
     }
   };
 
-  const handleUpdate = async (e) =>{
+  const handleUpdate = async (e) => {
     e.preventDefault();
-    console.log('update!')
-    const nameSong =
-      data && e.target.songname.value === ""
+    console.log("update!");
+    const nameVideo =
+      data && e.target.videoname.value === ""
         ? data.name
-        : e.target.songname.value;
-    const songAuthor =
-      data && e.target.songauthor.value === ""
-        ? data.ownersong
-        : e.target.songauthor.value;
+        : e.target.videoname.value;
+    const videoAuthor =
+      data && e.target.videoauthor.value === ""
+        ? data.ownervideo
+        : e.target.videoauthor.value;
+    const embedId =
+      data && e.target.embedId.value === ""
+        ? data.link
+        : e.target.embedId.value;
     const categoryId = e.target.categoryId.value.toString();
-    console.log("truoc validator", nameSong, songAuthor, categoryId);
-    const isvaliddata = vlUpdateSong(
-      nameSong,
-      songAuthor,
-      categoryId
-    );
+    console.log("truoc validator", nameVideo, videoAuthor, embedId ,categoryId);
+    const isvaliddata = vlUpdateVideoMusic(nameVideo, videoAuthor,categoryId, embedId);
 
     if (isvaliddata) {
-      const res = await updateSongApi({
-        name: nameSong,
-        ownersong: songAuthor,
+      const res = await updateVideoMusicApi({
+        name: nameVideo,
+        ownervideo: videoAuthor,
         category: categoryId,
+        link: embedId,
         _id: data._id,
       });
       if (res.success) {
-        toastNotify("Your Song has been updated", "success");
+        toastNotify("Your Video has been updated", "success");
         console.log(res);
-        setCongTacHanhTrinh(congtachanhtrinh ? false : true)
-        handleClose(false)
+        setCongTacHanhTrinh(congtachanhtrinh ? false : true);
+        handleClose(false);
       } else {
         toastNotify(res.message, "error");
       }
     }
-    
-  }
+  };
 
-  const handleUpdateImage = async (e) =>{
+  const handleUpdateImage = async (e) => {
     e.preventDefault();
-    console.log('update image!')
+    console.log("update image!");
     const image = e.target.image.files[0];
-    const isvaliddata = vlUpdateSongImage(
-      image
-    );
+    const isvaliddata = vlUpdateVideoImage(image);
 
     if (isvaliddata) {
       const formData = new FormData();
       formData.append("image", image);
-      const res = await updateSongImageApi({formData: formData, _id: data._id});
+      const res = await updateVideoImageApi({
+        formData: formData,
+        _id: data._id,
+      });
       if (res.success) {
-        toastNotify("Your Song Image has been updated", "success");
+        toastNotify("Your Video Image has been updated", "success");
         console.log(res);
-        setCongTacHanhTrinh(congtachanhtrinh ? false : true)
-        handleClose(false)
+        setCongTacHanhTrinh(congtachanhtrinh ? false : true);
+        handleClose(false);
       } else {
         toastNotify(res.message, "error");
       }
     }
-  }
+  };
 
-  const handleUpdateFile = async (e) =>{
-    e.preventDefault();
-    console.log('update file!')
-    const songfile = e.target.song.files[0];
-    const isvaliddata = vlUpdateSongFile(
-      songfile
-    );
-
-    if (isvaliddata) {
-      const formData = new FormData();
-      formData.append("song", songfile);
-      const res = await updateSongFileApi({formData: formData, _id: data._id});
-      if (res.success) {
-        toastNotify("Your Song File has been updated", "success");
-        console.log(res);
-        setCongTacHanhTrinh(congtachanhtrinh ? false : true)
-        handleClose(false)
-      } else {
-        toastNotify(res.message, "error");
-      }
-    }
-  }
 
   return (
     <Modal
@@ -268,9 +251,17 @@ const SongModal = ({ open, handleClose,setCongTacHanhTrinh,congtachanhtrinh , da
       }}
     >
       <Fade in={open}>
-        <Box sx={style} 
+        <Box
+          sx={style}
           component="form"
-          onSubmit={modal.typeCreate===1 ? handleSubmit : modal.typeCreate===2 ?handleUpdate : modal.typeCreate===3 ? handleUpdateImage : handleUpdateFile}>
+          onSubmit={
+            modal.typeCreate === 1
+              ? handleSubmit
+              : modal.typeCreate === 2
+              ? handleUpdate
+              : handleUpdateImage
+          }
+        >
           <Typography
             id="transition-modal-title"
             variant="h4"
@@ -397,36 +388,6 @@ const SongModal = ({ open, handleClose,setCongTacHanhTrinh,congtachanhtrinh , da
                       </FormControl>
                     </Grid>
                   </Grid>
-                ) : value.boxFile ? (
-                  <Grid
-                    container
-                    spacing={0}
-                    direction="row"
-                    justifyContent="center"
-                    alignItems="center"
-                    mt={2}
-                  >
-                    <Grid item xs={4}>
-                      <ButtonFileInput 
-                      component="label"
-                      fullWidth
-                      >
-                        Select your file
-                        <input
-                        type="file"
-                        accept="audio/*"
-                        onChange={handleUploadFile}
-                        name={value.inputName}
-                        hidden
-                      />
-                      </ButtonFileInput>
-                    </Grid>
-                    <Grid item xs={8}>
-                      <StyledInputElement readOnly={true} placeholder='Your file name here ...' value={uploadfile} style={{borderTopLeftRadius: '0', borderBottomLeftRadius: '0'}} >
-                        
-                      </StyledInputElement>
-                    </Grid>
-                  </Grid>
                 ) : (
                   <Grid
                     container
@@ -448,7 +409,15 @@ const SongModal = ({ open, handleClose,setCongTacHanhTrinh,congtachanhtrinh , da
                       <StyledInputElement
                         name={value.inputName}
                         aria-label="input"
-                        placeholder={data ? data.ownersong : "Type something..."}
+                        placeholder={
+                          data && value.id === 1
+                            ? data.name
+                            : data && value.id === 2
+                            ? data.ownervideo
+                            : data && value.id === 3
+                            ? data.link
+                            : "Type something..."
+                        }
                       />
                     </Grid>
                   </Grid>
@@ -468,7 +437,11 @@ const SongModal = ({ open, handleClose,setCongTacHanhTrinh,congtachanhtrinh , da
               type="submit"
               sx={{ color: "#9B2335", fontFamily: "Chakra Petch, sans-serif" }}
             >
-              {modal.typeCreate===1 ? "Submit" : modal.typeCreate===2  ? "Update" : "OKE!"}
+              {modal.typeCreate === 1
+                ? "Submit"
+                : modal.typeCreate === 2
+                ? "Update"
+                : "OKE!"}
             </Button>
           </Grid>
         </Box>
@@ -477,4 +450,4 @@ const SongModal = ({ open, handleClose,setCongTacHanhTrinh,congtachanhtrinh , da
   );
 };
 
-export default SongModal;
+export default VideoMusicModal;

@@ -1,5 +1,7 @@
 import  React, {useState, useEffect} from 'react';
 import './style.scss'
+import Cookies from 'js-cookie';
+import { Link,useNavigate } from 'react-router-dom';
 import AppBar from '@mui/material/AppBar';
 import Avatar from '@mui/material/Avatar';
 import Grid from '@mui/material/Grid';
@@ -23,8 +25,9 @@ import {styled} from '@mui/material/styles';
 
 
 
-function NavigationAdminTop() {
-
+function NavigationAdminTop({data}) {
+  
+  const navigate= useNavigate();
   const [offset, setOffset] = useState(0);
   const [shadow, setShadow] = useState(0);
 
@@ -33,6 +36,12 @@ function NavigationAdminTop() {
   const handleAnchorElMenuAvatar = (event) => {
     setAnchorEl(event.currentTarget);
   };
+
+  const handleLogOut = () =>{
+    Cookies.remove('jwt')
+    navigate("/signin")
+    window.location.reload()
+  }
 
   useEffect(() => {
     if(offset !== 0)
@@ -129,19 +138,15 @@ function NavigationAdminTop() {
         anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
       >
         <Box sx={{margin: '12px 0px', padding: '0px 20px'}} >
-          <Typography sx={{fontFamily: "Public Sans, sans-serif", fontWeight: '600'}} variant="subtitle1" noWrap component="h6">Kha Zoo</Typography>
-          <Typography sx={{fontFamily: "Public Sans, sans-serif" , color: '#637381'}} variant="body2" noWrap component="p">khang@gmail.cơm</Typography>
+          <Typography sx={{fontFamily: "Public Sans, sans-serif", fontWeight: '600'}} variant="subtitle1" noWrap component="h6">{data.name}</Typography>
+          <Typography sx={{fontFamily: "Public Sans, sans-serif" , color: '#637381'}} variant="body2" noWrap component="p">{data.email}</Typography>
         </Box>
         <Divider />
-        <MenuItem component="a">
+        <MenuItem component={Link} to="/">
           <HomeIcon sx={{marginRight: '16px'}}  /> Home
         </MenuItem>
         
-        <MenuItem component="a">
-            <PersonIcon sx={{marginRight: '16px'}} />  Profile
-        </MenuItem>
-        
-        <MenuItem>
+        <MenuItem onClick={handleLogOut}>
           <ListItemIcon>
             <Logout fontSize="small" />
           </ListItemIcon>

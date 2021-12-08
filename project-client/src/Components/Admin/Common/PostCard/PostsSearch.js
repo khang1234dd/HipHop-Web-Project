@@ -1,5 +1,7 @@
 
+import React, { useState, useEffect} from 'react';
 import SearchIcon from '@mui/icons-material/Search';
+import ld from 'lodash'
 
 // material
 import { styled } from '@mui/material/styles';
@@ -35,21 +37,39 @@ const RootStyle = styled('div')(({ theme }) => ({
 
 
 
-export default function PostsSearch({ posts }) {
+export default function PostsSearch({ posts,setListPostNew, setCheckLength , total }) {
+
+  const [valueSearch,setValueSearch] = useState("")
+
+  useEffect(() => {
+     const postSearch = ld.filter(posts, function(o) {
+       const searchSuccess =  ld.includes(ld.lowerCase(o.name), valueSearch)
+       return searchSuccess
+     })
+    console.log(postSearch)
+    setListPostNew(postSearch)
+    if(postSearch.length !== total){
+      setCheckLength(true)
+    } else{
+      console.log(2)
+      setCheckLength(false)
+    }
+    
+  },[valueSearch])
+
+  const handleChange = (e) => {
+    setValueSearch(e.target.value)
+  }
+  
+
   return (
-    <RootStyle>
-      <Autocomplete
-        size="small"
-        disablePortal
-        popupIcon={null}
-        options={posts}
-        getOptionLabel={(post) => post.title}
-        renderInput={(params) => (
+    <RootStyle >
+     
           <TextField
-            {...params}
             placeholder="Search post..."
+            value={valueSearch}
+            onChange={handleChange}
             InputProps={{
-              ...params.InputProps,
               startAdornment: (
                 <>
                   <InputAdornment position="start">
@@ -63,13 +83,10 @@ export default function PostsSearch({ posts }) {
                       }}
                     />
                   </InputAdornment>
-                  {params.InputProps.startAdornment}
                 </>
               )
             }}
           />
-        )}
-      />
     </RootStyle>
   );
 }

@@ -14,21 +14,21 @@ import {
 } from '@mui/material';
 // components
 
-import { SongCard, SongSearch, SongModal } from '../Common/SongCard';
-import {getAllCategoryApi,getSongApi,getAllSongApi} from '../../../Apis/admin.api'
+import { VideoMusicCard, VideoMusicSearch, VideoMusicModal } from '../Common/VideoMusicCard';
+import {getAllCategoryApi,getVideoMusicApi, getAllVideoMusicApi} from '../../../Apis/admin.api'
 import Preload from '../Common/Preload'
 
 
 // ----------------------------------------------------------------------
 
-const MODALCREATESONG ={
-    title: 'new song',
+const MODALCREATEVIDEOMUSIC ={
+    title: 'new video music',
     typeCreate: 1,
 
     chill: [
-    {id: 1 , field: 'Song Name',inputName1:'songname', fieldSelect: 'Song Category',inputName2:'categoryId', boxSelect: true},
-    {id: 2 , field: 'Song Author',inputName:'songauthor'},
-    {id: 4 , field: 'Song File',inputName:'song', boxFile: true },
+    {id: 1 , field: 'Video Music Name',inputName1:'videoname', fieldSelect: 'Video Music Category',inputName2:'categoryId', boxSelect: true},
+    {id: 2 , field: 'Video Music Author',inputName:'videoauthor'},
+    {id: 3 , field: 'Video Music Embed',inputName:'embedId'},
     ]
 }
 
@@ -44,22 +44,23 @@ const MODALUPDATESONG ={
 
 
 
-
-const SongManager = () => {
+const VideoMusicManager = () => {
     const [open, setOpen] = useState(false);
-    const [pagination, setPagination] = useState({_page: 1, _limit:6})
+    const [pagination, setPagination] = useState({_page: 1, _limit:4})
     const [categoryArray, setCategoryArray] = useState([])
     const [filter, setFilter] = useState({})
     const [congtachanhtrinh,setCongTacHanhTrinh] = useState(false)
     const pageNumber = Math.ceil(pagination._total / pagination._limit)
-    const [SONGS,setSONGS] = useState([])
-    const [loading, setLoading] = useState(false)
-	  const [completed, setCompleted] = useState(false)
+    const [VIDEOS,setVIDEOS] = useState([])
 
-    const [SONGSALL, setSONGSALL] = useState([])
+    const [loading, setLoading] = useState(false)
+    const [completed, setCompleted] = useState(false)
+
+    const [MUSICVIDEOALL, setMUSICVIDEOALL] = useState([])
     const [search,setSearch] = useState('')
     const [checkLength, setCheckLength] = useState(false)
-    const [SONGLISTNEW, setSONGLISTNEW] = useState([])
+    const [MUSICVIDEOLISTNEW, setMUSICVIDEOLISTNEW] = useState([])
+
 
     const handleOpen = () => {
         setOpen(true)
@@ -72,7 +73,7 @@ const SongManager = () => {
 
     const handleChangePage = (event, value) => {
       console.log(value)
-      setPagination({_page: value, _limit: 6, _total: pagination._total  });
+      setPagination({_page: value, _limit: pagination._limit, _total: pagination._total  });
       setFilter(pagination)
       setLoading(false)
       setCompleted(false)
@@ -82,14 +83,19 @@ const SongManager = () => {
     useEffect(() => {
       setTimeout(() => {
         (async () => {
-          const res = await getSongApi({page: pagination._page, limit:pagination._limit});
-          setSONGS(res.song)
-          const res1 = await getAllSongApi();
-          setSONGSALL(res1.song)
+          const res = await getVideoMusicApi({page: pagination._page, limit:pagination._limit});
+          setVIDEOS(res.video)
+
+          const res1 = await getAllVideoMusicApi();
+          setMUSICVIDEOALL(res1.video)
 
           const res2 = await getAllCategoryApi();
           setCategoryArray(res2.category)
+          
           setPagination(res.pagination)
+          console.log(res)
+          console.log(res.video)
+          console.log(pagination)
           setLoading(true)
 				  setTimeout(()=>{
 				  	setCompleted(true)
@@ -107,10 +113,7 @@ const SongManager = () => {
             <Box sx={{marginTop: '-155px',}}>
             {!loading? <Preload  type={1}></Preload> : <Preload type={3}></Preload> }
             </Box>
-          </>
-        
-          
-        :<Box
+          </>:<Box
         sx={{
             marginTop: '-155px',
             // margin-bottom: 10px;
@@ -125,7 +128,7 @@ const SongManager = () => {
             <Container>
                 <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
                 <Typography variant="h4" gutterBottom sx={{color: '#9B2335', fontWeight: 600}}>
-                  Song
+                  Music Video
                 </Typography>
                   <Button
                     variant="contained"
@@ -138,30 +141,27 @@ const SongManager = () => {
                       }
                     }}
                   >
-                    New Song
+                    New Music Video
                   </Button>
                 </Stack>
 
                 <Stack mb={5} direction="row" alignItems="center" justifyContent="space-between">
-                  <SongSearch song={SONGSALL} setSONGLISTNEW={setSONGLISTNEW} setCheckLength={setCheckLength} total={pagination._total} />
+                  <VideoMusicSearch videomusic={MUSICVIDEOALL}  setMUSICVIDEOLISTNEW={setMUSICVIDEOLISTNEW} setCheckLength={setCheckLength} total={pagination._total} />
                 </Stack>
 
-                <Grid container spacing={2} >
-                  
-                    { !checkLength? 
-       
-                      SONGS.map((value, index) => {
-                          return (
-                              <Grid item xs={4} key={index.toString()}>
-                                  <SongCard dataCat={categoryArray} setCongTacHanhTrinh={setCongTacHanhTrinh} congtachanhtrinh={congtachanhtrinh} {...value}></SongCard>
-                              </Grid>
-                          )
-                      })
-                 
-                    :  SONGLISTNEW.map((value, index) => {
+                <Grid container spacing={2}>
+                    {!checkLength ? 
+                    VIDEOS.map((value, index) => {
+                        return (
+                            <Grid item xs={6} key={index.toString()} >
+                                <VideoMusicCard dataCat={categoryArray} setCongTacHanhTrinh={setCongTacHanhTrinh} congtachanhtrinh={congtachanhtrinh} {...value}></VideoMusicCard>
+                            </Grid>
+                        )
+                    })
+                    : MUSICVIDEOLISTNEW.map((value, index) => {
                       return (
-                          <Grid item xs={4} key={index.toString()}>
-                              <SongCard dataCat={categoryArray} setCongTacHanhTrinh={setCongTacHanhTrinh} congtachanhtrinh={congtachanhtrinh} {...value}></SongCard>
+                          <Grid item xs={6} key={index.toString()} >
+                              <VideoMusicCard dataCat={categoryArray} setCongTacHanhTrinh={setCongTacHanhTrinh} congtachanhtrinh={congtachanhtrinh} {...value}></VideoMusicCard>
                           </Grid>
                       )
                   })
@@ -180,12 +180,12 @@ const SongManager = () => {
                 </Stack>
 
             </Container>
-            <SongModal open={open} handleClose={handleClose} setCongTacHanhTrinh={setCongTacHanhTrinh} congtachanhtrinh={congtachanhtrinh} dataCat={categoryArray} {...MODALCREATESONG}></SongModal>
+            <VideoMusicModal open={open} handleClose={handleClose} setCongTacHanhTrinh={setCongTacHanhTrinh} congtachanhtrinh={congtachanhtrinh} dataCat={categoryArray} {...MODALCREATEVIDEOMUSIC}></VideoMusicModal>
             
         </Box>
-        }
-      </>
+          }
+        </>
     )
 }
 
-export default SongManager
+export default VideoMusicManager

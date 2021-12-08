@@ -11,17 +11,16 @@ import UserManager from '../../../Components/Admin/UserManager'
 import PostManager from '../../../Components/Admin/PostManager';
 import CategoryManager from '../../../Components/Admin/CategoryManager';
 import SongManager from '../../../Components/Admin/SongManager';
+import VideoMusicManager from '../../../Components/Admin/VideoMusicManager'
+const Dashboard = ({data}) => {
 
-const Dashboard = () => {
-   
-    
 
     return (
         <React.Fragment >
             <div className='kz-background'>
-                <NavigationAdminTop  ></NavigationAdminTop>
+                <NavigationAdminTop data={data} ></NavigationAdminTop>
         
-                <NavigationAdmin sx={{'& .MuiDrawer-paper': {border: 'none'}}}></NavigationAdmin>
+                <NavigationAdmin data={data} sx={{'& .MuiDrawer-paper': {border: 'none'}}}></NavigationAdmin>
                 <Box sx={{height: 155, width:'100%', backgroundColor: "#9B2335", position: 'sticky', top: 64, left: 0}} />
 
                 <Routes>
@@ -50,10 +49,10 @@ const Dashboard = () => {
                     />
 
                     <Route 
-                        path="/Album" 
+                        path="/MusicVideo" 
                         element={
                             <Box container sx={{marginLeft:'237px', padding: '0px 18px' , position: 'relative', marginTop:'-155', paddingBottom: '10px'}}>
-                                <UserManager />
+                                <VideoMusicManager />
                             </Box>
                         } 
                     />

@@ -1,14 +1,14 @@
 import React from 'react'
 import ReactApexChart from 'react-apexcharts';
 
-const PieChart = () => {
+const PieChart = ({...STATISTIC}) => {
     var options = {
-        series: [44, 55, 13, 43, 22],
+        series: [STATISTIC.users, STATISTIC.videomusic, STATISTIC.post, STATISTIC.song],
         chart: {
         width: 380,
         type: 'pie',
       },
-      labels: ['Team A', 'Team B', 'Team C', 'Team D', 'Team E'],
+      labels: ['User', 'Video Music', 'Post', 'Song'],
       responsive: [{
         breakpoint: 480,
         options: {

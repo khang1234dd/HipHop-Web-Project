@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from 'react'
 import SearchIcon from '@mui/icons-material/Search';
 import ld from 'lodash'
+
 // material
 import { styled } from '@mui/material/styles';
 import { Box, TextField, Autocomplete, InputAdornment } from '@mui/material';
@@ -29,18 +30,17 @@ const RootStyle = styled('div')(({ theme }) => ({
     }
   }));
 
-const CategorySearch = ({category, setCATEGORYLISTNEW, setCheckLength, total}) => {
-
+const VideoMusicSearch = ({videomusic,setMUSICVIDEOLISTNEW, setCheckLength, total}) => {
   const [valueSearch,setValueSearch] = useState("")
 
   useEffect(() => {
-     const postSearch = ld.filter(category, function(o) {
+      const videoSearch = ld.filter(videomusic, function(o) {
        const searchSuccess =  ld.includes(ld.lowerCase(o.name), valueSearch)
        return searchSuccess
      })
-    console.log(postSearch)
-    setCATEGORYLISTNEW(postSearch)
-    if(postSearch.length !== total){
+    console.log(videoSearch)
+    setMUSICVIDEOLISTNEW(videoSearch)
+    if(videoSearch.length !== total){
       setCheckLength(true)
     } else{
       console.log(2)
@@ -52,12 +52,11 @@ const CategorySearch = ({category, setCATEGORYLISTNEW, setCheckLength, total}) =
   const handleChange = (e) => {
     setValueSearch(e.target.value)
   }
-
+  
     return (
         <RootStyle>
-          
                   <TextField
-                    placeholder="Search category..."
+                    placeholder="Search song..."
                     value={valueSearch}
                     onChange={handleChange}
                     InputProps={{
@@ -82,4 +81,4 @@ const CategorySearch = ({category, setCATEGORYLISTNEW, setCheckLength, total}) =
     )
 }
 
-export default CategorySearch
+export default VideoMusicSearch

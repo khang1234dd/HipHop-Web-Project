@@ -1,9 +1,10 @@
 import { filter } from 'lodash';
 // import { sentenceCase } from 'change-case';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import AddIcon from '@mui/icons-material/Add';
 import { Link as RouterLink } from 'react-router-dom';
 // import { Box } from '@mui/material';
+
 
 // material
 import {
@@ -21,7 +22,8 @@ import {
 	TableContainer,
 	TablePagination,
 	Chip,
-	Box
+	Box,
+	IconButton,
 } from '@mui/material';
 // components
 // import Page from '../components/Page';
@@ -29,112 +31,15 @@ import {
 import Scrollbar from '../Scrollbar';
 import SearchNotFound from '../SearchNotFound';
 import { UserListHead, UserListToolbar, UserMoreMenu } from '../User';
+import LockIcon from '@mui/icons-material/Lock';
+import LockOpenIcon from '@mui/icons-material/LockOpen';
+import {getAllUserApi,changeLockUserApi} from '../../../../Apis/admin.api'
+import toastNotify from '../../../Toast'
+import Preload from '../Preload'
 //
 // import USERLIST from '../_mocks_/user';
 
 // ----------------------------------------------------------------------
-const USERLIST = [
-	{
-		id: 'abc1',
-		avatarUrl: 'aaaaaaa',
-		username: 'abc1',
-		email: 'aaaa',
-		name: 'a',
-		isVerified: true,
-		status: 'active',
-		role: 'Leader'
-	},
-	{
-		id: 'a',
-		avatarUrl: 'aaaaaaa',
-		username: 'a',
-		email: 'aaaa',
-		name: 'bcd',
-		isVerified: true,
-		status: 'active',
-		role: 'Leader'
-	},
-	{
-		id: 'b',
-		avatarUrl: 'aaaaaaa',
-		username: 'b',
-		email: 'aaaa',
-		name: 'bcd',
-		isVerified: true,
-		status: 'active',
-		role: 'Leader'
-	},
-	{
-		id: 'c',
-		avatarUrl: 'aaaaaaa',
-		username: 'c',
-		email: 'aaaa',
-		name: 'bcd',
-		isVerified: true,
-		status: 'active',
-		role: 'Leader'
-	},
-	{
-		id: 'f',
-		avatarUrl: 'aaaaaaa',
-		username: 'f',
-		email: 'aaaa',
-		name: 'bcd',
-		isVerified: true,
-		status: 'active',
-		role: 'Leader'
-	},
-	{
-		id: 'e',
-		avatarUrl: 'aaaaaaa',
-		username: 'e',
-		email: 'aaaa',
-		name: 'bcd',
-		isVerified: true,
-		status: 'active',
-		role: 'Leader'
-	},
-	{
-		id: 'g',
-		avatarUrl: 'aaaaaaa',
-		username: 'g',
-		email: 'aaaa',
-		name: 'bcd',
-		isVerified: true,
-		status: 'active',
-		role: 'Leader'
-	},
-	{
-		id: 'h',
-		avatarUrl: 'aaaaaaa',
-		username: 'h',
-		email: 'aaaa',
-		name: 'bcd',
-		isVerified: true,
-		status: 'active',
-		role: 'Leader'
-	},
-	{
-		id: 'y',
-		avatarUrl: 'aaaaaaa',
-		username: 'y',
-		email: 'aaaa',
-		name: 'bcd',
-		isVerified: true,
-		status: 'active',
-		role: 'Leader'
-	},
-	{
-		id: 'm',
-		avatarUrl: 'aaaaaaa',
-		username: 'm',
-		email: 'aaaa',
-		name: 'bcd',
-		isVerified: true,
-		status: 'active',
-		role: 'Leader'
-	}
-];
 
 const TABLE_HEAD = [
 	{ id: 'username', label: 'UserName', alignRight: false },
@@ -143,7 +48,7 @@ const TABLE_HEAD = [
 	{ id: 'role', label: 'Role', alignRight: false },
 	{ id: 'isVerified', label: 'Verified', alignRight: false },
 	{ id: 'status', label: 'Status', alignRight: false },
-	{ id: '' }
+	{ id: 'action',label: 'Action', alignRight: true}
 ];
 
 // ----------------------------------------------------------------------
@@ -180,6 +85,8 @@ function applySortFilter(array, comparator, query) {
 	return stabilizedThis.map(el => el[0]);
 }
 
+
+
 export default function CRUDTable() {
 	const [page, setPage] = useState(0);
 	const [order, setOrder] = useState('asc');
@@ -187,6 +94,11 @@ export default function CRUDTable() {
 	const [orderBy, setOrderBy] = useState('name');
 	const [filterName, setFilterName] = useState('');
 	const [rowsPerPage, setRowsPerPage] = useState(5);
+	const [USERLIST, setUSERLIST] = useState([])
+	const [filterChangeLock, setFilterChangeLock] = useState(false)
+
+	const [loading, setLoading] = useState(false)
+	const [completed, setCompleted] = useState(false)
 
 	const handleRequestSort = (event, property) => {
 		const isAsc = orderBy === property && order === 'asc';
@@ -234,8 +146,17 @@ export default function CRUDTable() {
 		setFilterName(event.target.value);
 	};
 
-	const handleDelete = event => {
-		console.log('delete');
+	
+
+	const handleChangeLock = async(e) => {
+		const id =  e.currentTarget.value;
+		const res = await changeLockUserApi(id)
+		if (res.success) {
+			toastNotify('This user has been changed the lock', 'success');
+			setFilterChangeLock(!filterChangeLock)
+		} else {
+			toastNotify(res.message, 'error');
+		}
 	};
 
 	const emptyRows =
@@ -249,24 +170,38 @@ export default function CRUDTable() {
 
 	const isUserNotFound = filteredUsers.length === 0;
 
+	useEffect(() => {
+		setTimeout(() =>{
+			(async () => {
+				const res = await getAllUserApi()
+				setUSERLIST(res.users)
+				setLoading(true)
+
+				setTimeout(()=>{
+					setCompleted(true)
+				},1000)
+			})();
+		},2000)
+    }, [filterChangeLock]);
+
+
 	return (
-		<Box>
+		<>
+		{!completed ? 
+			<>
+			{!loading? <Preload type={1}></Preload> : <Preload type={3}></Preload> }
+			</>
+			
+		:<Box>
 			<Container>
 				<Stack
 					direction='row'
 					alignItems='center'
 					justifyContent='space-between'
 					mb={5}>
-					<Typography variant='h4' gutterBottom>
+					<Typography variant='h4' gutterBottom sx={{color: '#9B2335', fontWeight: 600}}>
 						User
 					</Typography>
-					<Button
-						variant='contained'
-						component={RouterLink}
-						to='#'
-						startIcon={<AddIcon color='white' />}>
-						New User
-					</Button>
 				</Stack>
 
 				<Card sx={{ '& .simplebar-placeholder': { maxHeight: '50px' } }}>
@@ -293,25 +228,29 @@ export default function CRUDTable() {
 										.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
 										.map(row => {
 											const {
-												id,
+												_id,
 												username,
 												role,
 												name,
 												status,
 												email,
-												avatarUrl,
-												isVerified
+												image,
+												activate,
+												lock,
 											} = row;
 											const isItemSelected = selected.indexOf(username) !== -1;
 
 											return (
+						
 												<TableRow
 													hover
-													key={id}
+													key={_id}
 													tabIndex={-1}
 													role='checkbox'
 													selected={isItemSelected}
-													aria-checked={isItemSelected}>
+													aria-checked={isItemSelected}
+													>
+													
 													<TableCell padding='checkbox'>
 														<Checkbox
 															checked={isItemSelected}
@@ -323,7 +262,7 @@ export default function CRUDTable() {
 															direction='row'
 															alignItems='center'
 															spacing={2}>
-															<Avatar alt={username} src={avatarUrl} />
+															<Avatar alt={username} src={image === "" || image === "upload/image/1.png" ? "hiphop-g28.herokuapp.com/upload/image/1.png" : image } />
 															<Typography variant='subtitle2' noWrap>
 																{username}
 															</Typography>
@@ -331,39 +270,37 @@ export default function CRUDTable() {
 													</TableCell>
 													<TableCell align='left'>{email}</TableCell>
 													<TableCell align='left'>{name}</TableCell>
-													<TableCell align='left'>{role}</TableCell>
+													<TableCell align='left'>{role === 0 ? 'user' : role===1? 'admin':'superadmin' }</TableCell>
 													<TableCell align='left'>
-														{isVerified ? 'Yes' : 'No'}
+														{activate ? 'Yes' : 'No'}
 													</TableCell>
 													<TableCell align='left'>
-														{/* <Label
-                              variant="ghost"
-                              color={(status === 'banned' && 'error') || 'success'}
-                            >
-                              {sentenceCase(status)}
-                            </Label> */}
-
-														{/* <Chip color="success" label="Pass" sx={{marginRight: '0.1rem'}}/>
-                            <Chip color="secondary" label="Private" sx={{marginRight: '0.1rem'}}/>
-                            <Chip color="error" label="Banned" sx={{marginRight: '0.1rem'}}/>
-                            <Chip color="warning" label="Hot" onDelete={handleDelete} sx={{marginRight: '0.1rem'}}/> */}
-														<Chip
-															color='success'
-															label='Active'
-															sx={{ marginRight: '0.1rem' }}
-														/>
+														{lock ? 
 														<Chip
 															color='error'
 															label='Locked'
-															onDelete={handleDelete}
 															sx={{ marginRight: '0.1rem' }}
 														/>
+														:
+														<Chip
+														color='success'
+														label='Active'
+														sx={{ marginRight: '0.1rem' }}
+														/>
+														}
+														
+														
 													</TableCell>
 
 													<TableCell align='right'>
-														<UserMoreMenu />
+														<IconButton  onClick={handleChangeLock} value={_id} >
+															{lock ?<LockOpenIcon sx={{width: 20, height:20}} value={_id}></LockOpenIcon> :<LockIcon sx={{width: 20, height:20, color: '#9b2335'}} value={_id}  />}
+        													
+      													</IconButton>
 													</TableCell>
+
 												</TableRow>
+										
 											);
 										})}
 									{emptyRows > 0 && (
@@ -397,5 +334,7 @@ export default function CRUDTable() {
 				</Card>
 			</Container>
 		</Box>
+		}
+		</>
 	);
 }

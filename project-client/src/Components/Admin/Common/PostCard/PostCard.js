@@ -1,10 +1,11 @@
-
+import React, {useState} from 'react';
 import EyeIcon from '@mui/icons-material/RemoveRedEye';
 import { Link as RouterLink } from 'react-router-dom';
 import MessageIcon from '@mui/icons-material/Message';
+import CameraAltIcon from '@mui/icons-material/CameraAlt';
 // material
 import { alpha, styled } from '@mui/material/styles';
-import { Box, Link, Card, Grid, Avatar, Typography, CardContent, Chip } from '@mui/material';
+import { Box, Link, Card, Grid, Avatar, Typography, CardContent, Chip, IconButton  } from '@mui/material';
 // utils
 import { fDate } from '../../utils/formatTime';
 import { fShortenNumber } from '../../utils/formatNumber';
@@ -12,6 +13,10 @@ import { fShortenNumber } from '../../utils/formatNumber';
 import SvgIconStyle from '../../utils/SvgIconStyle';
 
 import PostMoreMenu from './PostMoreMenu'
+
+import PostModal from './PostModal';
+
+import {SweetAlertPostHot,SweetAlertPostBanned} from '../../utils/SweetAlert'
 
 // ----------------------------------------------------------------------
 
@@ -60,40 +65,77 @@ const PostMenu = styled('div')(({ theme }) => ({
   position: 'absolute',
   zIndex: 9,
   right: theme.spacing(1),
-  bottom: theme.spacing(-9),
+  bottom: theme.spacing(-6),
 }));
 
+const UpdateImage = styled('div')(({ theme }) => ({
+  position: 'absolute',
+  zIndex: 9,
+  right: theme.spacing(1),
+  top: theme.spacing(1),
+}));
+
+const MODALUPDATEPOST ={
+  title: 'update post',
+  typeCreate: 2,
+  chill: [
+  {id: 1 , field: 'Post Name',inputName1:'namePost', fieldSelect: 'Post Category',inputName2:'categoryId', boxSelect: true},
+  {id: 2 , field: 'Tiny Description',inputName:'tinydes' , boxTextArea: true},
+  {id: 3 , field: 'Description',inputName:'description',boxEditor: true},
+  ]
+}
+
+const MODALUPDATEIMAGE ={
+  title: 'update image',
+  typeCreate: 3,
+  chill: [
+    {id: 1 , field: 'Post Image',inputName:'image' , boxImage: true },
+  ]
+}
 
 
 // ----------------------------------------------------------------------
 
 
-export default function PostCard({ post, index }) {
-  const { cover, title, view, comment, author, createdAt } = post;
+export default function PostCard({ post, index, dataCat, setCongTacHanhTrinh, congtachanhtrinh }) {
+
+  const { name, image  , pass,hot,banned,view, comment, createdAt,owner  } = post;
+  const [open, setOpen] = useState(false);
+  const [open1, setOpen1] = useState(false);
   const latestPostLarge = index === 0;
   const latestPost = index === 1 || index === 2;
 
-  const handleDelete = () => {
-    console.log('delete')
+  const handleDeleteHot = async () => {
+    const action = await SweetAlertPostHot(post._id,'Hot has been removed', 'Hot of this post has been deleted')
+    if(action){
+      setCongTacHanhTrinh(congtachanhtrinh ? false : true)
+    }
   }
+
+  const handleDeleteBan = async () => {
+    const action = await SweetAlertPostBanned(post._id,'The ban has been lifted', 'The ban has been lifted on this post')
+    if(action){
+      setCongTacHanhTrinh(congtachanhtrinh ? false : true)
+    }
+  }
+
+  const handleUpdate = () => {
+    setOpen(true)
+  }
+  const handleUpdate1 = () => {
+    setOpen1(true)
+  }
+
+  const handleClose = () => setOpen(false);
+  const handleClose1 = () => setOpen1(false);
 
   const POST_INFO = [
     { number: comment, icon: MessageIcon  },
     { number: view, icon: EyeIcon  },
   ];
 
-  const POST_STATUS = [
-    { chip: <Chip color="success" label="Pass" sx={{marginRight: '0.1rem', marginTop:'5px'}}/> },
-    { chip: <Chip color="secondary" label="Private" sx={{marginRight: '0.1rem', marginTop:'5px'}}/>  },
-    {chip: <Chip color="error" label="Banned" sx={{marginRight: '0.1rem' , marginTop:'5px'}}/>},
-    {chip: <Chip color="warning" label="Hot" onDelete={handleDelete} sx={{marginRight: '0.1rem', marginTop:'5px'}}/>}
-                                                       
-  ];
-
-  
-
   return (
-    <Grid item xs={12} sm={latestPostLarge ? 12 : 6} md={latestPostLarge ? 6 : 3}>
+    <Grid key={index.toString()} item xs={12} sm={latestPostLarge ? 12 : 6} md={latestPostLarge ? 6 : 3}>
       <Card sx={{ position: 'relative' }}>
         <CardMediaStyle
           sx={{
@@ -129,8 +171,8 @@ export default function PostCard({ post, index }) {
             }}
           />
           <AvatarStyle
-            alt={author.name}
-            src={author.avatarUrl}
+            alt={owner.name}
+            src={'https://hiphop-g28.herokuapp.com/'+ owner.image}
             sx={{
               ...((latestPostLarge || latestPost) && {
                 zIndex: 9,
@@ -151,10 +193,24 @@ export default function PostCard({ post, index }) {
                 height: 40
               })
             }}>
-            <PostMoreMenu></PostMoreMenu>
+            <PostMoreMenu handleUpdate={handleUpdate} setCongTacHanhTrinh={setCongTacHanhTrinh} congtachanhtrinh={congtachanhtrinh} post={post}></PostMoreMenu>
           </PostMenu>
 
-          <CoverImgStyle alt={title} src={cover} />
+          <UpdateImage sx={{
+              ...((latestPostLarge || latestPost) && {
+                zIndex: 9,
+                top: 300,
+                left: 24,
+                width: 40,
+                height: 40
+              })
+            }}>
+              <IconButton onClick={handleUpdate1} aria-label="delete" sx={{color: '#9B2335'}}>
+                <CameraAltIcon />
+              </IconButton>
+          </UpdateImage>
+
+          <CoverImgStyle alt={name} src={image !== 'upload/image/3.png'? image  :'https://hiphop-g28.herokuapp.com/'+ image} />
         </CardMediaStyle>
 
         <CardContent
@@ -170,7 +226,7 @@ export default function PostCard({ post, index }) {
           <Typography
             gutterBottom
             variant="caption"
-            sx={{ color: 'text.disabled', display: 'block' }}
+            sx={{ color: 'grey.500', display: 'block' }}
           >
             {fDate(createdAt)}
           </Typography>
@@ -188,7 +244,7 @@ export default function PostCard({ post, index }) {
               })
             }}
           >
-            {title}
+            {name}
           </TitleStyle>
 
           <InfoStyle>
@@ -206,9 +262,21 @@ export default function PostCard({ post, index }) {
                 justifyContent="flex-end"
                 alignItems="center"
               >
-              {POST_STATUS.map((status, index) => (
-                  status.chip
-              ))}
+            
+              { pass ? <Chip color="info" label="Pass" sx={{marginRight: '0.1rem', marginTop:'5px'}}/>
+              : <></>
+              }
+
+              { post.public ? <Chip color="success" label="Public" sx={{marginRight: '0.1rem', marginTop:'5px'}}/> 
+              : <Chip color="secondary" label="Private" sx={{marginRight: '0.1rem', marginTop:'5px'}}/>
+              }
+
+              { hot ? <Chip color="warning" label="Hot" onDelete={handleDeleteHot} sx={{marginRight: '0.1rem', marginTop:'5px'}}/>
+              :<></>
+              }
+              { banned ? <Chip color="error" label="Banned" onDelete={handleDeleteBan} sx={{marginRight: '0.1rem', marginTop:'5px'}}/>
+              :<></>
+              }
               </Grid>
   
           </div>
@@ -234,6 +302,9 @@ export default function PostCard({ post, index }) {
           </InfoStyle>
         </CardContent>
       </Card>
+      
+      <PostModal open={open} handleClose={handleClose} setCongTacHanhTrinh={setCongTacHanhTrinh} congtachanhtrinh={congtachanhtrinh} {...MODALUPDATEPOST} data={post} dataCat={dataCat} ></PostModal>
+      <PostModal open={open1} handleClose={handleClose1} setCongTacHanhTrinh={setCongTacHanhTrinh} congtachanhtrinh={congtachanhtrinh} {...MODALUPDATEIMAGE} data={post} dataCat={dataCat} ></PostModal>
     </Grid>
   );
 }

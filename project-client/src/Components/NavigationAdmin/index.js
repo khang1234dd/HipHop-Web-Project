@@ -18,6 +18,7 @@ import LibraryMusicIcon from '@mui/icons-material/LibraryMusic';
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
 import { Link, useNavigate, useParams } from 'react-router-dom';
+import OndemandVideoIcon from '@mui/icons-material/OndemandVideo';
 
 const categories = [
   {
@@ -30,7 +31,7 @@ const categories = [
     id: 'Manager',
     children: [
       { id: 'User', icon: <PeopleIcon /> },
-      { id: 'Album', icon: <AlbumIcon /> },
+      { id: 'MusicVideo', icon: <OndemandVideoIcon /> },
       { id: 'Post', icon: <DescriptionIcon />},
       { id: 'Category', icon: <CategoryIcon />},
       { id: 'Song', icon: <LibraryMusicIcon />},
@@ -54,12 +55,12 @@ const itemCategory = {
 
 
 export default function NavigatorAdmin(props) {
-  const { ...other } = props;
+  const { data, ...other } = props;
   const navigate = useNavigate();
   const handleClick = (e) => {
     
     const link= e.target.innerHTML;
-    if(link === 'Dashboard' || link === 'User' || link === 'Album' || link === 'Post' || link === 'Song' || link === 'Category' )
+    if(link === 'Dashboard' || link === 'User' || link === 'MusicVideo' || link === 'Post' || link === 'Song' || link === 'Category' )
     {
       if(link === 'Dashboard') navigate('/admin' )
       else{
@@ -70,6 +71,9 @@ export default function NavigatorAdmin(props) {
     }
     
   }
+  const handleHome = () => {
+    navigate('/')
+  }
 
   return (
     <Drawer variant="permanent" {...other}>
@@ -77,21 +81,21 @@ export default function NavigatorAdmin(props) {
         <div className="kz-background-navtop">
         <div className="frameAvatar">
             <Avatar 
-                src="http://hiphop-g28.herokuapp.com/upload/image/1.png"
+                src={data.image ==="" || data.image==="upload/image/1.png" ?"http://hiphop-g28.herokuapp.com/upload/image/1.png" : data.image}
                 sx={{width: '80px', height: '80px'}}
             />
             <div className="fontName">
-                Kha Zoo
+                {data.name}
             </div>
             <div className="fontRole">
                 Administrator
             </div>
         </div>
-        <ListItem sx={{ ...item, ...itemCategory}}>
+        <ListItem onClick={handleHome}  sx={{ ...item, ...itemCategory}}>
           <ListItemIcon>
             <HomeIcon sx={{color: '#fff'}} />
           </ListItemIcon>
-          <ListItemText sx={{color: '#fff'}}>Back to hometown</ListItemText>
+          <ListItemText sx={{color: '#fff'}} >Back to hometown</ListItemText>
         </ListItem>
         <Divider sx={{ mt: 2 }} />
         </div>

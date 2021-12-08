@@ -9,8 +9,8 @@ import Grid from '@mui/material/Grid';
 import {styled} from '@mui/material/styles';
 import Divider from '@mui/material/Divider';
 import toastNotify from'../../../Toast';
-import {createCategoryApi} from '../../../../Apis/admin.api'
-import {vlCreateCategory} from '../Validate'
+import {createCategoryApi,updateCategoryApi} from '../../../../Apis/admin.api'
+import {vlCreateCategory,vlUpdateCategory} from '../Validate'
 
 const style = {
     position: 'absolute',
@@ -50,8 +50,7 @@ const StyledInputElement = styled('input')`
   }
 `;
 
-const CategoryModal = ({open, handleClose, handleData ,...modal}) => {
-
+const CategoryModal = ({open, handleClose , data,...modal}) => {
   const createCategory = async e => {
 		e.preventDefault();
 		const categoryname = e.target.categoryname.value;
@@ -61,12 +60,49 @@ const CategoryModal = ({open, handleClose, handleData ,...modal}) => {
 			const res = await createCategoryApi({ categoryname, categorytinydes });
 			if (res.success) {
 				toastNotify('Your category has been created', 'success');
+        
         handleClose();
-        handleData();
+        window.location.reload();
 			} else {
 				toastNotify(res.message, 'error');
 			}
 		}
+	};
+
+  const updateCategory = async e => {
+		e.preventDefault();
+    console.log('update!')
+    console.log('data!',data)
+		const categoryname =
+      data && e.target.categoryname.value === ""
+        ? data.name
+        : e.target.categoryname.value;
+    const tinydes =
+      data && e.target.description.value === ""
+        ? data.tinydes
+        : e.target.description.value;
+
+    const isvaliddata = vlUpdateCategory(
+      categoryname,
+      tinydes,
+    );
+
+    if (isvaliddata) {
+      const res = await updateCategoryApi({
+        categoryname: categoryname,
+        categorytinydes: tinydes,
+        id: data._id,
+      });
+      if (res.success) {
+        toastNotify("Your Category has been updated", "success");
+        console.log(res);
+        handleClose();
+        window.location.reload();
+
+      } else {
+        toastNotify(res.message, "error");
+      }
+    }
 	};
    
     return (
@@ -82,7 +118,7 @@ const CategoryModal = ({open, handleClose, handleData ,...modal}) => {
         }}
       >
         <Fade in={open}>
-          <Box sx={style} component="form" onSubmit={createCategory}>
+          <Box sx={style} component="form" onSubmit={modal.typeCreate? createCategory : updateCategory}>
             <Typography id="transition-modal-title" variant="h4" component="h2" sx={{textTransform: 'uppercase',fontFamily: 'Chakra Petch, sans-serif', fontWeight:600 ,color: '#9B2335'}}>
               {modal.title}
               {/* NEW CATEGORY */}
@@ -97,7 +133,7 @@ const CategoryModal = ({open, handleClose, handleData ,...modal}) => {
                     </Typography>
                   </Grid>
                   <Grid item xs>
-                    <StyledInputElement name={value.inputName}  aria-label="input" placeholder="Type something..." />
+                    <StyledInputElement name={value.inputName}  aria-label="input" placeholder={data && value.id ===1 ? data.name : data && value.id ===2? data.tinydes : "Type something..."} />
                   </Grid>
                 </Grid>
               )

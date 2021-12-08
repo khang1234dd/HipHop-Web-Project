@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useState,useEffect} from 'react'
 import './style.scss'
 import {PostCard} from '../../PostCard'
 import CardHoverType2 from '../../CardHoverType2'
@@ -7,6 +7,10 @@ import Grid from '@mui/material/Grid';
 import Carousel from '../../Carousel'
 import Box from '@mui/material/Box';
 import PieChart from '../Common/PieChart'
+import {getStatisticApi,getPostHipHopTopDayApi} from '../../../Apis/admin.api'
+import Preload from '../Common/Preload'
+
+
 const CardHover = styled(CardHoverType2)`
     height: auto;
     width: 300px;
@@ -19,47 +23,77 @@ const CardHover = styled(CardHoverType2)`
 `;
 
 const Dashboard = () => {
+    const [STATISTIC,setSTATISTIC] = useState({users: 0, videomusic: 0, song: 0, post: 0})
+    const [POST,setPOST] = useState([])
+    const [loading, setLoading] = useState(false)
+    const [completed, setCompleted] = useState(false)
+
+    useEffect(() => {
+        setTimeout(() =>{
+            (async () => {
+                const res = await getStatisticApi();
+                
+                setSTATISTIC(res)
+                const resPost = await getPostHipHopTopDayApi(1,3);
+                setPOST(resPost.post)
+
+                setLoading(true)
+				  setTimeout(()=>{
+				  	setCompleted(true)
+				  },1000)
+        
+             })();
+        },2000)
+        
+      }, []);
 
     return (
         <>
+        {!completed ?
+          <>
+            <Box sx={{marginTop:'-155px'}}>
+                {!loading? <Preload  type={1}></Preload> : <Preload type={3}></Preload> }
+            </Box>
+          </>
+        :<>
             <div className="dashboard-wapper-container" >
                 <div className="kzboxshadow">
                 
                         <CardHover 
                             img="https://i.pinimg.com/564x/df/87/c8/df87c8599e33fe73c355de8f32bc1927.jpg"
                             name="User"
-                            number="100"
+                            number={STATISTIC.users}
                         />
                         <CardHover 
                             img="https://i.pinimg.com/564x/c7/73/48/c77348c169ea27d62d8fa4ae855f60b6.jpg" 
-                            name="Album"
-                            number="200"
+                            name="Video Music"
+                            number={STATISTIC.videomusic}
                         />
                         <CardHover 
                             img="https://i.pinimg.com/564x/a5/21/7a/a5217a2d42a9a64a0077c5cad6dac7ec.jpg" 
                             name="Song"
-                            number="200"
+                            number={STATISTIC.song}
                         />
                       
                         <CardHover 
                             img="https://i.pinimg.com/564x/6e/40/e3/6e40e37f3f798cf02241f5ad1f59b33a.jpg" 
                             name="Post"
-                            number="200"
+                            number={STATISTIC.post}
                         />
                 </div>
             </div>
 
             <div className="dashboard-wapper-container-chart" >
                 <div className="kzboxshadow-1">
-                    <Carousel></Carousel>
+                    <Carousel data={POST}></Carousel>
                 </div>
 
                 <div className="kzboxshadow-2">
-                    <PieChart></PieChart>
+                    <PieChart {...STATISTIC}></PieChart>
                 </div>
-                
-            
             </div>
+            </>
+        }
         </>
     )
 }

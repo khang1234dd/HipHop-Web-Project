@@ -40,15 +40,17 @@ const DetailSongAuthor = styled('h4')({
     marginBottom: '20px',
 });
 
-const SongDetail = (props) => {
-    const {songName , songAuthor, songImg} = props
+const SongDetail = ({...song}) => {
+    const {name , image, ownersong} = song
     return (
         <DetailMain>
             <DetailImg>
-                <ImgElement src={songImg} alt={songName} />
+                {image ? <ImgElement src={image} alt={name} />
+                :<ImgElement src='https://hiphop-g28.herokuapp.com/upload/image/1.png' alt={name} />}
+                
             </DetailImg>
-            <DetailTitle>{songName}</DetailTitle>
-            <DetailSongAuthor>{songAuthor}</DetailSongAuthor>
+            <DetailTitle>{name}</DetailTitle>
+            <DetailSongAuthor>{ownersong}</DetailSongAuthor>
         </DetailMain>
     )
 }

@@ -13,6 +13,7 @@ import {
   OutlinedInput,
   InputAdornment
 } from '@mui/material';
+import toastNotify from "../../../Toast"
 
 // ----------------------------------------------------------------------
 
@@ -45,6 +46,10 @@ const SearchStyle = styled(OutlinedInput)(({ theme }) => ({
 // };
 
 export default function UserListToolbar({ numSelected, filterName, onFilterName }) {
+  const handleDelete = event => {
+		console.log('1')
+		toastNotify("Function is waiting for update", "warn")
+	};
   return (
     <RootStyle
       sx={{
@@ -73,7 +78,7 @@ export default function UserListToolbar({ numSelected, filterName, onFilterName 
 
       {numSelected > 0 ? (
         <Tooltip title="Delete">
-          <IconButton>
+          <IconButton onClick={handleDelete}>
             <DeleteIcon  />
           </IconButton>
         </Tooltip>

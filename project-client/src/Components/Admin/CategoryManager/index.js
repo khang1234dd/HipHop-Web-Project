@@ -13,7 +13,8 @@ import {
     Divider,
 } from '@mui/material';
 import toastNotify from'../../Toast';
-import {getCategoryApi} from '../../../Apis/admin.api'
+import {getCategoryApi, getAllCategoryApi} from '../../../Apis/admin.api'
+import Preload from '../Common/Preload'
 
 const MODALNEWCATEGORY ={
     title: 'NEW CATEGORY',
@@ -24,64 +25,74 @@ const MODALNEWCATEGORY ={
 
     ]
 }
-const MODALUPDATECATEGORY ={
-    title: 'UPDATE CATEGORY',
-    typeCreate: false,
-    chill: [
-    {id: 1 , field: 'Category Name', inputName: 'categoryname'},
-    {id: 2 , field: 'Description', inputName: 'description'},
 
-    ]
-}
 
 
 const CategoryManager = () => {
     const [open, setOpen] = useState(false);
-    const [typeModal, setTypeModal] = useState(1);
     const [CATEGORY, setCATEGORY] = useState([]);
-    const [seemore, setSeeMore] = useState(1);
-    const [data,setData] = useState(true);
+    const [pagination,setPagination] = useState({_page: 1, _limit: 5})
+    const [filter,setFilter] = useState()
 
-    const handleData  = async() => { 
-        if(!data){
-            const res = await getCategoryApi({page: CATEGORY.length + 1, limit:1})
-            setCATEGORY(CATEGORY.concat(res.category))
-        }
-        
-    }
+    const [loading, setLoading] = useState(false)
+	const [completed, setCompleted] = useState(false)
+
+    const pageNumber = Math.ceil(pagination._total / pagination._limit)
+
+    const [CATEGORYALL, setCATEGORYALL] = useState([])
+    const [search,setSearch] = useState('')
+    const [checkLength, setCheckLength] = useState(false)
+    const [CATEGORYLISTNEW, setCATEGORYLISTNEW] = useState([])
+
 
     const handleSeeMore  = () => {
-        setSeeMore(seemore +1);
-        setData(true);
+        setPagination({
+            _page: pagination._page + 1,
+            _limit: pagination._limit,
+            _total: pagination._total
+        })
+        setFilter(pagination)
     }
 
     const handleOpen = () => {
-        setTypeModal(1);
         setOpen(true)
     };
     const handleClose = () => setOpen(false);
 
     const handleUpdate = () => {
-        setTypeModal(2);
         setOpen(true)
     }
 
     useEffect(() => {
-        (async () => {
-            const pageNumber = seemore;
-    		const res = await getCategoryApi({page: pageNumber, limit:3})
-            setCATEGORY(CATEGORY.concat(res.category))
-            if(res.category.length <= 0){
-                setData(false)
-                
-            }
-            // console.log(CATEGORY)
-    		// console.log(res);
-    	})();
-    }, [seemore]);
+        setTimeout(() =>{
+            (async () => {
+                const res = await getCategoryApi({page: pagination._page, limit :pagination._limit})
+                setPagination(res.pagination)
+                setCATEGORY(CATEGORY.concat(res.category))
+
+                const res1 = await getAllCategoryApi()
+                setCATEGORYALL(res1.category)
+
+                setLoading(true)
+				  setTimeout(()=>{
+				  	setCompleted(true)
+				  },1000)
+            })();
+        },250)
+        
+    }, [filter]);
 
     return (
-        <Box
+        <>
+        {!completed ?
+            <>
+              <Box sx={{marginTop: '-155px',}}>
+              {!loading? <Preload  type={1}></Preload> : <Preload type={3}></Preload> }
+              </Box>
+            </>
+
+
+        :<Box
         sx={{
             marginTop: '-155px',
             // margin-bottom: 10px;
@@ -115,37 +126,39 @@ const CategoryManager = () => {
                 </Stack>
 
                 <Stack mb={5} direction="row" alignItems="center" justifyContent="space-between">
-                  <CategorySearch category={CATEGORY}  /> 
-                  {/* options={SORT_OPTIONS} */}
-                  {/* <CategorySort  /> */}
+                  <CategorySearch category={CATEGORYALL} setCATEGORYLISTNEW={setCATEGORYLISTNEW} setCheckLength={setCheckLength} total={pagination._total}  /> 
                 </Stack>
                 <Box sx={{p:2,height: '440px', overflowY: 'auto', overflowX: 'hidden'}}>
                 <Grid container  xs={12} rowSpacing={2}>
                     
-                    {CATEGORY.map((category, index) => (
+                    {!checkLength?
+                    CATEGORY.map((category, index) => (
                         <Grid item xs={12} key={index} >
                             <CategoryCard key={category.id} category={category} index={index} handleUpdate={handleUpdate} />
                         </Grid>
-                    ))}
+                    ))
+                    :CATEGORYLISTNEW.map((category, index) => (
+                        <Grid item xs={12} key={index} >
+                            <CategoryCard key={category.id} category={category} index={index} handleUpdate={handleUpdate} />
+                        </Grid>
+                    ))
+                    }
                     <Grid item xs={12} sx={{mt: 2}}>
                         <Divider orientation="orientation"  variant />
                     </Grid>
                     
                     <Grid item xs={12} sx={{mt: 2}}>
-                        <CategoryMore handleSeeMore={handleSeeMore} data={data}></CategoryMore>
+                        {pageNumber !== pagination._page ? <CategoryMore handleSeeMore={handleSeeMore}></CategoryMore> : <></>}
                     </Grid>
                     
                 </Grid>
                 </Box>
             </Container>
-            {typeModal === 1 ? 
-                <CategoryModal open={open} handleClose={handleClose} {...MODALNEWCATEGORY} handleData={handleData} ></CategoryModal>
-            : <CategoryModal open={open} handleClose={handleClose} {...MODALUPDATECATEGORY} handleData={handleData} ></CategoryModal>
-            }
-            
-        </Box>
+            <CategoryModal  open={open} handleClose={handleClose} {...MODALNEWCATEGORY} ></CategoryModal>
 
-        
+        </Box>
+            }
+        </>
     )
 }
 
