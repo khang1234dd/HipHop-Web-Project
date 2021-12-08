@@ -35,7 +35,6 @@
 		}
 	}
 	&-main {
-		padding-top: 40px;
 		text-align: center;
 		padding-bottom: 120px;
 		border-right: 1px solid #eee;
@@ -165,6 +164,7 @@
 						position: relative;
 						background-repeat: no-repeat;
 						&-adjust {
+							object-fit: cover;
 							border-radius: 50%;
 							text-align: center;
 							position: relative;
@@ -235,4 +235,19 @@
 	& li:hover {
 		border-bottom: 2px solid black;
 	}
+}
+
+.input {
+	opacity: 0;
+	position: absolute;
+	margin-left: 20px;
+	margin-right: 20px;
+	padding-top: 30px;
+	padding-bottom: 67px;
+	width: 100%;
+	z-index: 99;
+	margin-top: 10px;
+	cursor: pointer;
+	top: -40px;
+	left: -5px;
 }

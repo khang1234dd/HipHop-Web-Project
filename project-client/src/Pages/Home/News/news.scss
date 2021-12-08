@@ -2,6 +2,7 @@
 	&-leftcontainer {
 		margin-right: 10px;
 		&-link {
+			cursor: pointer;
 			display: flex;
 			align-items: center;
 			justify-content: flex-end;
@@ -9,5 +10,17 @@
 				margin-right: 10px;
 			}
 		}
+	}
+}
+
+.articlelist-adjust {
+	list-style: none;
+	line-height: 20px;
+	margin: 0;
+	padding-left: 14px;
+	font-size: 14px;
+	&-block {
+		margin-bottom: 10px;
+		margin-left: 5px;
 	}
 }

@@ -31,6 +31,7 @@
 		&-adjust {
 			width: 100%;
 		}
+
 		&-button {
 			padding-top: 10px;
 			margin-top: 10px;
@@ -39,8 +40,14 @@
 		}
 		&-already {
 			font-family: $f-1;
+			position: relative;
 			& span {
 				margin-right: 10px;
+			}
+			& a {
+				position: absolute;
+				left: 50%;
+				transform: translateX(-50%) !important;
 			}
 		}
 	}
@@ -49,4 +56,22 @@
 .adjust {
 	margin: 20px;
 	font-family: $f-1;
+	position: relative;
+	& a {
+		top: 15px;
+		position: absolute;
+		left: 50%;
+		transform: translateX(-50%) !important;
+	}
+}
+.adjust-1 {
+	margin: 20px;
+	font-family: $f-1;
+	position: relative;
+	& a {
+		top: 50px;
+		position: absolute;
+		left: 50%;
+		transform: translateX(-50%) !important;
+	}
 }

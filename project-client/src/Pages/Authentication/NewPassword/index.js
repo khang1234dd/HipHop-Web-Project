@@ -43,7 +43,7 @@ export const NewPassword = () => {
 								<ButtonHipHop name='Go !'></ButtonHipHop>
 								<p className='newpassword-form-already'>
 									<span>Didn't have an account ?</span>
-									<a>Sign up now</a>
+									<Link to='/signup'>Sign up</Link>
 								</p>
 							</div>
 						</form>

@@ -17,6 +17,8 @@ import MenuItem from '@mui/material/MenuItem';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import Divider from '@mui/material/Divider';
 import Typography from '@mui/material/Typography';
+import Cookies from 'js-cookie';
+import { useNavigate } from 'react-router';
 
 const banner = {
 	animate: {
@@ -41,6 +43,7 @@ const letter = {
 };
 
 const Navigation = ({ ...data }) => {
+	const navigate = useNavigate();
 	const [anchorEl, setAnchorEl] = React.useState(null);
 	const open = Boolean(anchorEl);
 	const handleAnchorElMenuAvatar = event => {
@@ -48,6 +51,12 @@ const Navigation = ({ ...data }) => {
 	};
 	const handleCloseMenuAvatar = () => {
 		setAnchorEl(null);
+	};
+
+	const handleLogOut = () => {
+		Cookies.remove('jwt', undefined);
+		navigate('/signin');
+		window.location.reload();
 	};
 	return (
 		<>
@@ -87,13 +96,7 @@ const Navigation = ({ ...data }) => {
 												onClick={handleAnchorElMenuAvatar}
 												color='inherit'
 												sx={{ p: 0.5 }}>
-												<Avatar
-													src={
-														'https://hiphop-g28.herokuapp.com/' +
-														data.user.image
-													}
-													alt='My Avatar'
-												/>
+												<Avatar src={data.user.image} alt='My Avatar' />
 											</IconButton>
 											<Menu
 												anchorEl={anchorEl}
@@ -144,7 +147,7 @@ const Navigation = ({ ...data }) => {
 														variant='subtitle1'
 														noWrap
 														component='h6'>
-														Kha Zoo
+														{data.user.name}
 													</Typography>
 													<Typography
 														sx={{
@@ -154,7 +157,7 @@ const Navigation = ({ ...data }) => {
 														variant='body2'
 														noWrap
 														component='p'>
-														khang@gmail.cơm
+														{data.user.email}
 													</Typography>
 												</Box>
 												<Divider />
@@ -166,7 +169,7 @@ const Navigation = ({ ...data }) => {
 													<PersonIcon sx={{ marginRight: '16px' }} /> Profile
 												</MenuItem>
 
-												<MenuItem>
+												<MenuItem component='button' onClick={handleLogOut}>
 													<ListItemIcon>
 														<Logout fontSize='small' />
 													</ListItemIcon>

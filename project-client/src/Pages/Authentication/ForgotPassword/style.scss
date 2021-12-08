@@ -39,8 +39,15 @@
 		}
 		&-already {
 			font-family: $f-1;
+			position: relative;
 			& span {
 				margin-right: 10px;
+			}
+			& a {
+				position: absolute;
+				top: 30px;
+				left: 50%;
+				transform: translateX(-50%) !important;
 			}
 		}
 	}

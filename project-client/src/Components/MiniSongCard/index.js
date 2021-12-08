@@ -26,10 +26,13 @@ export const MiniSongCard = ({
 	key,
 	className
 }) => {
+	const handleClick = () => {
+		window[`scrollTo`]({ top: 0, behavior: `smooth` });
+	};
 	return (
 		<>
 			<motion.div variants={item} key={key}>
-				<Link to={`/audioplayer/${data._id}`}>
+				<Link onClick={handleClick} to={`/audioplayer/${data._id}`}>
 					<div className='minisongcard-block'>
 						<div className='minisongcard-block-image '>
 							<img src={data.image} className='minisongcard-image'></img>

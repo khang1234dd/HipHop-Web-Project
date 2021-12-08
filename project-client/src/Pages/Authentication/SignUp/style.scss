@@ -39,12 +39,31 @@
 		}
 		&-already {
 			font-family: $f-1;
+			position: relative;
 			& span {
 				margin-right: 10px;
+			}
+			& a {
+				position: absolute;
+				top: 30px;
+				left: 50%;
+				transform: translateX(-50%) !important;
 			}
 		}
 		&-back {
 			margin-top: 10px;
 		}
+	}
+}
+
+.adjust-1 {
+	margin: 20px;
+	font-family: $f-1;
+	position: relative;
+	& a {
+		top: 50px;
+		position: absolute;
+		left: 50%;
+		transform: translateX(-50%) !important;
 	}
 }

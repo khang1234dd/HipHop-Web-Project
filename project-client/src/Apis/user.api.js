@@ -33,4 +33,65 @@ const getCategoryApi = async () => {
 	return response.json();
 };
 
-export { createPostApi, getCategoryApi };
+const updateNameApi = async body => {
+	const token = Cookies.get('jwt');
+	const response = await fetch(
+		'https://hiphop-g28.herokuapp.com/authenticate/updatename',
+		{
+			method: 'POST',
+			headers: {
+				Authorization: 'Bearer ' + token,
+				'Content-Type': 'application/json',
+				'Access-Control-Allow-Origin': '*',
+				'Access-Control-Allow-Credentials': 'true'
+			},
+			body: JSON.stringify(body)
+		}
+	);
+	return response.json();
+};
+
+const updateImageApi = async body => {
+	const token = Cookies.get('jwt');
+	const response = await fetch(
+		'https://hiphop-g28.herokuapp.com/authenticate/updateimage',
+		{
+			method: 'POST',
+			mode: 'cors',
+			headers: {
+				Authorization: 'Bearer ' + token,
+				'Access-Control-Allow-Origin': '*',
+				'Access-Control-Allow-Credentials': 'true'
+			},
+			body: body
+		}
+	);
+	return response.json();
+};
+
+const updatePassWordApi = async body => {
+	console.log(body, '73');
+	const token = Cookies.get('jwt');
+	const response = await fetch(
+		'https://hiphop-g28.herokuapp.com/authenticate/updatepassword',
+		{
+			method: 'POST',
+			headers: {
+				Authorization: 'Bearer ' + token,
+				'Content-Type': 'application/json',
+				'Access-Control-Allow-Origin': '*',
+				'Access-Control-Allow-Credentials': 'true'
+			},
+			body: JSON.stringify(body)
+		}
+	);
+	return response.json();
+};
+
+export {
+	createPostApi,
+	getCategoryApi,
+	updateNameApi,
+	updateImageApi,
+	updatePassWordApi
+};

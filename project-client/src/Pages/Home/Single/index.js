@@ -7,9 +7,10 @@ import {
 } from '../../../Apis/single.api';
 import SingleCard from '../../../Components/SingleCard';
 import './single.scss';
-
+import { Scroll } from '../../../Components/Scroll';
 import { motion } from 'framer-motion';
 import { MiniSongCard } from '../../../Components/MiniSongCard';
+import { Loading } from '../../../Components/Loading';
 
 const item = {
 	hidden: {
@@ -55,16 +56,10 @@ export const Single = () => {
 	const [MostLikedSong, setMostLikedSong] = useState([]);
 	const [pagination, setPagination] = useState({ _page: 1, _limit: 5 });
 	const [filter, setFilter] = useState();
+	const [done, setDone] = useState(undefined);
+	const [loading, setLoading] = useState(undefined);
 
 	const pageNumber = Math.ceil(pagination._total / pagination._limit);
-
-	useEffect(() => {
-		(async () => {
-			const res = await getSingleTopDayApi(1, 6);
-			setSingleTopDay(res.song);
-			console.log(res, '65');
-		})();
-	}, []);
 
 	useEffect(() => {
 		(async () => {
@@ -72,8 +67,15 @@ export const Single = () => {
 				pagination._page,
 				pagination._limit
 			);
+			const res1 = await getSingleTopDayApi(1, 6);
+			setSingleTopDay(res1.song);
+
 			setPagination(res.pagination);
 			setMostLikedSong(MostLikedSong.concat(res.song));
+			setLoading(true);
+			setTimeout(() => {
+				setDone(true);
+			}, 1000);
 		})();
 	}, [filter]);
 
@@ -90,49 +92,56 @@ export const Single = () => {
 		<>
 			{/* <AnimationOne> */}
 			<Wrapper>
-				<Container>
-					<div className='single-wrapper'>
-						<motion.div
-							variants={letter}
-							animate='animate'
-							initial='initial'
-							className='single-header'>
-							<h2>
-								Single <mark>Of the week</mark>
-							</h2>
-						</motion.div>
-						<motion.div
-							variants={container}
-							initial='hidden'
-							animate='show'
-							exit='exit'
-							className='single-block'>
-							{SingleTopDay.map((x, index) => (
-								<SingleCard data={x}></SingleCard>
-							))}
-							{/* <SingleCardList data={data}></SingleCardList> */}
-						</motion.div>
-						<div className='single-top100'>
-							<div className='single-top100-header'>
-								<h3>TOP 100</h3>
+				{!done ? (
+					<Loading loading={loading}></Loading>
+				) : (
+					<>
+						<Container>
+							<div className='single-wrapper'>
+								<motion.div
+									variants={letter}
+									animate='animate'
+									initial='initial'
+									className='single-header'>
+									<h2>
+										Single <mark>Of the week</mark>
+									</h2>
+								</motion.div>
+								<motion.div
+									variants={container}
+									initial='hidden'
+									animate='show'
+									exit='exit'
+									className='single-block'>
+									{SingleTopDay.map((x, index) => (
+										<SingleCard data={x}></SingleCard>
+									))}
+									{/* <SingleCardList data={data}></SingleCardList> */}
+								</motion.div>
+								<div className='single-top100'>
+									<div className='single-top100-header'>
+										<h3>TOP 100</h3>
+									</div>
+									{MostLikedSong.map((x, index) => {
+										return <MiniSongCard data={x}></MiniSongCard>;
+									})}
+									<div className='single-top100-button-block'>
+										{pageNumber === pagination._page ? (
+											<></>
+										) : (
+											<button
+												onClick={showMoreItems}
+												className='single-top100-button-block-adjust'>
+												<h3>See More</h3>
+											</button>
+										)}
+									</div>
+								</div>
 							</div>
-							{MostLikedSong.map((x, index) => {
-								return <MiniSongCard data={x}></MiniSongCard>;
-							})}
-							<div className='single-top100-button-block'>
-								{pageNumber === pagination._page ? (
-									<></>
-								) : (
-									<button
-										onClick={showMoreItems}
-										className='single-top100-button-block-adjust'>
-										<h3>See More</h3>
-									</button>
-								)}
-							</div>
-						</div>
-					</div>
-				</Container>
+						</Container>
+					</>
+				)}
+				<Scroll showBelow={250} />
 			</Wrapper>
 			{/* </AnimationOne> */}
 		</>

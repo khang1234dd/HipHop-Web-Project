@@ -20,30 +20,33 @@ const item = {
 		transition: { ease: 'easeInOut', duration: 0.8 }
 	}
 };
-export const MiniCard = ({
+export const MiniCardUser = ({
 	data,
 
 	key,
 	className
 }) => {
+	console.log(data);
 	return (
 		<>
 			<motion.div variants={item} key={key}>
 				<Link to={`/newspaper/${data._id}`}>
-					<div className='minicard-block'>
-						<div className='minicard-block-image '>
-							<img src={data.image} className='minicard-image'></img>
+					<div className='minicarduser-block'>
+						<div className='minicarduser-block-image '>
+							<img src={data.image} className='minicarduser-image'></img>
 						</div>
-						<div className='minicard-block-text'>
+						<div className='minicarduser-block-text'>
 							<div className={className}>
-								<div className={'minicard-block-text-adjust'}>{data.name}</div>
+								<div className={'minicarduser-block-text-adjust'}>
+									{data.name}
+								</div>
 							</div>
-							<div className='minicard-block-desc'>
-								<span className='minicard-block-desc-author'>
+							<div className='minicarduser-block-desc'>
+								<span className='minicarduser-block-desc-author'>
 									{data.owner.name}
 								</span>
-								<span className='minicard-block-desc-time'>
-									{fDateTime(data.createdAt)}
+								<span className='minicarduser-block-desc-time'>
+									{fDateTime(data.updatedAt)}
 								</span>
 							</div>
 						</div>

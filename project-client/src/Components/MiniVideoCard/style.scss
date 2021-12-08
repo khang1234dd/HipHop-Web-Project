@@ -1,16 +1,17 @@
 @import '/src/Styles/Variables.scss';
 
-.video-block {
+.minivideocard-block {
 	display: flex;
 	margin-bottom: 10px;
 
 	&-image {
-		max-width: 400px;
+		max-width: 640px;
 		margin-right: 7px;
 		display: flex;
 		justify-content: center;
 		align-items: center;
 		line-height: 1.2;
+		object-fit: cover;
 	}
 	&-text {
 		margin-left: 10px;
@@ -20,7 +21,8 @@
 			font-size: 1.2rem;
 			line-height: 1.5rem;
 			font-weight: 500;
-			color: black;
+
+			color: white;
 		}
 	}
 	&-desc {
@@ -29,22 +31,26 @@
 		text-transform: capitalize;
 
 		&-author {
-			object-fit: cover;
 		}
 	}
 }
 
-// .video-block-desc-author::after {
-// 	content: '';
-// 	display: inline-block;
-// 	width: 2px;
-// 	height: 14px;
-// 	background-color: #666;
-// 	margin: 0 10px;
-// }
+.minivideocard-block-desc-author::after {
+	content: '';
+	display: inline-block;
+	width: 2px;
+	height: 14px;
+	background-color: #666;
+	margin: 0 10px;
+}
 
-.video-image {
+.minivideocard-image {
 	border-radius: 3px;
-	width: 75px;
-	height: 75px;
+	width: 250px;
+	height: 200px;
+	object-fit: cover;
+}
+
+.test {
+	color: white;
 }

@@ -40,9 +40,9 @@ export const OTP = () => {
 										Check now !
 									</Link>
 								</p>
-								<Link to='/main'>
-									<div className='otp-form-hometown'>Back to Town</div>
-								</Link>
+								<p className='adjust-1'>
+									<Link to='/'>Back to Town</Link>
+								</p>
 							</div>
 						</form>
 					</div>

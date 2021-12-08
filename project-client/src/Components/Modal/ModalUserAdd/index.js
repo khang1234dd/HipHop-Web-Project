@@ -13,6 +13,7 @@ import { convertToHTML } from 'draft-convert';
 import validate from './validate';
 import { getCategoryApi, createPostApi } from '../../../Apis/user.api';
 import toastNotify from '../../Toast';
+import { useNavigate } from 'react-router';
 
 const style = {
 	position: 'absolute',
@@ -28,6 +29,7 @@ const style = {
 };
 
 export const ModalUserAdd = ({ closeModalAdd, openModalAdd }) => {
+	const navigate = useNavigate();
 	const [category, setCategory] = useState('');
 	const [selectedImage, setSelectedImage] = useState();
 	const [convertedContent, setConvertedContent] = useState('');
@@ -93,6 +95,7 @@ export const ModalUserAdd = ({ closeModalAdd, openModalAdd }) => {
 					'Post was sent to Administrator , Please wait for Acception',
 					'warn'
 				);
+				closeModalAdd(false);
 			} else toastNotify(res.message, 'error');
 		}
 	};
