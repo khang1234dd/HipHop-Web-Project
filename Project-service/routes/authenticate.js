@@ -7,6 +7,7 @@ const { validateBody, validateParam, schemas } = require('../helpers/routerHelpe
 
 const {authenToken} = require('../middlewares/verifyToken')
 const upload = require('../middlewares/upload')
+const {uploadFile} = require('../middlewares/firebase')
 
 router.route('/secret').get(authenToken,authenticateController.secret)
 router.route('/signin').post(validateBody(schemas.authSignInSchema),authenticateController.signIn)
@@ -19,7 +20,7 @@ router.route('/checkotpfg').post(validateBody(schemas.authCheckOtpFGSchema),auth
 
 
 router.route('/updatename').post(validateBody(schemas.authUpdateNameSchema),authenToken,authenticateController.updateName)
-router.route('/updateimage').post(upload.single('image'),authenToken,authenticateController.updateImage)
+router.route('/updateimage').post(upload.single('image'),uploadFile,authenToken,authenticateController.updateImage)
 router.route('/updatepassword').post(validateBody(schemas.authUpdatePasswordSchema),authenToken,authenticateController.updatePassword)
 
 

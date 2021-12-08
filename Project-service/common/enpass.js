@@ -7,8 +7,8 @@ const enpass = async (password) =>{
         const salt = await bcrypt.genSalt(10)
         // Generate a password hash (salt + hash)
         const passwordHashed = await bcrypt.hash(password, salt)
-        password = passwordHashed
-        return password
+        // password = passwordHashed
+        return passwordHashed
     }
     catch (error){
         console.log(error)

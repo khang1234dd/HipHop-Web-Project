@@ -3,7 +3,9 @@ const Album = require("../models/Album");
 const Post = require("../models/Post");
 const Song = require("../models/Song");
 const Category = require("../models/Category");
+const VideoMusic = require("../models/VideoMusic");
 const { unlink } = require('fs/promises');
+const {deleteFile} = require("../common/deleteFile");
 
 // user
 const getAllUser = async (req, res, next) => {
@@ -13,7 +15,8 @@ const getAllUser = async (req, res, next) => {
     var skipPage = (_page - 1) * 10
 
     const users = await User.find({role: 0}).skip(skipPage).limit(10)
-    return res.status(200).json({users})
+    const userAll = await User.find({role: 0})
+    return res.status(200).json({users, pagination: {_page: _page, _limit: _limit, _total: userAll.length}})
   }
   else if(_page && _limit){
     _page = parseInt(_page)
@@ -21,10 +24,11 @@ const getAllUser = async (req, res, next) => {
     var skipPage = (_page - 1) * _limit
 
     const users = await User.find({role: 0}).skip(skipPage).limit(_limit)
-    return res.status(200).json({users})
+    const userAll = await User.find({role: 0})
+    return res.status(200).json({users, pagination: {_page: _page, _limit: _limit, _total: userAll.length}})
   }
   else{
-    const users = await User.find({ role: 0 });
+    const users = await User.find({ role: 0 })
     return res.status(200).json({ users, pagination: '?_page=1&_limit=10' });
   }
 }; //done
@@ -136,17 +140,18 @@ const getAllCategory = async (req, res, next) => {
   if(_page && !_limit){
     _page = parseInt(_page)
     var skipPage = (_page - 1) * 10
-
+    const categoryAll = await Category.find({})
     const category = await Category.find({}).skip(skipPage).limit(10)
-    return res.status(200).json({category})
+    
+    return res.status(200).json({category, pagination: {_page: _page, _limit: _limit, _total: categoryAll.length}})
   }
   else if(_page && _limit){
     _page = parseInt(_page)
     _limit = parseInt(_limit)
     var skipPage = (_page - 1) * _limit
-
+    const categoryAll = await Category.find({})
     const category = await Category.find({}).skip(skipPage).limit(_limit)
-    return res.status(200).json({category})
+    return res.status(200).json({category,pagination: {_page: _page, _limit: _limit, _total: categoryAll.length} })
   }
   else{
     const category = await Category.find({});
@@ -190,7 +195,7 @@ const updateCategory = async (req, res, next) => {
   category.name = categoryname;
   category.tinydes = categorytinydes;
 
-  category.save();
+  await category.save();
 
   return res.status(200).json({ success: true });
 }; // done
@@ -244,15 +249,16 @@ const getAllSong = async (req, res, next) => {
     var skipPage = (_page - 1) * 10
 
     const song = await Song.find({}).skip(skipPage).limit(10)
-    return res.status(200).json({song})
+    const songAll = await Song.find({})
+    return res.status(200).json({song,pagination: {_page: _page, _limit: _limit, _total: songAll.length}})
   }
   else if(_page && _limit){
     _page = parseInt(_page)
     _limit = parseInt(_limit)
     var skipPage = (_page - 1) * _limit
-
+    const songAll = await Song.find({})
     const song = await Song.find({}).skip(skipPage).limit(_limit)
-    return res.status(200).json({song})
+    return res.status(200).json({song,pagination: {_page: _page, _limit: _limit, _total: songAll.length}})
   }
   else{
     const song = await Song.find({});
@@ -273,7 +279,7 @@ const getSongById = async (req, res, next) => {
 const createSong = async (req,res,next) => {
   const userId = req.body.token.sub;
 
-  const { nameSong, link, categoryId, ownerSong } = req.value.body;
+  const { nameSong, categoryId, ownerSong } = req.body;
 
   const user = await User.findById(userId);
   if (!user) res.status(404).json({ message: "User does not exist" });
@@ -283,12 +289,11 @@ const createSong = async (req,res,next) => {
 
   const newSong = new Song({
     name: nameSong,
-    link: link,
     ownersong: ownerSong,
   });
 
-  if(req.file){
-    newSong.image = req.file.path
+  if (req.file) {
+    newSong.link = req.file.firebaseUrl
   }
 
   newSong.category.push(category._id)
@@ -308,17 +313,51 @@ const updateSong = async (req,res,next) => {
   const newSong = req.value.body;
   const songId = req.value.params.id;
 
-  if(newSong.categoryId){
-    const category= await User.findById(newSong.categoryId)
+  if(newSong.category){
+    const category= await Category.findById(newSong.category)
     if(!category) res.status(404).json({ message: "Category does not exist" });
   }
 
   const updateSong = await Song.findByIdAndUpdate(songId, newSong)
 
+  await updateSong.save()
+
+  return res.status(200).json({ success: true });
+} // done
+
+const updateSongImage = async (req,res,next) => {
+
+  const songId = req.value.params.id;
+
+  const updateSong = await Song.findById(songId)
+
   if(req.file){
-    if(updateSong.image !== 'upload/image/2.jpg') await unlink(updateSong.image)
-    updateSong.image = req.file.path
+    if(updateSong.image !== '') deleteFile(updateSong.image)
+    updateSong.image = req.file.firebaseUrl
+  } else{
+    res.status(400).json({message:'Please select the file image you want to upload'})
   }
+
+
+  await updateSong.save()
+
+  return res.status(200).json({ success: true });
+} // done
+
+const updateSongFile = async (req,res,next) => {
+
+  const songId = req.value.params.id;
+
+  const updateSong = await Song.findById(songId)
+
+
+  if(req.file){
+    if(updateSong.link !== '') deleteFile(updateSong.link)
+    updateSong.link = req.file.firebaseUrl
+  } else{
+    res.status(400).json({message:'Please select the file song you want to upload'})
+  }
+
 
   await updateSong.save()
 
@@ -398,9 +437,8 @@ const deleteSong = async (req,res,next) => {
     });
   }
 
-  if(song.image !== 'upload/image/2.jpg'){
-    await unlink(song.image)
-  }
+  if(song.image !== '') deleteFile(song.image)
+  if(song.link !== '') deleteFile(song.link)
 
   await song.remove()
 
@@ -413,20 +451,33 @@ const getAllPost = async (req, res, next) => {
   if(_page && !_limit){
     _page = parseInt(_page)
     var skipPage = (_page - 1) * 10
-
+    const postAll = await Post.find({});
     const post = await Post.find({}).skip(skipPage).limit(10)
-    return res.status(200).json({post})
+    .populate("owner")
+    .populate({path: "category"})
+    .populate({path: "favoriteuser"})
+    .populate({path: "comment"})
+    return res.status(200).json({post, pagination: {_page: _page, _limit: _limit, _total: postAll.length}})
   }
   else if(_page && _limit){
     _page = parseInt(_page)
     _limit = parseInt(_limit)
     var skipPage = (_page - 1) * _limit
 
+    const postAll = await Post.find({});
     const post = await Post.find({}).skip(skipPage).limit(_limit)
-    return res.status(200).json({post})
+    .populate("owner")
+    .populate({path: "category"})
+    .populate({path: "favoriteuser"})
+    .populate({path: "comment"})
+    return res.status(200).json({post, pagination: {_page: _page, _limit: _limit, _total: postAll.length}})
   }
   else{
-    const post = await Post.find({});
+    const post = await Post.find({})
+    .populate("owner")
+    .populate({path: "category"})
+    .populate({path: "favoriteuser"})
+    .populate({path: "comment"})
     return res.status(200).json({ post, pagination: '?_page=1&_limit=10' });
   }
 };//done
@@ -524,6 +575,192 @@ const deleteComment = async (req, res, next) => {
 
   return res.status(200).json({ success: true });
 }; //done
+
+//Song
+const getAllVideoMusic = async (req, res, next) => {
+  var {_page, _limit} = req.query;
+  if(_page && !_limit){
+    _page = parseInt(_page)
+    var skipPage = (_page - 1) * 10
+
+    const video = await VideoMusic.find({}).skip(skipPage).limit(10)
+    const videoAll = await VideoMusic.find({})
+    return res.status(200).json({video,pagination: {_page: _page, _limit: _limit, _total: videoAll.length}})
+  }
+  else if(_page && _limit){
+    _page = parseInt(_page)
+    _limit = parseInt(_limit)
+    var skipPage = (_page - 1) * _limit
+    const videoAll = await VideoMusic.find({})
+    const video = await VideoMusic.find({}).skip(skipPage).limit(_limit)
+    return res.status(200).json({video,pagination: {_page: _page, _limit: _limit, _total: videoAll.length}})
+  }
+  else{
+    const video = await VideoMusic.find({});
+    return res.status(200).json({ video, pagination: '?_page=1&_limit=10' });
+  }
+};//done
+
+const getVideoMusicById = async (req, res, next) => {
+  const videoId = req.value.params.id;
+
+  const video = await VideoMusic.findById(videoId);
+
+  if (!video) return res.status(404).json({ message: "Video Music does not exist" });
+
+  return res.status(200).json({ video });
+};//done
+
+const createVideoMusic = async (req,res,next) => {
+  const userId = req.body.token.sub;
+
+  const { nameVideo, categoryId, ownerVideo, embedId } = req.value.body;
+
+  const user = await User.findById(userId);
+  if (!user) res.status(404).json({ message: "User does not exist" });
+
+  const category= await Category.findById(categoryId)
+  if(!category) res.status(404).json({ message: "Category does not exist" });
+
+  const newVideo = new VideoMusic({
+    name: nameVideo,
+    ownervideo: ownerVideo,
+    link: embedId,
+  });
+
+  newVideo.category.push(category._id)
+  newVideo.owner = user._id;
+  user.videomusic.push(newVideo._id);
+  category.videomusic.push(newVideo._id)
+
+  await newVideo.save();
+  await user.save();
+  await category.save();
+
+  return res.status(201).json({ success: true });
+}//done
+
+const updateVideoMusic = async (req,res,next) => {
+
+  const newVideo = req.value.body;
+  const videoId = req.value.params.id;
+
+  if(newVideo.category){
+    const category= await Category.findById(newVideo.category)
+    if(!category) res.status(404).json({ message: "Category does not exist" });
+  }
+
+  const updateVideo = await VideoMusic.findByIdAndUpdate(videoId, newVideo)
+
+  await updateVideo.save()
+
+  return res.status(200).json({ success: true });
+} // done
+
+const updateVideoMusicImage = async (req,res,next) => {
+
+  const videoId = req.value.params.id;
+
+  const updateVideo = await VideoMusic.findById(videoId)
+
+  if(req.file){
+    if(updateVideo.image !== '') deleteFile(updateVideo.image)
+    updateVideo.image = req.file.firebaseUrl
+  } else{
+    res.status(400).json({message:'Please select the file image you want to upload'})
+  }
+
+
+  await updateVideo.save()
+
+  return res.status(200).json({ success: true });
+} // done
+
+const changeVideoMusicHot = async (req, res, next) => {
+  const videoId = req.value.params.id;
+
+  const video = await VideoMusic.findById(videoId);
+
+  if (!video) return res.status(404).json({ message: "Video Music does not exist" });
+
+  if(video.hot === true){
+    video.hot = false
+  }
+  else{
+    video.hot= true
+  }
+  await video.save()
+
+  return res.status(200).json({ success: true });
+};//done
+
+const changeVideoMusicPublic = async (req, res, next) => {
+  const videoId = req.value.params.id;
+
+  const video = await VideoMusic.findById(videoId);
+
+  if (!video) return res.status(404).json({ message: "Video Music does not exist" });
+
+  if(video.public === true){
+    video.public = false
+  }
+  else{
+    video.public= true
+  }
+  await video.save()
+
+  return res.status(200).json({ success: true });
+};//done
+
+const deleteVideoMusic = async (req,res,next) => {
+  const userId = req.body.token.sub;
+
+  const videoId = req.value.params.id;
+
+  const user = await User.findById(userId);
+  if (!user) res.status(404).json({ message: "User does not exist" });
+
+  const video = await VideoMusic.findById(videoId)
+
+  user.videomusic.pull(video._id)
+
+  await user.save()
+
+
+  if (video.category.length > 0) {
+    video.category.forEach(async (item) => {
+      const categoryPlus = await Category.findById(item._id);
+      categoryPlus.videomusic.pull(video._id);
+      await categoryPlus.save();
+    });
+  }
+
+  if (video.favoriteuser.length > 0) {
+    video.favoriteuser.forEach(async (item) => {
+      const userPlus = await User.findById(item._id);
+      userPlus.favoritevideomusic.pull(video._id);
+      await userPlus.save();
+    });
+  }
+
+  if(video.image !== '') deleteFile(video.image)
+
+  await video.remove()
+
+  return res.status(200).json({ success: true });
+}//done
+
+const statistic = async (req, res, next) => {
+  
+    const users = await User.find({})
+    const videomusic = await VideoMusic.find({})
+    const song = await Song.find({})
+    const post = await Post.find({})
+    return res.status(200).json({ users: users.length,videomusic: videomusic.length, song: song.length, post: post.length  });
+
+}
+
+
 module.exports = {
   getAllUser,
   getUserById,
@@ -544,6 +781,8 @@ module.exports = {
   getSongById,
   createSong,
   updateSong,
+  updateSongImage,
+  updateSongFile,
   changeSongHot,
   changeSongPublic,
   deleteSong,
@@ -555,4 +794,15 @@ module.exports = {
   changePostBanned,
   changePostHot,
   deleteComment,
+
+  getAllVideoMusic,
+  getVideoMusicById,
+  createVideoMusic,
+  updateVideoMusic,
+  updateVideoMusicImage,
+  changeVideoMusicHot,
+  changeVideoMusicPublic,
+  deleteVideoMusic,
+
+  statistic,
 };

@@ -7,14 +7,14 @@ const {ORIGIN_DEV,ORIGIN_PROD,MONGODB_CONNECTION_STRING} = require('./config/ind
 
 
 // setup connect mongodb
-mongoClient.connect(MONGODB_CONNECTION_STRING,{ useUnifiedTopology:true, useNewUrlParser:true })
-.then(() => console.log('Connected database from mongodb.'))
-.catch(() => console.error(`Conect database is failed with error which is ${error}`))
-
-
-// mongoClient.connect('mongodb://localhost/projectcnpm')
+// mongoClient.connect(MONGODB_CONNECTION_STRING,{ useUnifiedTopology:true, useNewUrlParser:true })
 // .then(() => console.log('Connected database from mongodb.'))
 // .catch(() => console.error(`Conect database is failed with error which is ${error}`))
+
+
+mongoClient.connect('mongodb://localhost/projectcnpm')
+.then(() => console.log('Connected database from mongodb.'))
+.catch(() => console.error(`Conect database is failed with error which is ${error}`))
 
 const app = express()
 
@@ -35,7 +35,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(
     cors({
-      origin: '*',
+      origin: "*",
       methods: "GET,POST,PUT,PATCH,DELETE",
     })
   );
@@ -82,5 +82,5 @@ app.use((err,req,res,next) => {
 })
 
 // Start the server
-const port = process.env.PORT || 3000
+const port = app.get('port') || 3000
 app.listen(port, () => console.log(`Server is listening on port ${port}`))

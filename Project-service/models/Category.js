@@ -17,6 +17,10 @@ const CategorySchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'Song'
     }],
+    videomusic: [{
+        type: Schema.Types.ObjectId,
+        ref: 'VideoMusic'
+    }],
     post: [{
         type: Schema.Types.ObjectId,
         ref: 'Post'

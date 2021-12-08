@@ -4,6 +4,7 @@ const { sendMail } = require("../common/mailer");
 const otpGenerator = require("otp-generator");
 const { unlink } = require("fs/promises");
 const { enpass } = require("../common/enpass");
+const {deleteFile} = require("../common/deleteFile");
 
 const JWT = require("jsonwebtoken");
 const { JWT_SECRET, CLIENT_URL } = require("../config/index");
@@ -40,7 +41,7 @@ const signIn = async (req, res, next) => {
   //Assign a token
   const token = encodedToken(user._id);
   res.setHeader("Authorization", token);
-  return res.status(200).json({ success: true });
+  return res.status(200).json({ success: true, token: token });
 };
 
 const signUp = async (req, res, next) => {
@@ -65,7 +66,7 @@ const signUp = async (req, res, next) => {
                 <p>${otp}</p>
                 <p>Trân trọng</p>
                 `;
-  await sendMail(email, "Forgot Password", body);
+  await sendMail(email, "Sign Up", body);
 
   const newUser = new User({
     username,
@@ -115,7 +116,7 @@ const forgetPassword = async (req, res, next) => {
     return res.status(404).json({ message: "The email is not from this user" });
   }
 
-  if(!user.activate) return res.status(403).json({ message: "Email has not been activated"})
+  if(!user.activate) return res.status(400).json({ message: "Email has not been activated"})
 
   // const resetLink = encodedToken(user._id);
   const otp = otpGenerator.generate(6, {
@@ -133,7 +134,7 @@ const forgetPassword = async (req, res, next) => {
                 `;
   await sendMail(email, "Forgot Password", body);
 
-  return res.status(200).json({success: true,message: "Reset password otp has been sent" });
+  return res.status(200).json({success: true, message: "Reset password otp has been sent" });
 };
 
 const resetPassword = async (req, res, next) => {
@@ -154,11 +155,11 @@ const resetPassword = async (req, res, next) => {
 
   const password1 = await enpass(newpassword);
 
-  user.password = password1;
-  user.otpFG = "";
+  // user.password = password1;
+  // user.otpFG = "";
 
-  await user.save();
-  return res.status(200).json({ success: true });
+  await User.updateOne({otpFG: otp}, {password: password1,otpFG: "" })
+  return res.status(200).json({ success: true, message: 'Your Password was updated successfully' });
 };
 
 const checkOtpFG = async (req, res, next) => {
@@ -172,7 +173,7 @@ const checkOtpFG = async (req, res, next) => {
   
   if(!user.activate) return res.status(400).json({message: 'unconfirmed email'})
 
-  return res.status(200).json({ success: true });
+  return res.status(200).json({ success: true, message: 'check your OTP success'});
 };
 
 const updateName = async (req, res, next) => {
@@ -191,7 +192,11 @@ const updateName = async (req, res, next) => {
 
   await user.save();
 
-  return res.status(200).json({ success: true });
+   //Assign a token
+   const token = encodedToken(user._id);
+   res.setHeader("Authorization", token);
+
+  return res.status(200).json({ success: true, token: token });
 };
 
 const updateImage = async (req, res, next) => {
@@ -203,12 +208,13 @@ const updateImage = async (req, res, next) => {
 
   console.log("authenticate.js --> line 138 --> req.file", req.file);
 
-  if (!req.file) {
-    return res.status(400).json({ message: "Input is file image" });
+  if(req.file){
+    if(user.image !== '') deleteFile(user.image)
+    user.image = req.file.firebaseUrl
+  } else{
+    res.status(400).json({message:'Please select the file image you want to upload'})
   }
 
-  if (user.image !== "upload/image/1.png") await unlink(user.image);
-  user.image = req.file.path;
   await user.save();
 
   return res.status(200).json({ success: true });
@@ -216,22 +222,17 @@ const updateImage = async (req, res, next) => {
 
 const updatePassword = async (req, res, next) => {
   const userId = req.body.token.sub;
+  const {newpassword, newpasswordconfirm } = req.value.body;
 
   const user = await User.findOne({ userId });
-  if (!user) return res.status(404).json({ message: "User does not exist" });
+  if (!user) return res.status(404).json({ message: "User does not exist" })
 
-  const { oldpassword, newpassword, newpasswordconfirm } = req.value.body;
+  if(newpassword !== newpasswordconfirm) res.status(404).json({ message: "New Password does not match" })
+  
+  const newpassword1 = await enpass(newpassword);
+  console.log(newpassword1)
 
-  const validPasswordOld = await user.isValidPassword(oldpassword);
-  if (!validPasswordOld)
-    return res.status(400).json({ message: "wrong old password" });
-
-  if (oldpassword === newpassword)
-    return res.status(400).json({ message: "password is old password" });
-
-  user.password = newpassword;
-
-  await user.save();
+  await User.updateOne({_id: userId}, {password: newpassword1})
 
   return res.status(200).json({ success: true });
 };
@@ -305,7 +306,15 @@ const checkOtp = async (req, res, next) => {
 const userInfo = async (req, res, next) => {
   const userId = req.body.token.sub;
 
-  const user = await User.findById(userId);
+  const user = await User.findById(userId)
+  .populate({path: "videomusic"})
+  .populate({path: "favoritesong"})
+  .populate({path: "favoritealbum"})
+  .populate({path: "favoritepost"})
+  .populate({path: "favoritevideomusic"})
+  .populate({path: "song"})
+  .populate({path: "post" ,populate: { path: 'owner' }})
+  .populate({path: "album"})
 
   if (!user) return res.status(404).json({ message: "User does not exist" });
 

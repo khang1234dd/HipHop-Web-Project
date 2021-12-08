@@ -23,11 +23,11 @@ const PostSchema = new Schema({
     },
     image:{
         type:String,
-        default:'upload/image/3.png'
+        default:''
     },
     owner:{
-        type:String,
-        required:true
+        type: Schema.Types.ObjectId,
+        ref: 'User'
     },
     hot: {
         type: Boolean,
@@ -35,7 +35,7 @@ const PostSchema = new Schema({
     },
     banned: {
         type: Boolean,
-        defaut:false,
+        default:false,
     },
     comment:[{
         

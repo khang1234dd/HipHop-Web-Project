@@ -1,7 +1,7 @@
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 
-const SongSchema = new Schema({
+const VideoMusicSchema = new Schema({
     name:{
         type:String,
         required: true,
@@ -22,7 +22,7 @@ const SongSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'User'
     },
-    ownersong:{
+    ownervideo:{
         type: String,
         default: 'unknown'
     },
@@ -30,10 +30,6 @@ const SongSchema = new Schema({
         type: Boolean,
         default: false
     },
-    album: [{
-        type: Schema.Types.ObjectId,
-        ref: 'Album'
-    }],
     category: [{
         type: Schema.Types.ObjectId,
         ref: 'Category'
@@ -45,5 +41,5 @@ const SongSchema = new Schema({
     
 }, { timestamps: true })
 
-const Song = mongoose.model('Song',SongSchema)
-module.exports = Song
+const VideoMusic = mongoose.model('VideoMusic',VideoMusicSchema)
+module.exports = VideoMusic

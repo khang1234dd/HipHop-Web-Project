@@ -10,6 +10,8 @@ const {authenToken} = require('../middlewares/verifyToken')
 const {isAdmin} =require('../middlewares/isrole')
 
 const upload = require('../middlewares/upload')
+const uploadSong = require('../middlewares/uploadSong')
+const {uploadFile} = require('../middlewares/firebase')
 
 // user
 router.route('/getAllUser').get(authenToken,isAdmin,AdminController.getAllUser) //done
@@ -32,10 +34,12 @@ router.route('/deleteCategory/:id').delete(authenToken,isAdmin,validateParam(sch
 //Song
 router.route('/getAllSong').get(authenToken,isAdmin,AdminController.getAllSong)//done
 router.route('/getSongById/:id').get(authenToken,isAdmin,validateParam(schemas.idSchema,'id'),AdminController.getSongById)//done
-router.route('/createSong').post(validateBody(schemas.songCreateSchema),upload.single('image'),authenToken,isAdmin,AdminController.createSong)//done
+router.route('/createSong').post(uploadSong.single('song'),uploadFile,authenToken,isAdmin,AdminController.createSong)//done
 router.route('/updateSong/:id')//done
-    .put(validateBody(schemas.songUpdateSchema),upload.single('image'),authenToken,isAdmin,validateParam(schemas.idSchema,'id'),AdminController.updateSong)
-    .patch(validateBody(schemas.songUpdateSchema),upload.single('image'),authenToken,isAdmin,validateParam(schemas.idSchema,'id'),AdminController.updateSong)
+    .put(validateBody(schemas.songUpdateSchema),authenToken,isAdmin,validateParam(schemas.idSchema,'id'),AdminController.updateSong)
+    .patch(validateBody(schemas.songUpdateSchema),authenToken,isAdmin,validateParam(schemas.idSchema,'id'),AdminController.updateSong)
+router.route('/updateSongImage/:id').post(upload.single('image'),uploadFile,authenToken,isAdmin,validateParam(schemas.idSchema,'id'),AdminController.updateSongImage)
+router.route('/updateSongFile/:id').post(uploadSong.single('song'),uploadFile,authenToken,isAdmin,validateParam(schemas.idSchema,'id'),AdminController.updateSongFile)
 router.route('/changeSongHot/:id').post(authenToken,isAdmin,validateParam(schemas.idSchema,'id'),AdminController.changeSongHot)//done
 router.route('/changeSongPublic/:id').post(authenToken,isAdmin,validateParam(schemas.idSchema,'id'),AdminController.changeSongPublic)//done
 router.route('/deleteSong/:id').delete(authenToken,isAdmin,validateParam(schemas.idSchema,'id'),AdminController.deleteSong)//done
@@ -50,4 +54,18 @@ router.route('/changePostHot/:id').post(authenToken,isAdmin,validateParam(schema
 router.route('/deleteComment/byPostAndbyCommentId/:idPost/:idComment').delete(authenToken,isAdmin,validateParam(schemas.idSchema,'idPost'),validateParam(schemas.idSchema,'idComment'),AdminController.deleteComment)//done
 
 
+//Video Music 
+router.route('/getAllVideoMusic').get(authenToken,isAdmin,AdminController.getAllVideoMusic)
+router.route('/getVideoMusicById/:id').get(authenToken,isAdmin,validateParam(schemas.idSchema,'id'),AdminController.getVideoMusicById)
+router.route('/createVideoMusic').post(validateBody(schemas.VideoMusicCreateSchema),authenToken,isAdmin,AdminController.createVideoMusic)
+router.route('/updateVideoMusic/:id')
+    .put(validateBody(schemas.VideoMusicUpdateSchema),authenToken,isAdmin,validateParam(schemas.idSchema,'id'),AdminController.updateVideoMusic)
+    .patch(validateBody(schemas.VideoMusicUpdateSchema),authenToken,isAdmin,validateParam(schemas.idSchema,'id'),AdminController.updateVideoMusic)
+router.route('/updateVideoMusicImage/:id').post(upload.single('image'),uploadFile,authenToken,isAdmin,validateParam(schemas.idSchema,'id'),AdminController.updateVideoMusicImage)
+router.route('/changeVideoMusicHot/:id').post(authenToken,isAdmin,validateParam(schemas.idSchema,'id'),AdminController.changeVideoMusicHot)
+router.route('/changeVideoMusicPublic/:id').post(authenToken,isAdmin,validateParam(schemas.idSchema,'id'),AdminController.changeVideoMusicPublic)
+router.route('/deleteVideoMusic/:id').delete(authenToken,isAdmin,validateParam(schemas.idSchema,'id'),AdminController.deleteVideoMusic)
+
+
+router.route('/getStatistic').get(authenToken,isAdmin,AdminController.statistic)
 module.exports = router

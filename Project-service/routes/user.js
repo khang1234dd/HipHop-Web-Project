@@ -8,6 +8,7 @@ const { validateBody, validateParam, schemas } = require('../helpers/routerHelpe
 const {authenToken} = require('../middlewares/verifyToken')
 
 const upload = require('../middlewares/upload')
+const {uploadFile} = require('../middlewares/firebase')
 
 router.route('/getAlbum').get(authenToken,UserController.getAlbum)//done
 router.route('/createAlbum').post(validateBody(schemas.userCreateAlbumSchemas),upload.single('image'),authenToken,UserController.createAlbum)//done
@@ -30,10 +31,11 @@ router.route('/likePost/:idPost').post(validateParam(schemas.idSchema,'idPost'),
 router.route('/unlikePost/:idPost').post(validateParam(schemas.idSchema,'idPost'),authenToken,UserController.unlikePost)//done
 router.route('/checklikePost/:idPost').get(validateParam(schemas.idSchema,'idPost'),authenToken,UserController.checklikePost)//done
 // user -> post
-router.route('/createPost').post(validateBody(schemas.postCreateSchema),upload.single('image'),authenToken,UserController.createPost)//done
+router.route('/createPost').post(upload.single('image'),uploadFile,authenToken,UserController.createPost)//done
 router.route('/updatePost/:id')//done
-    .put(validateParam(schemas.idSchema,'id'),validateBody(schemas.userUpdatePostSchemas),upload.single('image'),authenToken,UserController.updatePost)
-    .patch(validateParam(schemas.idSchema,'id'),validateBody(schemas.userUpdatePostSchemas),upload.single('image'),authenToken,UserController.updatePost)
+    .put(validateParam(schemas.idSchema,'id'),validateBody(schemas.userUpdatePostSchemas),authenToken,UserController.updatePost)
+    .patch(validateParam(schemas.idSchema,'id'),validateBody(schemas.userUpdatePostSchemas),authenToken,UserController.updatePost)
+router.route('/updatePostImage/:id').post(validateParam(schemas.idSchema,'id'),upload.single('image'),uploadFile,authenToken,UserController.updatePostImage)
 router.route('/deletePost/:id').delete(validateParam(schemas.idSchema,'id'),authenToken,UserController.deletePost)//done
 router.route('/commentPost/:idPost').post(validateParam(schemas.idSchema,'idPost'),validateBody(schemas.postCommentSchema),authenToken,UserController.commentPost)//done
 router.route('/updateCommentPost/:idPost/:idComment').post(validateParam(schemas.idSchema,'idPost'),validateParam(schemas.idSchema,'idComment'),validateBody(schemas.postCommentSchema),authenToken,UserController.updateCommentPost)//done

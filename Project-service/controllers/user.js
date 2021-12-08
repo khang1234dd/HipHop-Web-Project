@@ -3,7 +3,8 @@ const Album = require("../models/Album");
 const Song = require("../models/Song");
 const Post = require("../models/Post");
 const Category = require("../models/Category");
-const { unlink } = require('fs/promises');
+const { unlink } = require("fs/promises");
+const {deleteFile} = require("../common/deleteFile");
 
 const getAlbum = async (req, res, next) => {
   const userId = req.body.token.sub;
@@ -36,10 +37,10 @@ const createAlbum = async (req, res, next) => {
   const newAlbum = new Album({
     name: nameAlbum,
     description: description,
-    categoryId: categoryId
+    categoryId: categoryId,
   });
-  if(req.file){
-    newAlbum.image = req.file.path
+  if (req.file) {
+    newAlbum.image = req.file.path;
   }
 
   newAlbum.category.push(category._id);
@@ -55,7 +56,7 @@ const createAlbum = async (req, res, next) => {
   await category.save();
 
   return res.status(201).json({ success: true });
-};//done
+}; //done
 
 const updateAlbum = async (req, res, next) => {
   const userId = req.body.token.sub;
@@ -77,16 +78,15 @@ const updateAlbum = async (req, res, next) => {
 
   const newAlbum1 = await Album.findByIdAndUpdate(albumId, newAlbum);
 
-
-  if(req.file){
-    if(newAlbum1.image !== 'upload/image/3.png') await unlink(newAlbum1.image)
-    newAlbum1.image = req.file.path
+  if (req.file) {
+    if (newAlbum1.image !== "upload/image/3.png") await unlink(newAlbum1.image);
+    newAlbum1.image = req.file.path;
   }
 
   newAlbum1.save();
 
   return res.status(200).json({ success: true });
-};//done
+}; //done
 
 const deleteAlbum = async (req, res, next) => {
   const userId = req.body.token.sub;
@@ -131,8 +131,8 @@ const deleteAlbum = async (req, res, next) => {
     });
   }
 
-  if(album.image !== 'upload/image/3.png'){
-    await unlink(album.image)
+  if (album.image !== "upload/image/3.png") {
+    await unlink(album.image);
   }
 
   user.album.pull(album);
@@ -142,7 +142,7 @@ const deleteAlbum = async (req, res, next) => {
   await user.save();
 
   return res.status(200).json({ success: true });
-};//done
+}; //done
 
 const addSongforAlbum = async (req, res, next) => {
   const userId = req.body.token.sub;
@@ -181,7 +181,7 @@ const addSongforAlbum = async (req, res, next) => {
   await song.save();
 
   return res.status(200).json({ success: true });
-};//done
+}; //done
 
 const removeSonginAlbum = async (req, res, next) => {
   const userId = req.body.token.sub;
@@ -222,7 +222,7 @@ const removeSonginAlbum = async (req, res, next) => {
   await song.save();
 
   return res.status(200).json({ success: true });
-};//done
+}; //done
 
 const likeAlbum = async (req, res, next) => {
   const userId = req.body.token.sub;
@@ -250,7 +250,7 @@ const likeAlbum = async (req, res, next) => {
   await album.save();
 
   return res.status(200).json({ success: true });
-};//done
+}; //done
 
 const unlikeAlbum = async (req, res, next) => {
   const userId = req.body.token.sub;
@@ -278,7 +278,7 @@ const unlikeAlbum = async (req, res, next) => {
   await album.save();
 
   return res.status(200).json({ success: true });
-};//done
+}; //done
 
 const checklikeAlbum = async (req, res, next) => {
   const userId = req.body.token.sub;
@@ -297,7 +297,7 @@ const checklikeAlbum = async (req, res, next) => {
   if (!checkAlbum) return res.status(200).json({ message: false });
 
   return res.status(200).json({ message: true });
-};//done
+}; //done
 
 const likeSong = async (req, res, next) => {
   const userId = req.body.token.sub;
@@ -325,7 +325,7 @@ const likeSong = async (req, res, next) => {
   await song.save();
 
   return res.status(200).json({ success: true });
-};//done
+}; //done
 
 const unlikeSong = async (req, res, next) => {
   const userId = req.body.token.sub;
@@ -353,7 +353,7 @@ const unlikeSong = async (req, res, next) => {
   await song.save();
 
   return res.status(200).json({ success: true });
-};//done
+}; //done
 
 const checklikeSong = async (req, res, next) => {
   const userId = req.body.token.sub;
@@ -372,7 +372,7 @@ const checklikeSong = async (req, res, next) => {
   if (!checkSong) return res.status(200).json({ message: false });
 
   return res.status(200).json({ message: true });
-};//done
+}; //done
 
 const likePost = async (req, res, next) => {
   const userId = req.body.token.sub;
@@ -400,7 +400,7 @@ const likePost = async (req, res, next) => {
   await post.save();
 
   return res.status(200).json({ success: true });
-};//done
+}; //done
 
 const unlikePost = async (req, res, next) => {
   const userId = req.body.token.sub;
@@ -428,7 +428,7 @@ const unlikePost = async (req, res, next) => {
   await post.save();
 
   return res.status(200).json({ success: true });
-};//done
+}; //done
 
 const checklikePost = async (req, res, next) => {
   const userId = req.body.token.sub;
@@ -447,12 +447,12 @@ const checklikePost = async (req, res, next) => {
   if (!checkPost) return res.status(200).json({ message: false });
 
   return res.status(200).json({ message: true });
-};//done
+}; //done
 
 const createPost = async (req, res, next) => {
   const userId = req.body.token.sub;
 
-  const { namePost, tinydes, description, categoryId } = req.value.body;
+  const { namePost, tinydes, description, categoryId } = req.body;
 
   const user = await User.findById(userId);
   if (!user) res.status(404).json({ message: "User does not exist" });
@@ -466,9 +466,10 @@ const createPost = async (req, res, next) => {
     description: description,
   });
 
-  if(req.file){
-    newPost.image = req.file.path
+  if (req.file) {
+    newPost.image = req.file.firebaseUrl
   }
+  
 
   newPost.category.push(category._id);
   newPost.owner = user._id;
@@ -500,23 +501,56 @@ const updatePost = async (req, res, next) => {
       .status(404)
       .json({ message: "User with this post does not exist" });
 
+  const categoryId = req.value.body.category;
+
+  const category = await Category.findById(categoryId);
+
+  if (!category) return res.status(404).json({ message: "Category does not exist" });
+
   const newPost1 = await Post.findByIdAndUpdate(postId, newPost);
 
-  if(req.file){
-    if(newPost1 !== 'upload/image/3.png')
-    await unlink(newPost1.image)
-    newPost1.image = req.file.path
+  if (user.role === 0) {
+    newPost1.pass = false;
   }
 
-  if(user.role === 0)
-  {
-    newPost1.pass = false
-  }
-  
   newPost1.save();
 
   return res.status(200).json({ success: true });
-};//done
+}; //done
+
+const updatePostImage = async (req, res, next) => {
+  const userId = req.body.token.sub;
+
+  const postId = req.value.params.id;
+
+  const user = await User.findById(userId);
+
+  if (!user) return res.status(404).json({ message: "User does not exist" });
+
+  const check = user.post.includes(postId);
+
+  if (check === false)
+    return res
+      .status(404)
+      .json({ message: "User with this post does not exist" });
+
+  const newPost = await Post.findById(postId);
+  
+  if(req.file){
+    if(newPost.image !== '') deleteFile(newPost.image)
+    newPost.image = req.file.firebaseUrl
+  } else{
+    res.status(400).json({message:'Please select the file image you want to upload'})
+  }
+
+  if (user.role === 0) {
+    newPost.pass = false;
+  }
+
+  newPost.save();
+
+  return res.status(200).json({ success: true });
+}; //done
 
 const deletePost = async (req, res, next) => {
   const userId = req.body.token.sub;
@@ -553,9 +587,7 @@ const deletePost = async (req, res, next) => {
     });
   }
 
-  if(post.image !== 'upload/image/3.png'){
-    await unlink(post.image)
-  }
+  if(newPost.image !== '') deleteFile(newPost.image)
 
   user.post.pull(post._id);
 
@@ -564,7 +596,7 @@ const deletePost = async (req, res, next) => {
   await user.save();
 
   return res.status(200).json({ success: true });
-};//done
+}; //done
 
 const commentPost = async (req, res, next) => {
   const userId = req.body.token.sub;
@@ -575,8 +607,8 @@ const commentPost = async (req, res, next) => {
   const { content } = req.value.body;
   const postId = req.value.params.idPost;
 
-  const comment = {"userId": userId, "content": content};
-  await Post.findByIdAndUpdate(postId,{$push: {comment: comment}});
+  const comment = { userId: userId, content: content };
+  await Post.findByIdAndUpdate(postId, { $push: { comment: comment } });
 
   // user.comment.push(post._id)
 
@@ -592,18 +624,28 @@ const updateCommentPost = async (req, res, next) => {
   if (!user) res.status(404).json({ message: "User does not exist" });
 
   const { content } = req.value.body;
-  const {idPost , idComment}= req.value.params;
-  
-  const post = await Post.findById(idPost)
+  const { idPost, idComment } = req.value.params;
 
-  const comment = post.comment.find(item=>item.id === idComment)
+  const post = await Post.findById(idPost);
 
-  if(!comment) return res.status(404).json({message: 'Comment does not exist'})
+  const comment = post.comment.find((item) => item.id === idComment);
 
-  if(userId !== comment.userId) return res.status(403).json({message: "User cannot update this comment"})
+  if (!comment)
+    return res.status(404).json({ message: "Comment does not exist" });
 
-  await Post.updateOne({_id: idPost, "comment._id": idComment}, 
-  {$set: {"comment.$.content": content , "comment.$.haveChange": true, "comment.$.date": Date.now() }});
+  if (userId !== comment.userId)
+    return res.status(403).json({ message: "User cannot update this comment" });
+
+  await Post.updateOne(
+    { _id: idPost, "comment._id": idComment },
+    {
+      $set: {
+        "comment.$.content": content,
+        "comment.$.haveChange": true,
+        "comment.$.date": Date.now(),
+      },
+    }
+  );
 
   // user.comment.push(post._id)
 
@@ -618,17 +660,21 @@ const deleteCommentPost = async (req, res, next) => {
   const user = await User.findById(userId);
   if (!user) res.status(404).json({ message: "User does not exist" });
 
-  const {idPost, idComment} = req.value.params;
+  const { idPost, idComment } = req.value.params;
 
-  const post = await Post.findById(idPost)
+  const post = await Post.findById(idPost);
 
-  const comment = post.comment.find(item=>item.id === idComment)
+  const comment = post.comment.find((item) => item.id === idComment);
 
-  if(!comment) return res.status(404).json({message: 'Comment does not exist'})
+  if (!comment)
+    return res.status(404).json({ message: "Comment does not exist" });
 
-  if(userId !== comment.userId) return res.status(403).json({message: "User cannot delete this comment"})
+  if (userId !== comment.userId)
+    return res.status(403).json({ message: "User cannot delete this comment" });
 
-  await Post.findByIdAndUpdate(idPost,{$pull: {comment: {_id: idComment}}});
+  await Post.findByIdAndUpdate(idPost, {
+    $pull: { comment: { _id: idComment } },
+  });
   // user.comment.push(post._id)
 
   // await user.save()
@@ -654,6 +700,7 @@ module.exports = {
   checklikePost,
   createPost,
   updatePost,
+  updatePostImage,
   deletePost,
   commentPost,
   updateCommentPost,

@@ -64,8 +64,7 @@ const schemas = {
 
     authUpdatePasswordSchema: Joi.object().keys({
         newpassword: Joi.string().min(6).required(),
-        newpasswordconfirm: Joi.ref('newpassword'),
-        oldpassword: Joi.string().min(6).required(),
+        newpasswordconfirm: Joi.string().min(6).required(),
     }),
     authUpdateEmailSchema: Joi.object().keys({
         otp: Joi.string().min(6).max(6).required(),
@@ -122,8 +121,7 @@ const schemas = {
         name: Joi.string().min(6),
         tinydes: Joi.string().min(6),
         description: Joi.string().min(10),
-        categoryId: Joi.string().regex(/^[0-9a-fA-F]{24}$/),
-        public: Joi.forbidden(),
+        category: Joi.string().regex(/^[0-9a-fA-F]{24}$/),
     }),
     //category validate
     categoryCreateSchema: Joi.object().keys({
@@ -138,18 +136,15 @@ const schemas = {
     //song validate
     songCreateSchema: Joi.object().keys({
         nameSong: Joi.string().min(2).required(),
-        link: Joi.string().min(2).required(),
         categoryId: Joi.string().regex(/^[0-9a-fA-F]{24}$/).required(),
         ownerSong: Joi.string().required(),
 
     }),
 
     songUpdateSchema: Joi.object().keys({
-        nameSong: Joi.string().min(2),
-        link: Joi.string().min(2),
-        categoryId: Joi.string().regex(/^[0-9a-fA-F]{24}$/),
-        ownerSong: Joi.string(),
-
+        name: Joi.string().min(2),
+        category: Joi.string().regex(/^[0-9a-fA-F]{24}$/),
+        ownersong: Joi.string(),
     }),
 
     // post validate
@@ -167,6 +162,20 @@ const schemas = {
 
     superadminChangeRoleSchemas: Joi.object().keys({
         keySecret: Joi.string().required(),
+    }),
+
+    VideoMusicCreateSchema: Joi.object().keys({
+        nameVideo: Joi.string().min(2).required(),
+        ownerVideo: Joi.string().required(),
+        embedId:Joi.string().min(2).required(),
+        categoryId: Joi.string().regex(/^[0-9a-fA-F]{24}$/).required(),
+    }),
+
+    VideoMusicUpdateSchema: Joi.object().keys({
+        name: Joi.string().min(2),
+        ownervideo: Joi.string(),
+        link:Joi.string().min(2),
+        category: Joi.string().regex(/^[0-9a-fA-F]{24}$/),
     }),
 
 }

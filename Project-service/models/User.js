@@ -62,6 +62,10 @@ const UserSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'Song'
     }],
+    videomusic:[{
+        type: Schema.Types.ObjectId,
+        ref: 'VideoMusic'
+    }],
     favoritesong:[{
         type: Schema.Types.ObjectId,
         ref: 'Song'
@@ -73,6 +77,10 @@ const UserSchema = new Schema({
     favoritepost:[{
         type: Schema.Types.ObjectId,
         ref: 'Post'
+    }],
+    favoritevideomusic:[{
+        type: Schema.Types.ObjectId,
+        ref: 'VideoMusic'
     }],
     
 }, { timestamps: true })
