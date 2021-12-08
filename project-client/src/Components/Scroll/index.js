@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import ExpandLessIcon from '@mui/icons-material/ExpandLess';
-import IconButton from '@material-ui/core/IconButton';
+import IconButton from '@mui/material/IconButton';
 
 const useStyles = makeStyles(theme => ({
 	toTop: {

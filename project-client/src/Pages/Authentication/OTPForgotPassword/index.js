@@ -43,11 +43,9 @@ export const OTPForgotPassword = () => {
 										Check now !
 									</Link>
 								</p>
-								<Link to='/'>
-									<div className='otpforgotpassword-form-hometown'>
-										Back to Town
-									</div>
-								</Link>
+								<p className='adjust-1'>
+									<Link to='/'>Back to Town</Link>
+								</p>
 							</div>
 						</form>
 					</div>

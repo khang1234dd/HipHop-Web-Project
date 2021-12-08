@@ -1,5 +1,6 @@
 import React from 'react'
 import {styled} from '@mui/material/styles';
+import {Link} from 'react-router-dom'
 
 const DetailMain = styled('div')({
 });
@@ -23,13 +24,16 @@ const ImgElement = styled('img')({
 });
 
 
-const DetailTitle = styled('h3')({
+const DetailTitle = styled(Link)({
     color: '#EEE',
     fontSize: '28px',
     textShadow: '6px 6px 12px rgba(0,0,0,0.8), -6px -6px 12px rgba(255,255,255,0.4)',
     textAlign: 'center',
     marginBottom: '10px',
-
+    fontWeight: '600',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
 });
 
 const DetailSongAuthor = styled('h4')({
@@ -49,7 +53,7 @@ const SongDetail = ({...song}) => {
                 :<ImgElement src='https://hiphop-g28.herokuapp.com/upload/image/1.png' alt={name} />}
                 
             </DetailImg>
-            <DetailTitle>{name}</DetailTitle>
+            <DetailTitle to={song.public ? `/audioplayer/${song._id}` : "#"}>{name}</DetailTitle>
             <DetailSongAuthor>{ownersong}</DetailSongAuthor>
         </DetailMain>
     )

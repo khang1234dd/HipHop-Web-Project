@@ -9,6 +9,8 @@ import CardContent from '@mui/material/CardContent';
 import {fDateTime} from '../../utils/formatTime'
 import VideoMusicOption from './VideoMusicOption'
 import VideoMusicModal from './VideoMusicModal'
+import Button from '@mui/material/Button'
+import {Link} from 'react-router-dom'
 
 
 
@@ -92,7 +94,7 @@ const VideoMusicCard = ({congtachanhtrinh,setCongTacHanhTrinh, dataCat, ...video
           <VideoMusicOption handleUpdate={handleOpen} handleUpdateImage={handleOpen1} congtachanhtrinh={congtachanhtrinh} setCongTacHanhTrinh={setCongTacHanhTrinh} {...videomusic}></VideoMusicOption>
           </StyleOption>
         }
-        title={videomusic ? videomusic.name : 'no data'}
+        title={<Link to={videomusic.public?`/watchvideos/${videomusic._id}`: "#"}>{videomusic ? videomusic.name : 'no data'}</Link>}
         subheader={videomusic? fDateTime(videomusic.createdAt): 'no date time'}
       />
       <VideoMusicModal open={open} handleClose={handleClose} setCongTacHanhTrinh={setCongTacHanhTrinh} congtachanhtrinh={congtachanhtrinh} dataCat={dataCat} {...MODALUPDATEVIDEO} data={videomusic}></VideoMusicModal>

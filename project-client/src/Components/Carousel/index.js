@@ -4,6 +4,7 @@ import './style-animation.scss';
 import Slider from 'react-animated-slider';
 import Avatar from '@mui/material/Avatar';
 import CardHeader from '@mui/material/CardHeader';
+import {useNavigate} from 'react-router-dom'
 
 import 'react-animated-slider/build/horizontal.css';
 
@@ -42,6 +43,12 @@ const content = [
 ];
 
 const Carousel = ({data}) => {
+  const navigate = useNavigate();
+  const handleSeeMore = (e) =>{
+    const id =  e.currentTarget.value;
+    navigate(`/newspaper/${id}`)
+  }
+  
   return (
     <Slider className="slider-wrapper">
       {data? data.map((item, index) => (
@@ -55,7 +62,7 @@ const Carousel = ({data}) => {
             <Hidden mdDown>
               <p>{item.tinydes}</p>
             </Hidden>
-            <Button variant="contained" color="primary">
+            <Button variant="contained" color="primary" onClick={handleSeeMore} value={item._id}>
               See More
             </Button>
           </div>

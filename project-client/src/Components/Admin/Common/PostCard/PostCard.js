@@ -99,7 +99,7 @@ const MODALUPDATEIMAGE ={
 
 export default function PostCard({ post, index, dataCat, setCongTacHanhTrinh, congtachanhtrinh }) {
 
-  const { name, image  , pass,hot,banned,view, comment, createdAt,owner  } = post;
+  const { name, image  , pass,hot,banned,view, comment, createdAt,owner } = post;
   const [open, setOpen] = useState(false);
   const [open1, setOpen1] = useState(false);
   const latestPostLarge = index === 0;
@@ -232,7 +232,7 @@ export default function PostCard({ post, index, dataCat, setCongTacHanhTrinh, co
           </Typography>
 
           <TitleStyle
-            to="#"
+            to={post.public && post.pass ? `/newspaper/${post._id}` : "#"}
             color="inherit"
             variant="subtitle2"
             underline="hover"

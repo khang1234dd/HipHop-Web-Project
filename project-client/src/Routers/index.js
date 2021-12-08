@@ -37,17 +37,20 @@ export const Routers = () => {
 			}
 		})();
 	}, [successlogin]);
-
 	return (
 		<>
 			<Router>
 				<ScrollToTop />
 				<AnimatePresence>
-					{!data.user || data.user === undefined ? (
-						<>
-							<Navigation {...data}></Navigation>
+
+			
 							<Routes>
-								<Route path='/' element={<Main></Main>}></Route>
+								
+								<Route path='/' element={<><Navigation {...data}></Navigation><Main></Main></>}></Route>
+								{data.user !== undefined  ?
+								<>
+								{data.user.role !==1 || data.user.role !==2 ?
+								<>
 								<Route
 									path='/signin'
 									element={
@@ -63,75 +66,83 @@ export const Routers = () => {
 								<Route
 									path='/otpforgotpassword'
 									element={<OTPForgotPassword></OTPForgotPassword>}></Route>
+								</>
+								:<></>
+								}
+								</>
+								: <>
+									<Route
+										path='/signin'
+										element={
+											<SignIn
+												success={successlogin}
+												setSuccess={setSuccessLogin}></SignIn>
+										}></Route>
+									<Route path='/signup' element={<SignUp></SignUp>}></Route>
+									<Route
+										path='/forgotpassword'
+										element={<ForgotPassword></ForgotPassword>}></Route>
+									<Route path='/otp' element={<OTP></OTP>}></Route>
+									<Route
+										path='/otpforgotpassword'
+										element={<OTPForgotPassword></OTPForgotPassword>}></Route>
+								</>
+								}
 								<Route
 									path='/newpassword/:otp'
 									element={<NewPassword></NewPassword>}></Route>
 
-								<Route path='/news' element={<News></News>}></Route>
+								<Route path='/news' element={<><Navigation {...data}></Navigation><News></News></>}></Route>
 								<Route
 									path='/newspaper/:id'
-									element={<Newspaper></Newspaper>}></Route>
+									element={<><Navigation {...data}></Navigation><Newspaper></Newspaper></>}></Route>
 								{/* <Route
 						path='/albumarticle'
 						element={<AlbumArticle></AlbumArticle>}></Route> */}
-								<Route path='/single' element={<Single></Single>}></Route>
+								<Route path='/single' element={<><Navigation {...data}></Navigation><Single></Single></>}></Route>
 								<Route
 									path='/musicvideo'
-									element={<MusicVideo></MusicVideo>}></Route>
+									element={<><Navigation {...data}></Navigation><MusicVideo></MusicVideo></>}></Route>
 								<Route
 									path='/watchvideos/:id'
-									element={<WatchVideos></WatchVideos>}></Route>
+									element={<><Navigation {...data}></Navigation><WatchVideos></WatchVideos></>}></Route>
 								<Route
 									path='/audioplayer/:id'
-									element={<AudioPlayer></AudioPlayer>}></Route>
-
-								<Route path='/*' element={<Page404></Page404>}></Route>
-							</Routes>
-						</>
-					) : data.user.role === 1 ? (
-						<Routes>
-							<Route
-								path='/admin/*'
-								element={<AdminRouters data={data.user}></AdminRouters>}></Route>
-							<Route path='/*' element={<Page404></Page404>}></Route>
-						</Routes>
-					) : (
-						<>
-							<Navigation {...data}></Navigation>
-							<Routes>
-								<Route path='/' element={<Main></Main>}></Route>
-
-								<Route
-									path='/newpassword/:otp'
-									element={<NewPassword></NewPassword>}></Route>
-
-								<Route path='/news' element={<News></News>}></Route>
-								<Route
-									path='/newspaper/:id'
-									element={<Newspaper></Newspaper>}></Route>
-
-								<Route path='/single' element={<Single></Single>}></Route>
-								<Route
-									path='/musicvideo'
-									element={<MusicVideo></MusicVideo>}></Route>
-								<Route
-									path='/watchvideos'
-									element={<WatchVideos></WatchVideos>}></Route>
-								<Route
-									path='/audioplayer/:id'
-									element={<AudioPlayer></AudioPlayer>}></Route>
-
-								<Route
+									element={<><Navigation {...data}></Navigation><AudioPlayer></AudioPlayer></>}></Route>
+								{data.user !== undefined ?
+									<>
+									{ data.user.role >= 0?
+									<>
+									<Route
 									path='/userprofile'
-									element={<UserProfile {...data}></UserProfile>}></Route>
+									element={<><Navigation {...data}></Navigation><UserProfile {...data}></UserProfile></>}></Route>
 
-								<Route
+									<Route
 									path='/modaluserprofile'
-									element={<ModalUserProfile></ModalUserProfile>}></Route>
-								<Route path='/*' element={<Page404></Page404>}></Route>
+									element={<><Navigation {...data}></Navigation><ModalUserProfile></ModalUserProfile></>}></Route>
+
+									</>
+								: <></>
+								}
+								</>
+								:<></>
+								}
+
+								{data.user !== undefined ?
+									<>
+									{ data.user.role ===1  || data.user.role===2?
+									<>
+									<Route
+										path='/admin/*'
+										element={<AdminRouters data={data.user}></AdminRouters>}></Route>
+									<Route path='/*' element={<Page404></Page404>}></Route>
+									</>
+								: <></>
+								}
+								</>
+								:<></>
+								}
 							</Routes>
-						</>
-					)}
 				</AnimatePresence>
 			</Router>
 		</>

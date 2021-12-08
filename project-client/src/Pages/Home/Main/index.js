@@ -75,15 +75,19 @@ export const Main = () => {
 	useEffect(() => {
 		(async () => {
 			const res = await getMusicVideoMostLikedApi(1, 3);
+			setMostLikedMusicVideo(res.video);
 			const res1 = await getTopDayPostApi(1, 4);
+			setTopDayPost(res1.post);
 			const res2 = await getHipHopNowApi(1, 6);
+			setHipHopNowPost(res2.post);
 			const res3 = await getHipHopMostViewedApi(1, 12);
+			setHipHopMostViewed(res3.post);
 			const res4 = await getMostLikedSongApi(1, 7);
 			setMostLikedSong(res4.song);
-			setHipHopMostViewed(res3.post);
-			setHipHopNowPost(res2.post);
-			setTopDayPost(res1.post);
-			setMostLikedMusicVideo(res.video);
+			
+			
+			
+			
 			setLoading(true);
 			setTimeout(() => {
 				setDone(true);

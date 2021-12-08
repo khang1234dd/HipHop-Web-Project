@@ -41,10 +41,29 @@
 			width: 100%;
 		}
 		&-already {
+			position: relative;
 			font-family: $f-1;
 			& span {
 				margin-right: 10px;
 			}
+			& a {
+				top: 30px;
+				position: absolute;
+				left: 50%;
+				transform: translateX(-50%) !important;
+			}
 		}
+	}
+}
+
+.adjust-1 {
+	margin: 20px;
+	font-family: $f-1;
+	position: relative;
+	& a {
+		top: 50px;
+		position: absolute;
+		left: 50%;
+		transform: translateX(-50%) !important;
 	}
 }
