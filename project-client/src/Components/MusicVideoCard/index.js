@@ -18,26 +18,28 @@ const MusicVideoCard3D = styled(Tilt)`
 	transform: perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1);
 `;
 
-const MusicVideoCard = props => {
+const MusicVideoCard = ({ data }) => {
 	return (
 		<>
-			<MusicVideoCard3D options={{ speed: 400, max: 25 }}>
-				<div className='musicvideocard-wrapper musicvideorgb'>
-					<div className='musicvideocard-container'>
-						<div className='musicvideocard-box'>
-							<h2 className='musicvideocard-name'>{props.header}</h2>
-							<Link className='musicvideocard-buy' to=''>
-								<img
-									src='https://img.icons8.com/external-kmg-design-flat-kmg-design/64/000000/external-play-user-interface-kmg-design-flat-kmg-design.png'
-									className='musicvideocard-play'
-								/>
-							</Link>
-							{/* <div className='musicvideocard-circle '></div> */}
-							<img src={props.link} className='musicvideocard-product'></img>
+			<Link to={`/watchvideos/${data._id}`}>
+				<MusicVideoCard3D options={{ speed: 400, max: 25 }}>
+					<div className='musicvideocard-wrapper musicvideorgb'>
+						<div className='musicvideocard-container'>
+							<div className='musicvideocard-box'>
+								<h2 className='musicvideocard-name'>{data.name}</h2>
+								<Link className='musicvideocard-buy' to=''>
+									<img
+										src='https://img.icons8.com/external-kmg-design-flat-kmg-design/64/000000/external-play-user-interface-kmg-design-flat-kmg-design.png'
+										className='musicvideocard-play'
+									/>
+								</Link>
+								{/* <div className='musicvideocard-circle '></div> */}
+								<img src={data.image} className='musicvideocard-product'></img>
+							</div>
 						</div>
 					</div>
-				</div>
-			</MusicVideoCard3D>
+				</MusicVideoCard3D>
+			</Link>
 		</>
 	);
 };

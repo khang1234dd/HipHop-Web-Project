@@ -1,15 +1,21 @@
-import React from 'react';
-import Navigation from '../../../Components/Navigation';
-import NavigationBar from '../../../Components/NavigationBar';
+import { React, useState, useEffect } from 'react';
+
 import { Wrapper } from '../../../Components/Wrapper';
 import { ContainerTemplate } from '../../../Components/ContainerTemplate';
 import { Heading } from '../../../Components/Heading';
-import { MiniCardList } from '../../../Components/MiniCardList';
-import { Link } from 'react-router-dom';
+import { Scroll } from '../../../Components/Scroll';
+
 import './news.scss';
-import { ArticleList } from '../../../Components/ArticleList';
+
 import { MdDoubleArrow } from 'react-icons/md';
 import { motion } from 'framer-motion';
+import {
+	getHipHopMostViewedApi,
+	getHipHopNowApi
+} from '../../../Apis/article.api';
+import { MiniCard } from '../../../Components/MiniCard';
+import { Article } from '../../../Components/Article';
+import { Loading } from '../../../Components/Loading';
 
 const container = {
 	show: {
@@ -19,107 +25,87 @@ const container = {
 	}
 };
 
-const articlecard = [
-	{
-		color: '',
-		link: 'https://static.hiphopdx.com/2020/06/2020-06-04-yfn-lucci-900x506.jpg',
-		heading: 'YFN LUCC IS MURDER + RACKETEERING CASE GETS COURT DATE',
-		writer: 'kha zoo',
-		time: 'nov 10'
-	},
-	{
-		color: '',
-		link: 'https://static.hiphopdx.com/2020/11/201104-Erykah-Badu-900x506.jpg',
-		heading:
-			'ERYKAH BADU GETS GANGSTER ON FAN WHILE BLESSING TRAVIS SCOTT & ASTROWORLDS LOST SOULS',
-		writer: 'kha zoo',
-		time: 'nov 10'
-	},
-	{
-		color: '',
-		link: 'https://static.hiphopdx.com/2021/10/211024-drake-getty-1200x675.jpeg',
-		heading: 'TSU: DRAKE THANKED BY HOUSTON STRIPPERS FOR MILLION-DOLLAR NIGHT',
-		writer: 'kha zoo',
-		time: 'nov 10'
-	},
-	{
-		color: '',
-		link: 'https://static.hiphopdx.com/2020/10/201009-Travis-Scott-900x506.jpg',
-		heading:
-			'TRAVIS SCOTTS EX-MANAGER CLAIMS HE LEFT HIM FOR DEAD WORST PERSON I WORKED WITH IN MY ENTIRE CAREER',
-		writer: 'kha zoo',
-		time: 'nov 10'
-	},
-	{
-		color: '',
-		link: 'https://static.hiphopdx.com/2021/09/kanye-west-rushed-donda-to-drop-before-drake-certified-lover-boy-1200x675.png',
-		heading:
-			'KANYE WEST CALLS FOR AN END TO DRAKE BEEF WITH J PRINCE BY HIS SIDE',
-		writer: 'kha zoo',
-		time: 'nov 10'
-	}
-];
-
-const article = [
-	{
-		content:
-			'Traviscot got many humiliating from his concert dsadssssssssssssss'
-	},
-	{
-		content:
-			'Traviscot got many humiliating from his concertvdvcxzbczbvzbzdfgfdz'
-	},
-	{
-		content:
-			'Traviscot got many humiliating from his concertfdg gfdsssssgggfsdfgsd'
-	},
-	{
-		content:
-			'Traviscot got many humiliating from his concertgfsssssssssssssssssssssssssssg'
-	},
-	{
-		content:
-			'Traviscot got many humiliating from his concertgffgssssssssssssssssssssssssssssssss'
-	},
-	{
-		content:
-			'Traviscot got many humiliating from his concertgfsssssssssssssssssssssssssssssssssssss'
-	},
-	{
-		content:
-			'Traviscot got many humiliating from his concertgfssssssssssssssssssssssssssssssssssssssss'
-	}
-];
-
 export const News = () => {
+	const [HipHopNowPost, setHipHopNowPost] = useState([]);
+	const [HipHopArticles, setHipHopArticles] = useState([]);
+	const [pagination, setPagination] = useState({ _page: 1, _limit: 4 });
+	const [filter, setFilter] = useState();
+	const [done, setDone] = useState(undefined);
+	const [loading, setLoading] = useState(undefined);
+
+	const pageNumber = Math.ceil(pagination._total / pagination._limit);
+
+	useEffect(() => {
+		(async () => {
+			const res = await getHipHopNowApi(pagination._page, pagination._limit);
+			const res1 = await getHipHopMostViewedApi(1, 7);
+			setHipHopArticles(res1.post);
+			setPagination(res.pagination);
+			setHipHopNowPost(HipHopNowPost.concat(res.post));
+			setLoading(true);
+			setTimeout(() => {
+				setDone(true);
+			}, 1000);
+		})();
+	}, [filter]);
+
+	const showMoreItems = () => {
+		setPagination({
+			_page: pagination._page + 1,
+			_limit: pagination._limit,
+			_total: pagination._total
+		});
+		setFilter(pagination);
+	};
 	return (
 		<>
 			<Wrapper>
-				<Navigation></Navigation>
+				{!done ? (
+					<Loading loading={loading}></Loading>
+				) : (
+					<>
+						<ContainerTemplate>
+							<div className='news-leftcontainer'>
+								<Heading name='hiphop ' desc='now'></Heading>
+								<motion.div
+									variants={container}
+									initial='hidden'
+									animate='show'
+									exit='exit'>
+									{HipHopNowPost.map((x, index) => {
+										return <MiniCard data={x}></MiniCard>;
+									})}
+									{/* <MiniCardList data={articlecard}></MiniCardList> */}
+								</motion.div>
 
-				<ContainerTemplate>
-					<div className='news-leftcontainer'>
-						<Heading name='hiphop ' desc='now'></Heading>
-						<motion.div
-							variants={container}
-							initial='hidden'
-							animate='show'
-							exit='exit'>
-							<MiniCardList data={articlecard}></MiniCardList>
-						</motion.div>
-
-						<Link to=''>
-							<div className='news-leftcontainer-link'>
-								<p>Next</p>
-								<MdDoubleArrow></MdDoubleArrow>
+								{pageNumber === pagination._page ? (
+									<></>
+								) : (
+									<div
+										onClick={showMoreItems}
+										className='news-leftcontainer-link'>
+										<p>Show more</p>
+										<MdDoubleArrow></MdDoubleArrow>
+									</div>
+								)}
 							</div>
-						</Link>
-					</div>
-					<div>
-						<Heading name='hiphop ' desc='Article'></Heading>
-						<ArticleList data={article}></ArticleList>
-					</div>
-				</ContainerTemplate>
+							<div>
+								<Heading name='hiphop ' desc='Article'></Heading>
+								<ul className='articlelist-adjust'>
+									{HipHopArticles.map((x, index) => {
+										return (
+											<li className='articlelist-adjust-block'>
+												<Article data={x}></Article>
+											</li>
+										);
+									})}
+								</ul>
+							</div>
+						</ContainerTemplate>
+					</>
+				)}
+
+				<Scroll showBelow={250} />
 			</Wrapper>
 		</>
 	);

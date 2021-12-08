@@ -50,9 +50,9 @@ export const SignUp = () => {
 									<span>Already have an account ?</span>
 									<Link to='/signin'>Login</Link>
 								</p>
-								<Link to='/main'>
-									<div className='signup-form-back'>Back to Town</div>
-								</Link>
+								<p className='adjust-1'>
+									<Link to='/'>Back to Town</Link>
+								</p>
 							</div>
 						</form>
 					</div>

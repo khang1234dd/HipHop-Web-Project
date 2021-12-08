@@ -1,10 +1,10 @@
 import { React, useState, useEffect } from 'react';
 import { Wrapper } from '../../Components/Wrapper';
 import Container from '../../Components/Container';
-import Navigation from '../../Components/Navigation';
+import { Loading } from '../../Components/Loading';
 import './audioplayer.scss';
 import { useParams } from 'react-router-dom';
-import { MiniCardList } from '../../Components/MiniCardList';
+import { Scroll } from '../../Components/Scroll';
 import MusicPlayer from '../../Components/MusicPlayer';
 import { getMostLikedSongApi, getSingleByIdApi } from '../../Apis/single.api';
 import { MiniSongCard } from '../../Components/MiniSongCard';
@@ -16,6 +16,8 @@ export const AudioPlayer = () => {
 	const [MostLikedSong, setMostLikedSong] = useState([]);
 	const [pagination, setPagination] = useState({ _page: 1, _limit: 5 });
 	const [filterPagination, setfilterPagination] = useState();
+	const [done, setDone] = useState(undefined);
+	const [loading, setLoading] = useState(undefined);
 
 	const pageNumber = Math.ceil(pagination._total / pagination._limit);
 
@@ -23,6 +25,10 @@ export const AudioPlayer = () => {
 		(async () => {
 			const res = await getSingleByIdApi(id);
 			setSingleById(res.song);
+			setLoading(true);
+			setTimeout(() => {
+				setDone(true);
+			}, 1000);
 		})();
 	}, [id]);
 
@@ -49,38 +55,46 @@ export const AudioPlayer = () => {
 	return (
 		<>
 			<Wrapper>
-				<Container>
-					<div className='audioplayer-wrapper'>
-						<div className='audioplayer-block'>
-							{SingleById ? (
-								<MusicPlayer data={SingleById}></MusicPlayer>
-							) : (
-								<></>
-							)}
-						</div>
-						<div className='audioplayer-top100'>
-							<div className='audioplayer-top100-header'>
-								<h3>TOP 100</h3>
-							</div>
-							{/* <MiniCardList data={top100list.slice(0, visible)}></MiniCardList> */}
+				{!done ? (
+					<Loading loading={loading}></Loading>
+				) : (
+					<>
+						<Container>
+							<div className='audioplayer-wrapper'>
+								<div className='audioplayer-block'>
+									{SingleById ? (
+										<MusicPlayer data={SingleById}></MusicPlayer>
+									) : (
+										<></>
+									)}
+								</div>
+								<div className='audioplayer-top100'>
+									<div className='audioplayer-top100-header'>
+										<h3>TOP 100</h3>
+									</div>
+									{/* <MiniCardList data={top100list.slice(0, visible)}></MiniCardList> */}
 
-							{MostLikedSong.map((x, index) => {
-								return <MiniSongCard data={x}></MiniSongCard>;
-							})}
-							<div className='audioplayer-top100-button-block'>
-								{pageNumber === pagination._page ? (
-									<></>
-								) : (
-									<button
-										onClick={showMoreItems}
-										className='audioplayer-top100-button-block-adjust'>
-										<h3>See More</h3>
-									</button>
-								)}
+									{MostLikedSong.map((x, index) => {
+										return <MiniSongCard data={x}></MiniSongCard>;
+									})}
+									<div className='audioplayer-top100-button-block'>
+										{pageNumber === pagination._page ? (
+											<></>
+										) : (
+											<button
+												onClick={showMoreItems}
+												className='audioplayer-top100-button-block-adjust'>
+												<h3>See More</h3>
+											</button>
+										)}
+									</div>
+								</div>
 							</div>
-						</div>
-					</div>
-				</Container>
+						</Container>
+					</>
+				)}
+
+				<Scroll showBelow={250} />
 			</Wrapper>
 		</>
 	);

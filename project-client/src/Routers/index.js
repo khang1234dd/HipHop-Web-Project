@@ -22,6 +22,7 @@ import Cookies from 'js-cookie';
 import Navigation from '../Components/Navigation';
 import { Newspaper } from '../Components/Newspaper';
 import { Page404 } from '../Pages/404';
+import { ScrollToTop } from '../Components/ScrollToTop';
 
 export const Routers = () => {
 	const [successlogin, setSuccessLogin] = useState(false);
@@ -40,6 +41,7 @@ export const Routers = () => {
 	return (
 		<>
 			<Router>
+				<ScrollToTop />
 				<AnimatePresence>
 					{!data.user || data.user === undefined ? (
 						<>
@@ -77,7 +79,7 @@ export const Routers = () => {
 									path='/musicvideo'
 									element={<MusicVideo></MusicVideo>}></Route>
 								<Route
-									path='/watchvideos'
+									path='/watchvideos/:id'
 									element={<WatchVideos></WatchVideos>}></Route>
 								<Route
 									path='/audioplayer/:id'

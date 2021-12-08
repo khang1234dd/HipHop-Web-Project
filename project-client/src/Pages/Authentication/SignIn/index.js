@@ -55,8 +55,8 @@ export const SignIn = ({ success, setSuccess }) => {
 								<p className='adjust'>
 									<Link to='/forgotpassword'>Forgot your Password</Link>
 								</p>
-								<p className='adjust'>
-									<Link to='/main'>Back to Town</Link>
+								<p className='adjust-1'>
+									<Link to='/'>Back to Town</Link>
 								</p>
 							</div>
 						</form>

@@ -1,6 +1,6 @@
 @import '/src/Styles/Variables.scss';
 
-.modaluseradd {
+.modaluserimage {
 	&-wrapper {
 		position: fixed;
 		top: 0;
@@ -17,7 +17,7 @@
 	}
 	&-block {
 		width: 850px;
-		left: 286px;
+		left: 350px;
 		transition: transform 0.3s cubic-bezier(0.13, 1.07, 0.5, 1.01),
 			visibility 0s, -webkit-transform 0.3s cubic-bezier(0.13, 1.07, 0.5, 1.01);
 		height: auto;
@@ -26,7 +26,7 @@
 		border-radius: 12px;
 		margin: 76px 0 30px;
 		position: absolute;
-		top: 0;
+		top: 40px;
 		border: 1px solid var(--background-highlight-color);
 		transform: translateZ(1000);
 		visibility: visible;
@@ -40,7 +40,6 @@
 	&-profilesetting {
 		position: relative;
 		&-manage {
-			margin-top: 10px;
 			display: flex;
 			justify-content: flex-end;
 		}
@@ -48,6 +47,7 @@
 			&-block {
 				overflow: hidden;
 				&-content {
+					position: relative;
 					font-family: $f-5;
 					display: flex;
 					justify-content: space-between;
@@ -56,28 +56,11 @@
 						width: 100%;
 						margin-bottom: 15px;
 					}
-					&-category {
-						width: 100%;
-						margin-bottom: 15px;
-						& p {
-							margin-bottom: 10px;
-						}
-					}
-					&-thumbnaildesc {
-						width: 48%;
-						margin-bottom: 15px;
-					}
-					&-uploadimage {
-						position: relative;
-						width: 48%;
-						margin-bottom: 15px;
-					}
 					&-infor {
 						width: 48%;
 						margin-bottom: 15px;
 					}
 					&-bio {
-						width: 100%;
 						& p {
 							margin-bottom: 10px;
 						}
@@ -115,7 +98,7 @@
 					-moz-user-select: none;
 					-ms-user-select: none;
 					box-sizing: border-box;
-					top: 200px;
+					top: 100px;
 					left: 50%;
 					transform: translateX(-50%);
 					& div {
@@ -131,16 +114,13 @@
 				&-image {
 					position: relative;
 					width: 260px;
-					&-button {
-						margin-top: 10px;
-					}
 					&-adjust {
-						object-fit: cover;
 						background: none;
-						// border-radius: 50%;
+						border-radius: 50%;
 						text-align: center;
 						position: relative;
 						display: block;
+						object-fit: cover;
 					}
 				}
 			}
@@ -159,4 +139,19 @@
 		word-break: normal;
 		font-family: $f-5;
 	}
+}
+
+.input1 {
+	opacity: 0;
+	position: absolute;
+	margin-left: 20px;
+	margin-right: 20px;
+	padding-top: 30px;
+	padding-bottom: 67px;
+	width: 85%;
+	z-index: 99;
+	margin-top: 10px;
+	cursor: pointer;
+	bottom: -70px;
+	left: -10px;
 }

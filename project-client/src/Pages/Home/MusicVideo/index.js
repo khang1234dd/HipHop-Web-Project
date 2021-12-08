@@ -1,126 +1,92 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Wrapper } from '../../../Components/Wrapper';
 import Container from '../../../Components/Container';
-import Navigation from '../../../Components/Navigation';
+import { Scroll } from '../../../Components/Scroll';
 import './musicvideo.scss';
-import { MiniCardList } from '../../../Components/MiniCardList';
-import { MusicVideoCardList } from '../../../Components/MusicVideoList';
+import { MiniVideoCard } from '../../../Components/MiniVideoCard';
+import { getMusicVideoMostLikedApi } from '../../../Apis/musicvideo.api';
+import MusicVideoCard from '../../../Components/MusicVideoCard';
+import { Loading } from '../../../Components/Loading';
 
-const top100list = [
-	{
-		id: '1',
-		color: '-color2',
-		link: 'https://upload.wikimedia.org/wikipedia/vi/8/80/Eminem_-_Music_to_Be_Murdered_By.png',
-		heading: 'YFN LUCC IS MURDER + RACKETEERING CASE GETS COURT DATE',
-		writer: 'kha zoo',
-		time: 'nov 10'
-	},
-	{
-		id: '2',
-		color: '-color2',
-		link: 'https://assets.promediateknologi.com/crop/0x0:0x0/x/photo/2021/10/16/2537394811.jpg',
-		heading:
-			'ERYKAH BADU GETS GANGSTER ON FAN WHILE BLESSING TRAVIS SCOTT & ASTROWORLDS LOST SOULS',
-		writer: 'kha zoo',
-		time: 'nov 10'
-	},
-	{
-		id: '3',
-		color: '-color2',
-		link: 'https://upload.wikimedia.org/wikipedia/vi/8/80/Eminem_-_Music_to_Be_Murdered_By.png',
-		heading: 'TSU: DRAKE THANKED BY HOUSTON STRIPPERS FOR MILLION-DOLLAR NIGHT',
-		writer: 'kha zoo',
-		time: 'nov 10'
-	},
-	{
-		id: '4',
-		color: '-color2',
-		link: 'https://assets.promediateknologi.com/crop/0x0:0x0/x/photo/2021/10/16/2537394811.jpg',
-		heading:
-			'TRAVIS SCOTTS EX-MANAGER CLAIMS HE LEFT HIM FOR DEAD WORST PERSON I WORKED WITH IN MY ENTIRE CAREER',
-		writer: 'kha zoo',
-		time: 'nov 10'
-	},
-	{
-		id: '5',
-		color: '-color2',
-		link: 'https://upload.wikimedia.org/wikipedia/vi/8/80/Eminem_-_Music_to_Be_Murdered_By.png',
-		heading:
-			'KANYE WEST CALLS FOR AN END TO DRAKE BEEF WITH J PRINCE BY HIS SIDE',
-		writer: 'kha zoo',
-		time: 'nov 10'
-	},
-	{
-		id: '6',
-		color: '-color2',
-		link: 'https://upload.wikimedia.org/wikipedia/vi/8/80/Eminem_-_Music_to_Be_Murdered_By.png',
-		heading:
-			'KANYE WEST CALLS FOR AN END TO DRAKE BEEF WITH J PRINCE BY HIS SIDE',
-		writer: 'kha zoo',
-		time: 'nov 10'
-	}
-];
-const data = [
-	{
-		link: 'https://upload.wikimedia.org/wikipedia/vi/8/80/Eminem_-_Music_to_Be_Murdered_By.png',
-		header: 'Venom '
-	},
-	{
-		link: 'https://www.nme.com/wp-content/uploads/2019/06/Webp.net-resizeimage-2-5.jpg',
-		header: 'River '
-	},
-	{
-		link: 'https://assets.promediateknologi.com/crop/0x0:0x0/x/photo/2021/10/16/2537394811.jpg',
-		header: 'Easy on me'
-	},
-	{
-		link: 'https://assets.promediateknologi.com/crop/0x0:0x0/x/photo/2021/10/16/2537394811.jpg',
-		header: 'Easy on me'
-	},
-	{
-		link: 'https://assets.promediateknologi.com/crop/0x0:0x0/x/photo/2021/10/16/2537394811.jpg',
-		header: 'Easy on me'
-	},
-	{
-		link: 'https://assets.promediateknologi.com/crop/0x0:0x0/x/photo/2021/10/16/2537394811.jpg',
-		header: 'Easy on me'
-	}
-];
 export const MusicVideo = () => {
-	const [items, setItems] = useState([top100list]);
-	const [visible, setVisible] = useState(3);
+	const [MostLikedMusicVideo, setMostLikedMusicVideo] = useState([]);
+	const [Top100MusicVideo, setTop100MusicVideo] = useState([]);
+	const [Pagination, setPagination] = useState({ _page: 1, _limit: 4 });
+	const [filter, setFilter] = useState();
+	const [done, setDone] = useState(undefined);
+	const [loading, setLoading] = useState(undefined);
+
+	const pageNumber = Math.ceil(Pagination._total / Pagination._limit);
+	useEffect(() => {
+		(async () => {
+			const res = await getMusicVideoMostLikedApi(
+				Pagination._page,
+				Pagination._limit
+			);
+			const res1 = await getMusicVideoMostLikedApi(1, 6);
+			setMostLikedMusicVideo(res1.video);
+			setTop100MusicVideo(Top100MusicVideo.concat(res.video));
+
+			setLoading(true);
+			setTimeout(() => {
+				setDone(true);
+			}, 1000);
+			console.log(res, '94');
+		})();
+	}, [filter]);
 
 	const showMoreItems = () => {
-		setVisible(prevValue => prevValue + 3);
+		setPagination({
+			_page: Pagination._page + 1,
+			_limit: Pagination._limit,
+			_total: Pagination._total
+		});
+		setFilter(Pagination);
 	};
 	return (
 		<>
 			<Wrapper>
-				<Container>
-					<div className='musicvideocardlist-wrapper'>
-						<div className='musicvideocardlist-header'>
-							<h2>
-								MUSIC VIDEO <mark>Of the week</mark>
-							</h2>
-						</div>
-						<div className='musicvideocardlist-block'>
-							<MusicVideoCardList data={data}></MusicVideoCardList>
-						</div>
-						<div className='musicvideocardlist-top100'>
-							<div className='musicvideocardlist-top100-header'>
-								<h3>TOP 100</h3>
+				{!done ? (
+					<Loading loading={loading}></Loading>
+				) : (
+					<>
+						<Container>
+							<div className='musicvideocardlist-wrapper'>
+								<div className='musicvideocardlist-header'>
+									<h2>
+										MUSIC VIDEO <mark>Of the week</mark>
+									</h2>
+								</div>
+								<div className='musicvideocardlist-block'>
+									{MostLikedMusicVideo.map((x, index) => (
+										<MusicVideoCard data={x}></MusicVideoCard>
+									))}
+								</div>
+								<div className='musicvideocardlist-top100'>
+									<div className='musicvideocardlist-top100-header'>
+										<h3>TOP 100</h3>
+									</div>
+									{Top100MusicVideo.map((x, index) => (
+										<MiniVideoCard data={x}></MiniVideoCard>
+									))}
+									<div className='musicvideocardlist-top100-button-block'>
+										{pageNumber === Pagination._page ? (
+											<></>
+										) : (
+											<button
+												onClick={showMoreItems}
+												className='musicvideocardlist-top100-button-block-adjust'>
+												<h3>See More</h3>
+											</button>
+										)}
+									</div>
+								</div>
 							</div>
-							{/* <MiniCardList data={top100list.slice(0, visible)}></MiniCardList> */}
-							<div className='musicvideocardlist-top100-button-block'>
-								<button
-									onClick={showMoreItems}
-									className='musicvideocardlist-top100-button-block-adjust'>
-									<h3>See More</h3>
-								</button>
-							</div>
-						</div>
-					</div>
-				</Container>
+						</Container>
+					</>
+				)}
+
+				<Scroll showBelow={250} />
 			</Wrapper>
 		</>
 	);

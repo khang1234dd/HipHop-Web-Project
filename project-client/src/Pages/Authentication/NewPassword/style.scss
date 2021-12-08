@@ -38,9 +38,16 @@
 			width: 100%;
 		}
 		&-already {
+			position: relative;
 			font-family: $f-1;
 			& span {
 				margin-right: 10px;
+			}
+			& a {
+				top: 30px;
+				position: absolute;
+				left: 50%;
+				transform: translateX(-50%) !important;
 			}
 		}
 	}

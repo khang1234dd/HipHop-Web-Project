@@ -1,6 +1,6 @@
 import React from 'react';
 import Navigation from '../../../Components/Navigation';
-import NavigationBar from '../../../Components/NavigationBar';
+
 import { Wrapper } from '../../../Components/Wrapper';
 import { ContainerTemplate } from '../../../Components/ContainerTemplate';
 import { Heading } from '../../../Components/Heading';
@@ -8,38 +8,8 @@ import { Heading } from '../../../Components/Heading';
 import './article.scss';
 import { ArticleList } from '../../../Components/ArticleList';
 
-import { ArticleImages, Newspaper } from '../../../Components/Newspaper';
+import { Newspaper } from '../../../Components/Newspaper';
 
-const article = [
-	{
-		content:
-			'Traviscot got many humiliating from his concert dsadssssssssssssss'
-	},
-	{
-		content:
-			'Traviscot got many humiliating from his concertvdvcxzbczbvzbzdfgfdz'
-	},
-	{
-		content:
-			'Traviscot got many humiliating from his concertfdg gfdsssssgggfsdfgsd'
-	},
-	{
-		content:
-			'Traviscot got many humiliating from his concertgfsssssssssssssssssssssssssssg'
-	},
-	{
-		content:
-			'Traviscot got many humiliating from his concertgffgssssssssssssssssssssssssssssssss'
-	},
-	{
-		content:
-			'Traviscot got many humiliating from his concertgfsssssssssssssssssssssssssssssssssssss'
-	},
-	{
-		content:
-			'Traviscot got many humiliating from his concertgfssssssssssssssssssssssssssssssssssssssss'
-	}
-];
 export const Articles = () => {
 	return (
 		<>
@@ -59,7 +29,7 @@ export const Articles = () => {
 
 					<div>
 						<Heading name='hiphop ' desc='Article'></Heading>
-						<ArticleList data={article}></ArticleList>
+						<ArticleList></ArticleList>
 					</div>
 				</ContainerTemplate>
 			</Wrapper>
