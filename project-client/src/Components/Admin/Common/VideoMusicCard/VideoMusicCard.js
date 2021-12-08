@@ -35,13 +35,13 @@ const StyleOption = styled('div')({
 
 
 const MODALUPDATEVIDEO ={
-  title: 'edit video music',
+  title: 'edit music video',
     typeCreate: 2,
 
     chill: [
-    {id: 1 , field: 'Video Music Name',inputName1:'videoname', fieldSelect: 'Video Music Category',inputName2:'categoryId', boxSelect: true},
-    {id: 2 , field: 'Video Music Author',inputName:'videoauthor'},
-    {id: 3 , field: 'Video Music Embed',inputName:'embedId'},
+    {id: 1 , field: 'Music Video Name',inputName1:'videoname', fieldSelect: 'Music Video Category',inputName2:'categoryId', boxSelect: true},
+    {id: 2 , field: 'Music Video Author',inputName:'videoauthor'},
+    {id: 3 , field: 'Music Video Embed',inputName:'embedId'},
     ]
 }
 
@@ -49,7 +49,7 @@ const MODALUPDATEIMAGE ={
   title: 'update video image',
   typeCreate: 3,
   chill: [
-    {id: 1 , field: 'Video Image',inputName:'image' , boxImage: true },
+    {id: 1 , field: 'Music Video Image',inputName:'image' , boxImage: true },
   ]
 }
 

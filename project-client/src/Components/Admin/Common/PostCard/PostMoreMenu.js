@@ -38,7 +38,6 @@ export default function PostMoreMenu({handleUpdate, post, setCongTacHanhTrinh, c
     if(action){
       setCongTacHanhTrinh(congtachanhtrinh ? false : true)
     }
-    console.log(action)
   }
 
   const handlePublic = async () => {
@@ -46,7 +45,6 @@ export default function PostMoreMenu({handleUpdate, post, setCongTacHanhTrinh, c
     if(action){
       setCongTacHanhTrinh(congtachanhtrinh ? false : true)
     }
-    console.log(action)
   }
 
   const handleHot = async () => {
@@ -54,14 +52,12 @@ export default function PostMoreMenu({handleUpdate, post, setCongTacHanhTrinh, c
     if(action){
       setCongTacHanhTrinh(congtachanhtrinh ? false : true)
     }
-    console.log(action)
   }
   const handleBan= async () => {
     const action = await SweetAlertPostBanned(post._id,'Banned', 'This post has been banned')
     if(action){
       setCongTacHanhTrinh(congtachanhtrinh ? false : true)
     }
-    console.log(action)
   }
 
 

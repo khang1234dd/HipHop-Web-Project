@@ -135,13 +135,14 @@ export const Routers = () => {
 									<Route
 										path='/admin/*'
 										element={<AdminRouters data={data.user}></AdminRouters>}></Route>
-									<Route path='/*' element={<Page404></Page404>}></Route>
+									
 									</>
 								: <></>
 								}
 								</>
 								:<></>
 								}
+								<Route path='/*' element={<Page404></Page404>}></Route>
 							</Routes>
 				</AnimatePresence>
 			</Router>

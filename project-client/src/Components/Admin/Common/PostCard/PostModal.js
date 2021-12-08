@@ -165,13 +165,11 @@ const PostModal = ({ open, handleClose, setCongTacHanhTrinh,congtachanhtrinh , d
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("submit!");
     const namePost = e.target.namePost.value;
     const tinydes = e.target.tinydes.value;
     const description = convertedContent.toString();
     const categoryId = e.target.categoryId.value.toString();
     const image = e.target.image.files[0];
-    console.log("PostModal.js --> line 184 --> image", image);
     const isvaliddata = vlCreatePost(
       namePost,
       tinydes,
@@ -186,14 +184,11 @@ const PostModal = ({ open, handleClose, setCongTacHanhTrinh,congtachanhtrinh , d
       formData.append("tinydes", tinydes);
       formData.append("description", description);
       formData.append("categoryId", categoryId);
-
-      console.log("PostModal.js --> line 189 --> formData", formData.file);
       const res = await createPostApi(formData);
       if (res.success) {
         toastNotify("Your Post has been created", "success");
         setCongTacHanhTrinh(congtachanhtrinh ? false : true)
         handleClose(false);
-        console.log(res);
       } else {
         toastNotify(res.message, "error");
       }
@@ -201,7 +196,6 @@ const PostModal = ({ open, handleClose, setCongTacHanhTrinh,congtachanhtrinh , d
   };
   const handleUpdate = async (e) => {
     e.preventDefault();
-    console.log("update!");
     const namePost =
       data && e.target.namePost.value === ""
         ? data.name
@@ -213,7 +207,6 @@ const PostModal = ({ open, handleClose, setCongTacHanhTrinh,congtachanhtrinh , d
     const description = convertedContent.toString();
 
     const categoryId = e.target.categoryId.value.toString();
-    console.log("truoc validator", namePost, tinydes, description, categoryId);
     const isvaliddata = vlUpdatePost(
       namePost,
       tinydes,
@@ -231,7 +224,6 @@ const PostModal = ({ open, handleClose, setCongTacHanhTrinh,congtachanhtrinh , d
       });
       if (res.success) {
         toastNotify("Your Post has been updated", "success");
-        console.log(res);
         setCongTacHanhTrinh(congtachanhtrinh ? false : true)
         handleClose(false)
       } else {
@@ -242,7 +234,6 @@ const PostModal = ({ open, handleClose, setCongTacHanhTrinh,congtachanhtrinh , d
 
   const handleUpdateImage = async (e) =>{
     e.preventDefault()
-    console.log('update image!')
     const image = e.target.image.files[0];
     const isvaliddata = vlUpdatePostImage(
       image
@@ -254,7 +245,6 @@ const PostModal = ({ open, handleClose, setCongTacHanhTrinh,congtachanhtrinh , d
       const res = await updatePostImageApi({formData: formData, _id: data._id});
       if (res.success) {
         toastNotify("Your Post Image has been updated", "success");
-        console.log(res);
         setCongTacHanhTrinh(congtachanhtrinh ? false : true)
         handleClose(false)
       } else {

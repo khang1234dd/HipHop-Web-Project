@@ -34,7 +34,8 @@ const Dashboard = () => {
                 const res = await getStatisticApi();
                 
                 setSTATISTIC(res)
-                const resPost = await getPostHipHopTopDayApi(1,3);
+                const resPost = await getPostHipHopTopDayApi({page: 1, limit: 4});
+                console.log(resPost)
                 setPOST(resPost.post)
 
                 setLoading(true)

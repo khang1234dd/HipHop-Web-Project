@@ -132,7 +132,6 @@ const SongModal = ({ open, handleClose,setCongTacHanhTrinh,congtachanhtrinh , da
   const handleUploadFile = (event) => {
     if (event.target.files[0].size <= 5 * 1024 * 1024) {
       const reader = new FileReader();
-      console.log(reader);
       setUploadFile(event.target.files[0].name);
     } else {
       alert("Please upload file low size");
@@ -141,7 +140,6 @@ const SongModal = ({ open, handleClose,setCongTacHanhTrinh,congtachanhtrinh , da
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("submit!");
     const nameSong = e.target.songname.value;
     const ownerSong = e.target.songauthor.value;
     const categoryId = e.target.categoryId.value.toString();
@@ -164,7 +162,6 @@ const SongModal = ({ open, handleClose,setCongTacHanhTrinh,congtachanhtrinh , da
         toastNotify("Your Post has been created", "success");
         setCongTacHanhTrinh(congtachanhtrinh ? false : true)
         handleClose(false);
-        console.log(res);
       } else {
         toastNotify(res.message, "error");
       }
@@ -173,7 +170,6 @@ const SongModal = ({ open, handleClose,setCongTacHanhTrinh,congtachanhtrinh , da
 
   const handleUpdate = async (e) =>{
     e.preventDefault();
-    console.log('update!')
     const nameSong =
       data && e.target.songname.value === ""
         ? data.name
@@ -183,7 +179,6 @@ const SongModal = ({ open, handleClose,setCongTacHanhTrinh,congtachanhtrinh , da
         ? data.ownersong
         : e.target.songauthor.value;
     const categoryId = e.target.categoryId.value.toString();
-    console.log("truoc validator", nameSong, songAuthor, categoryId);
     const isvaliddata = vlUpdateSong(
       nameSong,
       songAuthor,
@@ -199,7 +194,6 @@ const SongModal = ({ open, handleClose,setCongTacHanhTrinh,congtachanhtrinh , da
       });
       if (res.success) {
         toastNotify("Your Song has been updated", "success");
-        console.log(res);
         setCongTacHanhTrinh(congtachanhtrinh ? false : true)
         handleClose(false)
       } else {
@@ -211,7 +205,6 @@ const SongModal = ({ open, handleClose,setCongTacHanhTrinh,congtachanhtrinh , da
 
   const handleUpdateImage = async (e) =>{
     e.preventDefault();
-    console.log('update image!')
     const image = e.target.image.files[0];
     const isvaliddata = vlUpdateSongImage(
       image
@@ -223,7 +216,6 @@ const SongModal = ({ open, handleClose,setCongTacHanhTrinh,congtachanhtrinh , da
       const res = await updateSongImageApi({formData: formData, _id: data._id});
       if (res.success) {
         toastNotify("Your Song Image has been updated", "success");
-        console.log(res);
         setCongTacHanhTrinh(congtachanhtrinh ? false : true)
         handleClose(false)
       } else {
@@ -234,7 +226,6 @@ const SongModal = ({ open, handleClose,setCongTacHanhTrinh,congtachanhtrinh , da
 
   const handleUpdateFile = async (e) =>{
     e.preventDefault();
-    console.log('update file!')
     const songfile = e.target.song.files[0];
     const isvaliddata = vlUpdateSongFile(
       songfile
@@ -246,7 +237,6 @@ const SongModal = ({ open, handleClose,setCongTacHanhTrinh,congtachanhtrinh , da
       const res = await updateSongFileApi({formData: formData, _id: data._id});
       if (res.success) {
         toastNotify("Your Song File has been updated", "success");
-        console.log(res);
         setCongTacHanhTrinh(congtachanhtrinh ? false : true)
         handleClose(false)
       } else {

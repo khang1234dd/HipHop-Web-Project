@@ -71,8 +71,6 @@ const CategoryModal = ({open, handleClose , data,...modal}) => {
 
   const updateCategory = async e => {
 		e.preventDefault();
-    console.log('update!')
-    console.log('data!',data)
 		const categoryname =
       data && e.target.categoryname.value === ""
         ? data.name
@@ -95,7 +93,6 @@ const CategoryModal = ({open, handleClose , data,...modal}) => {
       });
       if (res.success) {
         toastNotify("Your Category has been updated", "success");
-        console.log(res);
         handleClose();
         window.location.reload();
 

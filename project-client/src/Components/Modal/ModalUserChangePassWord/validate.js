@@ -1,13 +1,7 @@
 import validator from 'validator';
 import toastNotify from '../../../Components/Toast';
 
-const validate = (oldpassword, newpassword, newpasswordconfirm) => {
-	const isOldPassWord = validator.isEmpty(oldpassword);
-
-	if (isOldPassWord) {
-		toastNotify('Please enter your old password', 'error');
-		return false;
-	}
+const validate = (newpassword, newpasswordconfirm) => {
 
 	const isNewPassword = validator.isEmpty(newpassword);
 	if (isNewPassword) {
@@ -30,7 +24,6 @@ const validate = (oldpassword, newpassword, newpasswordconfirm) => {
 	// const isPassword = validator.isEmpty(password);
 
 	return {
-		oldpassword,
 		newpassword,
 		newpasswordconfirm
 	};

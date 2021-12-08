@@ -71,12 +71,10 @@ const SongManager = () => {
     }
 
     const handleChangePage = (event, value) => {
-      console.log(value)
       setPagination({_page: value, _limit: 6, _total: pagination._total  });
       setFilter(pagination)
       setLoading(false)
       setCompleted(false)
-      console.log(pagination)
     };
 
     useEffect(() => {

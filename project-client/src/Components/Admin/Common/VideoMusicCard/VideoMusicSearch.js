@@ -35,15 +35,13 @@ const VideoMusicSearch = ({videomusic,setMUSICVIDEOLISTNEW, setCheckLength, tota
 
   useEffect(() => {
       const videoSearch = ld.filter(videomusic, function(o) {
-       const searchSuccess =  ld.includes(ld.lowerCase(o.name), valueSearch)
+       const searchSuccess =  ld.includes(ld.toLower(o.name), ld.toLower(valueSearch))
        return searchSuccess
      })
-    console.log(videoSearch)
     setMUSICVIDEOLISTNEW(videoSearch)
     if(videoSearch.length !== total){
       setCheckLength(true)
     } else{
-      console.log(2)
       setCheckLength(false)
     }
     

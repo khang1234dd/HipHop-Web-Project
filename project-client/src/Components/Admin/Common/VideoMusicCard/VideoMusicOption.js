@@ -28,7 +28,6 @@ export default function VideoMusicOption({handleUpdate, handleUpdateImage ,setCo
     if(action){
       setCongTacHanhTrinh(congtachanhtrinh ? false : true)
     }
-    console.log(action)
   }
   const handleUpdateImage1 = () => {
       if(handleUpdateImage){

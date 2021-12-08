@@ -22,23 +22,13 @@ import Preload from '../Common/Preload'
 // ----------------------------------------------------------------------
 
 const MODALCREATEVIDEOMUSIC ={
-    title: 'new video music',
+    title: 'new music video',
     typeCreate: 1,
 
     chill: [
-    {id: 1 , field: 'Video Music Name',inputName1:'videoname', fieldSelect: 'Video Music Category',inputName2:'categoryId', boxSelect: true},
-    {id: 2 , field: 'Video Music Author',inputName:'videoauthor'},
-    {id: 3 , field: 'Video Music Embed',inputName:'embedId'},
-    ]
-}
-
-const MODALUPDATESONG ={
-    title: 'update song',
-    typeCreate: false,
-    chill: [
-    {id: 1 , field: 'Song Name'},
-    {id: 2 , field: 'Song Author'},
-    {id: 3 , field: 'Song Image', boxImage: true},
+    {id: 1 , field: 'Music Video Name',inputName1:'videoname', fieldSelect: 'Music Video Category',inputName2:'categoryId', boxSelect: true},
+    {id: 2 , field: 'Music Video Author',inputName:'videoauthor'},
+    {id: 3 , field: 'Music Video Embed',inputName:'embedId'},
     ]
 }
 

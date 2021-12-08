@@ -36,15 +36,13 @@ const SongSearch = ({ song, setSONGLISTNEW,setCheckLength, total }) => {
 
   useEffect(() => {
      const songSearch = ld.filter(song, function(o) {
-       const searchSuccess =  ld.includes(ld.lowerCase(o.name), valueSearch)
+       const searchSuccess =  ld.includes(ld.toLower(o.name), ld.toLower(valueSearch))
        return searchSuccess
      })
-    console.log(songSearch)
     setSONGLISTNEW(songSearch)
     if(songSearch.length !== total){
       setCheckLength(true)
     } else{
-      console.log(2)
       setCheckLength(false)
     }
     

@@ -43,15 +43,13 @@ export default function PostsSearch({ posts,setListPostNew, setCheckLength , tot
 
   useEffect(() => {
      const postSearch = ld.filter(posts, function(o) {
-       const searchSuccess =  ld.includes(ld.lowerCase(o.name), valueSearch)
+       const searchSuccess =  ld.includes(ld.toLower(o.name), ld.toLower(valueSearch))
        return searchSuccess
      })
-    console.log(postSearch)
     setListPostNew(postSearch)
     if(postSearch.length !== total){
       setCheckLength(true)
     } else{
-      console.log(2)
       setCheckLength(false)
     }
     

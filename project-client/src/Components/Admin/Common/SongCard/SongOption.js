@@ -28,14 +28,12 @@ export default function SongOption({handleUpdate, handleUpdateImage ,handleUpdat
     if(action){
       setCongTacHanhTrinh(congtachanhtrinh ? false : true)
     }
-    console.log(action)
   }
   const handleUpdateImage1 = () => {
     handleUpdateImage()
   }
   const handleUpdateFile1 = () => {
     handleUpdateFile()
-    console.log('1')
   }
 
   const handleDelete = async () => {

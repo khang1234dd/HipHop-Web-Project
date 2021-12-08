@@ -14,23 +14,20 @@ export const ModalUserChangePassWord = ({ closeModal, data }) => {
 	const navigate = useNavigate();
 	const changePassWord = async e => {
 		e.preventDefault();
-		const oldpassword = e.target.OldPassword.value;
 		const newpassword = e.target.NewPassword.value;
 		const newpasswordconfirm = e.target.ConfirmPassword.value;
 
-		const isvaliddata = validate(oldpassword, newpassword, newpasswordconfirm);
+		const isvaliddata = validate(newpassword, newpasswordconfirm);
+		console.log(newpassword,newpasswordconfirm)
 		if (isvaliddata) {
 			const res = await updatePassWordApi({
-				oldpassword,
 				newpassword,
 				newpasswordconfirm
 			});
 
 			if (res.success) {
-				Cookies.set('jwt', res.token);
 				toastNotify('Your password was changed', 'success');
 				closeModal(false);
-				Cookies.remove('jwt', undefined);
 				navigate('/signin');
 				window.location.reload();
 			} else toastNotify(res.message, 'error');
@@ -67,9 +64,6 @@ export const ModalUserChangePassWord = ({ closeModal, data }) => {
 
 										<div className='modaluserchangepassword-profilesetting-form-block-content'>
 											<div className='modaluserchangepassword-profilesetting-form-block-content-displayname'>
-												<p>Old Password </p>
-
-												<Input type='password' name='OldPassword'></Input>
 
 												<p>New Password </p>
 

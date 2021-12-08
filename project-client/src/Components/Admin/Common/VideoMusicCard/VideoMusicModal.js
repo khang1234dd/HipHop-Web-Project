@@ -145,7 +145,6 @@ const VideoMusicModal = ({
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("submit!");
     const nameVideo = e.target.videoname.value;
     const ownerVideo = e.target.videoauthor.value;
     const embedId = e.target.embedId.value;
@@ -168,7 +167,6 @@ const VideoMusicModal = ({
         toastNotify("Your Video has been created", "success");
         setCongTacHanhTrinh(congtachanhtrinh ? false : true);
         handleClose(false);
-        console.log(res);
       } else {
         toastNotify(res.message, "error");
       }
@@ -177,7 +175,6 @@ const VideoMusicModal = ({
 
   const handleUpdate = async (e) => {
     e.preventDefault();
-    console.log("update!");
     const nameVideo =
       data && e.target.videoname.value === ""
         ? data.name
@@ -191,7 +188,6 @@ const VideoMusicModal = ({
         ? data.link
         : e.target.embedId.value;
     const categoryId = e.target.categoryId.value.toString();
-    console.log("truoc validator", nameVideo, videoAuthor, embedId ,categoryId);
     const isvaliddata = vlUpdateVideoMusic(nameVideo, videoAuthor,categoryId, embedId);
 
     if (isvaliddata) {
@@ -204,7 +200,6 @@ const VideoMusicModal = ({
       });
       if (res.success) {
         toastNotify("Your Video has been updated", "success");
-        console.log(res);
         setCongTacHanhTrinh(congtachanhtrinh ? false : true);
         handleClose(false);
       } else {
@@ -215,7 +210,6 @@ const VideoMusicModal = ({
 
   const handleUpdateImage = async (e) => {
     e.preventDefault();
-    console.log("update image!");
     const image = e.target.image.files[0];
     const isvaliddata = vlUpdateVideoImage(image);
 
@@ -228,7 +222,6 @@ const VideoMusicModal = ({
       });
       if (res.success) {
         toastNotify("Your Video Image has been updated", "success");
-        console.log(res);
         setCongTacHanhTrinh(congtachanhtrinh ? false : true);
         handleClose(false);
       } else {
